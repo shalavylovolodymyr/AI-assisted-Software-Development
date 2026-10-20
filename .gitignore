@@ -10,6 +10,7 @@ dist/
 playwright-report/
 test-results/
 .env
+.env.*.local
 .local/
 *.log
 .DS_Store

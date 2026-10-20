@@ -6,5 +6,6 @@ export const Workspace = createContext<{
   projects: ProjectStats[];
   user?: User;
   demo: boolean;
-}>({ users: [], projects: [], demo: false });
+  deletion?: boolean;
+}>({ users: [], projects: [], demo: false, deletion: false });
 export const useWorkspace = () => useContext(Workspace);

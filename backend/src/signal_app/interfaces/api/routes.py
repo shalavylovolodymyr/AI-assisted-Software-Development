@@ -8,6 +8,7 @@ from signal_app.application.queries import Queries
 from signal_app.application.services import (
     AddComment,
     CreateIssue,
+    Deletion,
     EditIssue,
     Mitigation,
     ReassessRisk,
@@ -38,7 +39,7 @@ Actor = Annotated[UUID, Depends(actor)]
 
 @router.get("/config")
 def configuration(request: Request):
-    return {"demo_mode": request.app.state.demo_mode, "version": "1.0.0"}
+    return {"demo_mode": request.app.state.demo_mode, "version": "1.0.0", "deletion": True}
 
 
 @router.get("/users", response_model=list[s.UserOut])
@@ -68,6 +69,7 @@ def issues(
     project_id: UUID | None = None,
     assignee_id: UUID | None = None,
     active_only: bool = False,
+    deleted: bool = False,
     sort: Literal[
         "updated_at", "created_at", "title", "risk_score", "due_date", "reference_code"
     ] = "updated_at",
@@ -82,6 +84,7 @@ def issues(
         project_id=project_id,
         assignee_id=assignee_id,
         active_only=active_only,
+        deleted=deleted,
         sort=sort,
         direction=direction,
         page=page,
@@ -97,6 +100,18 @@ def create_issue(body: s.CreateInput, actor_id: Actor, factory: Uow):
 
 @router.get("/issues/{issue_id}", response_model=s.IssueDetail)
 def detail(issue_id: UUID, factory: Uow):
+    return Queries(factory).detail(issue_id)
+
+
+@router.delete("/issues/{issue_id}", response_model=s.IssueOut)
+def delete_issue(issue_id: UUID, body: s.Versioned, actor_id: Actor, factory: Uow):
+    Deletion(factory).issue(issue_id, actor_id, body.expected_version)
+    return Queries(factory).detail(issue_id)
+
+
+@router.post("/issues/{issue_id}/restore", response_model=s.IssueOut)
+def restore_issue(issue_id: UUID, body: s.Versioned, actor_id: Actor, factory: Uow):
+    Deletion(factory).issue(issue_id, actor_id, body.expected_version, restore=True)
     return Queries(factory).detail(issue_id)
 
 
@@ -138,8 +153,20 @@ def complete(action_id: UUID, body: s.ActionUpdate, actor_id: Actor, factory: Uo
 
 
 @router.get("/actions", response_model=list[s.ActionDetail])
-def actions(factory: Uow, status: s.ActionStatus | None = None, owner_id: UUID | None = None):
-    return Queries(factory).actions(status, owner_id)
+def actions(
+    factory: Uow, status: s.ActionStatus | None = None, owner_id: UUID | None = None, deleted: bool = False
+):
+    return Queries(factory).actions(status, owner_id, deleted=deleted)
+
+
+@router.delete("/actions/{action_id}", response_model=s.ActionOut)
+def delete_action(action_id: UUID, body: s.Versioned, actor_id: Actor, factory: Uow):
+    return asdict(Deletion(factory).action(action_id, actor_id, body.expected_version))
+
+
+@router.post("/actions/{action_id}/restore", response_model=s.ActionOut)
+def restore_action(action_id: UUID, body: s.Versioned, actor_id: Actor, factory: Uow):
+    return asdict(Deletion(factory).action(action_id, actor_id, body.expected_version, restore=True))
 
 
 @router.get("/issues/{issue_id}/comments", response_model=list[s.CommentDetail])

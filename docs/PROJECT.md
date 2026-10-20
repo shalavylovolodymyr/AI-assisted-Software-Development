@@ -60,9 +60,10 @@ primitives; the app owns their appearance. The four Radix packages use compatibl
 versions so nested dismissal and focus scopes share one implementation.
 
 ## Minimal workspace and analytics follow-up — 20 October 2026
-All UI corners are square, scroll indicators are hidden without disabling scroll,
-and introductions/slogans/repeated captions are removed. The dashboard starts with
-summary counts and data charts; a short entrance transition respects reduced motion.
+The minimal interface keeps risk-matrix cells square, hides scroll indicators
+without disabling scroll, and removes introductions, slogans and repeated captions.
+The dashboard starts with summary counts and data charts; a short entrance
+transition respects reduced motion.
 
 `make seed` now adds 195 fictional cases to the original 24, preserving existing
 records and edits. Stable versioned UUIDs make expansion idempotent. Three active
@@ -79,6 +80,11 @@ with 50 records per page; the actions view uses 20 rows per page.
 
 Overview, analytics, issues, actions and history refresh every 30 seconds while
 visible. Analytics also offers manual refresh and a fetched-at indicator.
+
+## Apple-inspired button corners — 20 October 2026
+Action buttons use softer corners: 16px on standard actions and 20px on compact,
+icon, pagination and page-toolbar actions. Risk-matrix cells retain their own
+geometry; this change does not round general panels or data surfaces.
 
 ## Modern appearance and role homes — 20 October 2026
 The latest owner request supersedes white-only/square styling: Light, Dark and
@@ -249,3 +255,121 @@ owner's request. The square proportions and shared severity surfaces remain.
 
 Modal and command-search overlays now blur the full viewport by 8px, including
 the header and sidebar. They retain transparent backgrounds and no shadows.
+
+## Product analytics and reporting — 20 October 2026
+Overview is an operational workspace: current KPIs, planning/review gaps, action
+outlook, project health, overdue work, risk exposure, priority issues and recent
+activity. Charts owns historical flows, risk/workload trends, mitigation pace and
+current portfolio breakdowns by age, risk movement and owner. It no longer
+duplicates Overview for admins. All three roles retain Charts access.
+
+`GET /analytics/operations` is a read-only Application query over stored issues,
+assessments, actions, users and projects. It excludes future records, buckets
+active-issue age and latest-review freshness, compares first/latest risk scores,
+and summarizes project/owner workload. Review freshness uses an exact 30-day
+window. Awaiting review means a completion lacks a strictly later assessment.
+On-time completion uses completed actions across all valid history, including
+resolved work; empty denominators remain null. Current snapshot panels are
+labeled separately from the selected historical range. Action outlook links
+open matching UTC due-date filters. Shared overdue flags exclude resolved issues.
+
+Excel exports use a lazy-loaded, pinned ExcelJS dependency and patched UUID
+override. They retain typed dates/numbers, literal text, frozen/filterable headers
+and column widths. Overview exports its summary and health snapshot; Charts
+exports the selected range and current breakdowns. Registers/history export all
+filtered pages; Actions exports the full filtered queue; Projects, matrix,
+issue risk history and scoped role homes also have exports. Failures appear at
+the export button. Routine mutation/identity success popups are removed.
+
+Dark surfaces use neutral charcoal, with a #181818 page background. Risk/status
+labels and counters are pills, and controls share rounded corners. The sidebar
+toggle is directly in the same list as New issue, Search and navigation, with
+40px rows and uniform 4px gaps. Desktop/mobile icon centers still align with the
+page toolbar; the collapsed rail continues to show icons.
+
+Following the next visual references, standard buttons, icon buttons, sidebar
+rows, selectors, checkbox filters and search fields share a visible neutral fill
+and 20px corners. Hover/selection use a distinct shade. Matrix cells retain their
+subtle 6px corners, and compact risk/status/count labels remain pills.
+
+The owner explicitly requested that the running API stay up. The live API already
+serves the operational-health endpoint, and the frontend changes are available
+through the existing development server. Final server refinements (active-only
+overdue flags and the corrected 91+ day label) are validated in the isolated test
+API and will load at the next normal API restart. No API process was stopped.
+
+The owner clarified that the rounded, filled treatment must not apply to the
+sidebar menu. Navigation and its shortcut rows return to transparent resting
+backgrounds and subtle 8px corners, with a background only on hover or selection.
+The account row also returns to its transparent background and prior 10px corners.
+The 40px rows, 4px spacing, aligned icons and collapse behavior remain intact.
+Action buttons, filters and search fields retain their filled 20px treatment.
+
+The owner subsequently requested one button height. `--control-height: 40px`
+now sizes action/primary/secondary buttons, compact/pagination/workflow actions,
+icon buttons, selectors, checkbox filters, calendar buttons, tabs and comment
+submission. Search fields and single-line form fields align with those controls.
+Icon-only controls are 40px square, including mobile exports; the sidebar account
+control also aligns at 40px. Sidebar rows retain their plain list styling and
+existing spacing. Matrix cells keep their data-grid proportions; indicator spans
+and multiline text fields retain their content sizing.
+
+Text inputs, multiline form fields and the discussion composer now share the
+buttons' `--control-radius: 20px`, including focused text areas. Inner discussion
+text padding keeps content clear of the rounded corners. Single-line field
+heights remain 40px; multiline fields retain their existing height behavior.
+Sidebar/menu appearance is unchanged by this field-only refinement.
+
+The command-search close button now sits beside the input in a shared header
+row, separated by 8px, instead of occupying the input's rounded end. Both remain
+40px tall; the close action uses the standard filled icon-button appearance.
+Search keyboard handling, focus and dismissal behavior remain unchanged.
+
+## Welcome, explicit sessions and visible deletion — 20 October 2026
+UC-006 adds an app welcome page with product context, an API-backed user selector
+and a Log in button. No password is requested. An explicit local session is required
+to render workspace routes; legacy automatic selections do not count as login.
+Saved sessions survive reload, invalid users return to welcome, and Log out clears
+the actor and all mounted workspace dialogs/navigation. Other open tabs follow
+session changes. Appearance/display preferences survive logout. This remains a
+fictional demo identity flow, not production authentication or server-side access
+control. The existing in-workspace user selector remains available.
+
+Delete is labeled on eligible issue details and unfinished action rows; Issues
+and Actions have labeled Deleted toggles with recovery. UC-005 retains its role
+rules, expected versions, issue-row locks, atomic audit and immutable history.
+DELETE is now allowed by the API's CORS policy.
+
+The live API on port 8000 was still the older version and omitted the deletion
+capability flag, hiding every deletion control. Migration `9b6e81f0d523` adds two
+nullable deletion timestamps; existing counts remained 531 issues, 1,542 actions,
+2,848 assessments, 1,307 comments and 8,804 events, with no records removed.
+The original API process remains running. A second API on port 8002 serves the
+updated implementation; the existing frontend on 5178 uses an ignored local
+`frontend/.env.development.local` override (`API_PROXY`). Vite now accepts this
+setting from its mode-specific env files as well as the process environment.
+Default startup still targets port 8000. This local override can be removed after
+the owner normally restarts the primary API with the current code.
+
+The welcome logo now uses the shared ink/on-ink tokens for its tile and waveform:
+charcoal with a white symbol in Light, and a light tile with a dark symbol in Dark.
+This makes the mark distinct from the page; the wordmark retains the theme text
+color. The welcome-card arrow keeps its quieter neutral surface.
+
+## Phone layout corrections — 20 October 2026
+Mobile issue titles and actions occupy separate rows. The actions wrap within
+the page, preventing Delete from overflowing and expanding the layout viewport.
+Editable search, form, assessment and discussion fields use 16px text before and
+after focus to avoid the small-text focus zoom seen on the owner's iPhone.
+Viewport zoom settings remain the standard width/device and initial scale.
+
+Mobile navigation uses the dynamic viewport height, safe-area padding, square
+menu/account rows and a square scrim. Navigation can scroll at shorter heights
+while account/logout controls remain available. Desktop navigation retains its
+prior corner treatment. The exposure chart uses proportional radii; mobile
+places the full ring above a two-column legend. Counts and filtering are unchanged.
+
+Mobile pagination now places the record count above its controls. Previous and
+Next share the available row width equally around the page label, retain the
+common 40px height and use 12px text with roomier padding. Issues, Actions and
+Activity share this treatment; desktop pagination retains its existing layout.

@@ -14,6 +14,12 @@ import { Select } from "../components/controls";
 import { State } from "../components/ui";
 import { Overview, PageHeader } from "./portfolio";
 import { ActionList, IssueTable } from "./issues";
+import {
+  ExcelExport,
+  actionSheets,
+  issueSheets,
+} from "../components/excel-export";
+import { allPages } from "../components/export-fetch";
 
 export function homeTitle(role?: string) {
   return role === "MEMBER"
@@ -50,6 +56,32 @@ function FocusedHome({ user, onCreate }: { user: User; onCreate: () => void }) {
   return (
     <>
       <PageHeader title={homeTitle(user.role)}>
+        <ExcelExport
+          title={`Signal ${homeTitle(user.role)}`}
+          disabled={!issues.data || !actions.data}
+          getSheets={async () => [
+            ...issueSheets(
+              await allPages<Issue>(
+                "/issues",
+                new URLSearchParams(`active_only=true&${scoped}`),
+              ),
+            ),
+            ...actionSheets(queue || []),
+            {
+              name: "Scope",
+              columns: ["Field", "Value"],
+              rows: [
+                ["User", user.full_name],
+                [
+                  "Project",
+                  manager
+                    ? project?.name || "My assignments"
+                    : "All assigned projects",
+                ],
+              ],
+            },
+          ]}
+        />
         {manager && owned.length > 1 && (
           <Select
             label="Focus project"

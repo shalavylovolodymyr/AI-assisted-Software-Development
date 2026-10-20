@@ -18,8 +18,8 @@ export async function api<T>(
     ...options,
     headers: {
       "Content-Type": "application/json",
-      ...(localStorage.getItem("signal-user")
-        ? { "X-Demo-User": localStorage.getItem("signal-user")! }
+      ...(localStorage.getItem("signal-session-user")
+        ? { "X-Demo-User": localStorage.getItem("signal-session-user")! }
         : {}),
       ...options.headers,
     },

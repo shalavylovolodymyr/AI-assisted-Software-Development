@@ -30,10 +30,12 @@ def text(value: str, label: str, maximum: int = 10000) -> str:
     return value.strip()
 
 
-def locked(repo, issue_id, version):
+def locked(repo, issue_id, version, *, allow_deleted=False):
     issue = required(repo, Issue, issue_id, lock=True)
     if issue.version != version:
         raise Conflict("This issue changed since you opened it. Refresh and try again.")
+    if issue.deleted_at and not allow_deleted:
+        raise RuleViolation("Restore the issue before making changes.")
     return issue
 
 
@@ -171,6 +173,8 @@ class Mitigation(Service):
             initial = required(repo, MitigationAction, action_id)
             issue = locked(repo, initial.issue_id, expected_version)
             action = required(repo, MitigationAction, action_id)
+            if action.deleted_at:
+                raise RuleViolation("Restore the action before changing its status.")
             if actor.role == Role.MEMBER and action.owner_id != actor_id:
                 raise Forbidden("Only the action owner or a manager can update this action.")
             if issue.status not in (IssueStatus.OPEN, IssueStatus.IN_PROGRESS):
@@ -216,7 +220,7 @@ class TransitionIssue(Service):
             validate_transition(
                 issue.status,
                 status,
-                repo.list(MitigationAction, issue_id=issue.id),
+                [a for a in repo.list(MitigationAction, issue_id=issue.id) if not a.deleted_at],
                 current_risk(repo, issue.id),
             )
             previous = issue.status
@@ -261,3 +265,57 @@ class AddComment(Service):
             audit(uow.repo, issue.id, actor_id, "COMMENT_ADDED", {"comment_id": str(comment.id)})
             touch(uow.repo, issue)
             return comment
+
+
+class Deletion(Service):
+    """Reversible removal; evidence and terminal action records remain intact."""
+
+    def issue(self, issue_id, actor_id, expected_version, *, restore=False):
+        with self.uow() as uow:
+            repo = uow.repo
+            actor = required(repo, User, actor_id)
+            issue = locked(repo, issue_id, expected_version, allow_deleted=True)
+            if actor.role == Role.MEMBER and actor_id not in (issue.reporter_id, issue.assignee_id):
+                raise Forbidden("Only the reporter, issue owner or a manager can remove this issue.")
+            self._change(repo, issue, actor_id, issue, restore)
+            return issue
+
+    def action(self, action_id, actor_id, expected_version, *, restore=False):
+        with self.uow() as uow:
+            repo = uow.repo
+            actor = required(repo, User, actor_id)
+            initial = required(repo, MitigationAction, action_id)
+            issue = locked(repo, initial.issue_id, expected_version)
+            action = required(repo, MitigationAction, action_id)
+            if actor.role == Role.MEMBER and action.owner_id != actor_id:
+                raise Forbidden("Only the action owner or a manager can remove this action.")
+            if issue.status not in (IssueStatus.OPEN, IssueStatus.IN_PROGRESS):
+                raise RuleViolation("Reopen the issue before removing or restoring actions.")
+            if action.status not in (ActionStatus.TODO, ActionStatus.IN_PROGRESS):
+                raise RuleViolation("Completed and cancelled actions remain in the history.")
+            self._change(repo, issue, actor_id, action, restore)
+            return action
+
+    @staticmethod
+    def _change(repo, issue, actor_id, record, restore):
+        if restore == (record.deleted_at is None):
+            raise RuleViolation(
+                "The record is already restored." if restore else "The record is already deleted."
+            )
+        previous = record.deleted_at
+        record.deleted_at = None if restore else datetime.now(UTC)
+        repo.save(record)
+        is_issue = isinstance(record, Issue)
+        audit(
+            repo,
+            issue.id,
+            actor_id,
+            ("ISSUE_" if is_issue else "ACTION_") + ("RESTORED" if restore else "DELETED"),
+            {
+                "deleted_at": record.deleted_at.isoformat() if record.deleted_at else None,
+                "title": record.title,
+                **({} if is_issue else {"action_id": str(record.id)}),
+            },
+            {"deleted_at": previous.isoformat() if previous else None},
+        )
+        touch(repo, issue)

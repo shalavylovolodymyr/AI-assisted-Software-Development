@@ -43,6 +43,7 @@ class Issue:
     updated_at: datetime
     resolved_at: datetime | None = None
     version: int = 1
+    deleted_at: datetime | None = None
 
 
 @dataclass(frozen=True)
@@ -69,6 +70,7 @@ class MitigationAction:
     due_date: date
     completed_at: datetime | None
     created_at: datetime
+    deleted_at: datetime | None = None
 
 
 @dataclass(frozen=True)

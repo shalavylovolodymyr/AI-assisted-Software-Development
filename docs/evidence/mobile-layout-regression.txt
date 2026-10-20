@@ -1,0 +1,15 @@
+[WebServer] (node:16676) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:16676) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+
+Running 5 tests using 1 worker
+
+(node:16681) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 e2e/workflow.spec.ts:288:1 › Responsive navigation, matrix keyboard operation and page integrity (7.8s)
+  ✓  2 e2e/workflow.spec.ts:713:1 › Year charts, sidebar visibility and hover contrast stay consistent (16.8s)
+  ✓  3 e2e/workflow.spec.ts:1322:1 › App header, quiet risks, simple matrix and discussion stay consistent (9.0s)
+  ✓  4 e2e/workflow.spec.ts:1905:1 › Shared action controls and search stay filled and softly rounded on desktop and mobile (11.2s)
+  ✓  5 e2e/workflow.spec.ts:2105:1 › Issues and unfinished actions can be deleted and restored without losing history (11.0s)
+
+  5 passed (1.1m)

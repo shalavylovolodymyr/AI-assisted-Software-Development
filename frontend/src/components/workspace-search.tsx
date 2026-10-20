@@ -74,48 +74,52 @@ export function WorkspaceSearch({
           <Dialog.Description className="sr-only">
             Find an issue by title or reference, or open a workspace view.
           </Dialog.Description>
-          <div className="search-input-row">
-            <Search size={19} />
-            <input
-              role="combobox"
-              aria-label="Search issues"
-              aria-autocomplete="list"
-              aria-expanded="true"
-              aria-controls="workspace-search-results"
-              aria-activedescendant={active ? `search-${active.id}` : undefined}
-              placeholder="Search issues…"
-              value={input}
-              onChange={(event) => {
-                setInput(event.target.value);
-                setSelected(0);
-              }}
-              onKeyDown={(event) => {
-                if (event.key === "ArrowDown" || event.key === "ArrowUp") {
-                  event.preventDefault();
-                  setSelected((index) =>
-                    destinations.length
-                      ? (index +
-                          (event.key === "ArrowDown"
-                            ? 1
-                            : destinations.length - 1)) %
-                        destinations.length
-                      : 0,
-                  );
-                } else if (event.key === "Enter") {
-                  event.preventDefault();
-                  if (active) navigate(active.to);
-                  else if (input.trim())
-                    navigate(
-                      `/issues?search=${encodeURIComponent(input.trim())}`,
-                    );
-                  else return;
-                  close();
+          <div className="search-dialog-bar">
+            <div className="search-input-row">
+              <Search size={19} />
+              <input
+                role="combobox"
+                aria-label="Search issues"
+                aria-autocomplete="list"
+                aria-expanded="true"
+                aria-controls="workspace-search-results"
+                aria-activedescendant={
+                  active ? `search-${active.id}` : undefined
                 }
-              }}
-            />
-            {searching && query.isFetching ? (
-              <LoaderCircle size={16} className="spin" />
-            ) : null}
+                placeholder="Search issues…"
+                value={input}
+                onChange={(event) => {
+                  setInput(event.target.value);
+                  setSelected(0);
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+                    event.preventDefault();
+                    setSelected((index) =>
+                      destinations.length
+                        ? (index +
+                            (event.key === "ArrowDown"
+                              ? 1
+                              : destinations.length - 1)) %
+                          destinations.length
+                        : 0,
+                    );
+                  } else if (event.key === "Enter") {
+                    event.preventDefault();
+                    if (active) navigate(active.to);
+                    else if (input.trim())
+                      navigate(
+                        `/issues?search=${encodeURIComponent(input.trim())}`,
+                      );
+                    else return;
+                    close();
+                  }
+                }}
+              />
+              {searching && query.isFetching ? (
+                <LoaderCircle size={16} className="spin" />
+              ) : null}
+            </div>
             <Dialog.Close className="icon-button" aria-label="Close search">
               <X size={18} />
             </Dialog.Close>

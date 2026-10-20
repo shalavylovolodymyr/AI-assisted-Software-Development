@@ -6,7 +6,9 @@
     "frontend"
   ],
   "overrides": {
-    "exceljs": { "uuid": "11.1.1" }
+    "exceljs": {
+      "uuid": "11.1.1"
+    }
   },
   "scripts": {
     "db:start": "node scripts/local-db.mjs",

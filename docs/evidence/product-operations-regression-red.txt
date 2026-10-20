@@ -1,0 +1,87 @@
+...F.FFF                                                                 [100%]
+=================================== FAILURES ===================================
+_ test_risk_movement_uses_first_and_latest_valid_assessments_without_future_values _
+
+    def test_risk_movement_uses_first_and_latest_valid_assessments_without_future_values():
+        user, project, records = portfolio()
+        for before, after in [((5, 4), (2, 2)), ((1, 1), (5, 5)), ((2, 2), (2, 2))]:
+            item = issue(records, user, project)
+            assess(records, item, user, before, age=5)
+            assess(records, item, user, after, age=1)
+            assess(records, item, user, (1, 1), age=-1)
+        baseline = issue(records, user, project)
+        assess(records, baseline, user, (3, 3))
+        issue(records, user, project)
+        data = run(records)
+>       assert counts(data["risk_movement"]) == [1, 1, 1, 1, 1]
+E       assert [1, 1, 1, 2] == [1, 1, 1, 1, 1]
+E         
+E         At index 3 diff: 2 != 1
+E         Right contains one more item: 1
+E         Use -v to get more diff
+
+backend/tests/unit/test_operations.py:104: AssertionError
+_ test_reviews_use_exact_thirty_day_cutoff_and_completion_requires_a_later_assessment _
+
+    def test_reviews_use_exact_thirty_day_cutoff_and_completion_requires_a_later_assessment():
+        user, project, records = portfolio()
+        fresh = issue(records, user, project, age=40)
+        assess(records, fresh, user, (2, 2), age=30)
+        stale = issue(records, user, project, age=40)
+        assess(records, stale, user, (2, 2), age=30 + 1 / 86400)
+        same_instant = issue(records, user, project)
+        assess(records, same_instant, user, (2, 2), age=1)
+        action(records, same_instant, user, status=ActionStatus.DONE, completed=NOW - timedelta(days=1))
+        data = run(records)
+>       assert counts(data["review_freshness"]) == [2, 1, 0]
+E       assert [3, 0, 0] == [2, 1, 0]
+E         
+E         At index 0 diff: 3 != 2
+E         Use -v to get more diff
+
+backend/tests/unit/test_operations.py:135: AssertionError
+___ test_completion_rate_includes_resolved_work_but_excludes_future_records ____
+
+    def test_completion_rate_includes_resolved_work_but_excludes_future_records():
+        user, project, records = portfolio()
+        active = issue(records, user, project)
+        action(records, active, user, status=ActionStatus.DONE, completed=NOW)
+        action(records, active, user, -1, ActionStatus.DONE, completed=NOW + timedelta(days=1))
+        action(records, active, user, status=ActionStatus.TODO)
+        records[-1].created_at = NOW + timedelta(seconds=1)
+        resolved = issue(records, user, project, status=IssueStatus.RESOLVED)
+        action(records, resolved, user, -2, ActionStatus.DONE, completed=NOW - timedelta(days=1))
+        future_issue = issue(records, user, project, age=-1)
+        action(records, future_issue, user, -1, ActionStatus.DONE, completed=NOW)
+        records[-1].created_at = NOW - timedelta(days=1)
+        data = run(records)
+>       assert data["metrics"]["on_time_completion"] == 50
+E       assert 33.3 == 50
+
+backend/tests/unit/test_operations.py:152: AssertionError
+____ test_operations_use_utc_calendar_dates_and_preserve_persisted_records _____
+
+    def test_operations_use_utc_calendar_dates_and_preserve_persisted_records():
+        user, project, records = portfolio()
+        item = issue(records, user, project, age=7)
+        item.created_at = datetime(2026, 10, 13, 0, 30, tzinfo=timezone(timedelta(hours=2)))
+        action(records, item, user, -1, ActionStatus.DONE,
+               completed=datetime(2026, 10, 20, 0, 30, tzinfo=timezone(timedelta(hours=2))))
+        factory = MemoryUow()
+        factory.records = {(type(record), record.id): record for record in records}
+        from copy import deepcopy
+        original = deepcopy(factory.records)
+        data = Queries(factory).operations(now=NOW.astimezone(timezone(timedelta(hours=-7))))
+        assert counts(data["aging"]) == [0, 1, 0, 0]
+        assert data["metrics"]["on_time_completion"] == 100
+>       assert data["generated_at"].tzinfo is UTC
+E       assert datetime.timezone(datetime.timedelta(days=-1, seconds=61200)) is datetime.timezone.utc
+E        +  where datetime.timezone(datetime.timedelta(days=-1, seconds=61200)) = datetime.datetime(2026, 10, 20, 5, 0, tzinfo=datetime.timezone(datetime.timedelta(days=-1, seconds=61200))).tzinfo
+
+backend/tests/unit/test_operations.py:170: AssertionError
+=========================== short test summary info ============================
+FAILED backend/tests/unit/test_operations.py::test_risk_movement_uses_first_and_latest_valid_assessments_without_future_values
+FAILED backend/tests/unit/test_operations.py::test_reviews_use_exact_thirty_day_cutoff_and_completion_requires_a_later_assessment
+FAILED backend/tests/unit/test_operations.py::test_completion_rate_includes_resolved_work_but_excludes_future_records
+FAILED backend/tests/unit/test_operations.py::test_operations_use_utc_calendar_dates_and_preserve_persisted_records
+4 failed, 4 passed in 0.07s

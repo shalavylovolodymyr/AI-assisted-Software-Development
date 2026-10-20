@@ -1,0 +1,42 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.3, pytest-8.3.5, pluggy-1.7.0
+rootdir: /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/backend
+configfile: pyproject.toml
+plugins: cov-6.1.1, anyio-4.15.1
+collected 76 items
+
+backend/tests/api/test_contract.py .......                               [  9%]
+backend/tests/integration/test_consistency.py ....                       [ 14%]
+backend/tests/integration/test_demo_history.py ..                        [ 17%]
+backend/tests/integration/test_workflow.py .......                       [ 26%]
+backend/tests/unit/test_operations.py .........                          [ 38%]
+backend/tests/unit/test_rules.py ......................................  [ 88%]
+backend/tests/unit/test_services.py ......                               [ 96%]
+backend/tests/unit/test_trends.py ...                                    [100%]
+
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/starlette/testclient.py:37
+  /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/.venv/lib/python3.12/site-packages/starlette/testclient.py:37: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = typing.Callable[[], typing.ContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================================ tests coverage ================================
+_______________ coverage: platform darwin, python 3.12.3-final-0 _______________
+
+Name                                               Stmts   Miss  Cover   Missing
+--------------------------------------------------------------------------------
+backend/src/signal_app/application/__init__.py         0      0   100%
+backend/src/signal_app/application/analytics.py       38      0   100%
+backend/src/signal_app/application/operations.py      53      0   100%
+backend/src/signal_app/application/ports.py            8      0   100%
+backend/src/signal_app/application/queries.py        100      0   100%
+backend/src/signal_app/application/services.py       147      7    95%   29, 112, 144, 175, 177, 204, 242
+backend/src/signal_app/domain/__init__.py              0      0   100%
+backend/src/signal_app/domain/entities.py             76      0   100%
+backend/src/signal_app/domain/enums.py                32      0   100%
+backend/src/signal_app/domain/exceptions.py           13      0   100%
+backend/src/signal_app/domain/rules.py                26      0   100%
+--------------------------------------------------------------------------------
+TOTAL                                                493      7    99%
+Required test coverage of 90% reached. Total coverage: 98.58%
+======================== 76 passed, 1 warning in 31.49s ========================

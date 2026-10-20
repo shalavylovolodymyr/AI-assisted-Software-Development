@@ -60,6 +60,7 @@ export interface Issue {
   updated_at: string;
   resolved_at: string | null;
   version: number;
+  deleted_at?: string | null;
   risk: Risk | null;
   project: Project;
   assignee: User;
@@ -81,6 +82,8 @@ export interface Action {
   issue_status: IssueStatus;
   issue_version: number;
   overdue: boolean;
+  deleted_at?: string | null;
+  issue_deleted?: boolean;
 }
 export interface Audit {
   id: string;
@@ -162,4 +165,41 @@ export interface Analytics {
   categories: { category: Category; count: number }[];
   action_statuses: { status: ActionStatus; count: number }[];
   total_events: number;
+}
+
+export interface HealthBucket {
+  label: string;
+  count: number;
+}
+export interface OwnerHealth {
+  id: string;
+  name: string;
+  active: number;
+  critical: number;
+  average_risk: number | null;
+  overdue_actions: number;
+}
+export interface Operations {
+  generated_at: string;
+  metrics: {
+    unplanned_issues: number;
+    stale_reviews: number;
+    awaiting_review: number;
+    on_time_completion: number | null;
+  };
+  aging: HealthBucket[];
+  review_freshness: HealthBucket[];
+  risk_movement: HealthBucket[];
+  action_outlook: HealthBucket[];
+  owners: OwnerHealth[];
+  projects: (OwnerHealth & { code: string })[];
+  overdue_actions: {
+    id: string;
+    issue_id: string;
+    title: string;
+    reference: string;
+    owner: string;
+    due_date: string;
+    days_overdue: number;
+  }[];
 }

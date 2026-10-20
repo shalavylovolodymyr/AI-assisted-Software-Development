@@ -242,3 +242,165 @@ The owner's subsequent modal request restores background blur with transparent
 overlays. Existing assertions now check 8px blur and a mobile overlay covering
 the full viewport; **2/2 browser scenarios passed (17.9s)**. This is a visual
 preference change, with no new business behavior or core TDD claim.
+
+## Operational analytics and Excel reporting — 20 October 2026
+Five new operations-query tests were executed before implementation: **5 failed**
+with the missing query. The first implementation made those five pass. Further
+boundary tests exposed exact-30-day freshness, missing-versus-baseline risk and
+future-record denominator issues (**4 failed, 4 passed**), then **8 passed**.
+A shared-overdue regression and age-label check then failed (**2 failed, 7 passed**)
+before aligning the Actions/Summary flag with active-only operational counts and
+renaming the final age bucket to 91+ days. The updated nine tests passed.
+Evidence: product-operations-red.txt, product-operations-green.txt,
+product-operations-regression-red.txt, product-operations-unit-green.txt and
+product-operations-overdue-red.txt/product-operations-overdue-green.txt.
+
+The full guarded PostgreSQL/API/unit suite passed **76 tests**, with **98.58%**
+combined Domain/Application coverage and 100% operations/query coverage.
+Read-only analytics preserve the existing mutation/audit architecture.
+Six export component tests cover native dates/numbers, literal formula-looking
+strings, empty data, sheet names, inline errors and analytics/operations workbook
+round-trips. The complete frontend suite passed **19 tests** after removing the
+obsolete success-toast test. Workbook exports and styling are UI work; the core
+test-first claim above applies to the operational query calculations.
+
+The initial complete browser run passed **15/16** and found an older checkbox
+radius rule overriding the shared control style. That specificity conflict was
+fixed. A subsequent run was intentionally interrupted after new 20px/filled-control
+references arrived. The final browser result is recorded in VALIDATION.md; no
+interrupted run is claimed as a pass. Real XLSX downloads are parsed and checked
+against API counts, filtered records, selected periods and native date cells.
+
+The first complete 18-case run passed **16/18**. Both failures traced to the same
+older `.select-trigger:not(.account-control)` rule retaining 10px corners, while
+the new common control rule used 20px. The canonical rule now uses 20px, and the
+intermediate 16px button rule was removed. The search-close assertion allows its
+contrasting filled surface while still requiring 20px corners. Initial output is
+retained in `product-analytics-browser-20px-initial.txt`. A separate attempt could
+not start the isolated API because the sandbox blocked local PostgreSQL access;
+it ran no scenarios (`product-analytics-browser-sandbox.txt`). The authorized
+retry uses the dedicated test database and leaves the development API running.
+
+The complete suite then passed **18/18 (3.2m)**. Screenshot review prompted
+data-ready waits in the rounded-control case. Those waits exposed an older mobile
+rule hiding Export at 390px; the focused failure is retained in
+`product-analytics-mobile-export-initial.txt`. Explicitly showing the compact
+export control fixed it. The final two responsive/control cases passed **2/2
+(30.9s)** with loaded Light/Dark desktop/mobile captures. This is presentation
+regression evidence, not a new core business TDD claim.
+
+## Apple-inspired action-button corners — 20 October 2026
+Standard action buttons now use 16px corners; compact and icon actions use 20px.
+This presentation-only change is not claimed as test-first business behavior.
+
+## Sidebar menu correction — 20 October 2026
+The owner clarified that the filled 20px control style excludes the sidebar menu.
+Its selectors were removed from the shared fill/corner overrides, restoring its
+earlier transparent, 8px navigation rows and transparent 10px account control.
+The existing both-theme browser case now distinguishes plain menu rows from
+filled action/search controls and retains the geometry/mobile assertions.
+This is a presentation correction, not a new business-behavior TDD claim.
+The focused sidebar/control scenarios passed **2/2 (39.6s)**, including plain
+menu rows in both themes, desktop collapse and mobile spacing. ESLint and the
+production build passed; see `sidebar-menu-correction-browser.txt`.
+
+## Uniform control height — 20 October 2026
+The existing both-theme control scenario now checks actual 40px heights for
+actions, filters, search, workflow controls, icon buttons, tabs, comment submission,
+pagination, calendars, form selectors and mobile controls. Plain menu styling and
+sidebar geometry checks remain. The stylesheet shares one height variable across
+these controls. This is a presentation regression, not new core-business TDD.
+All three focused browser scenarios passed **3/3 (35.0s)**, with matching filters,
+keyboard controls, calendars and both-theme desktop/mobile heights. ESLint,
+Prettier and the production build passed; evidence is in
+`uniform-control-height-browser.txt` and the companion static-check logs.
+
+## Input corner consistency — 20 October 2026
+Text fields and text areas use the same 20px radius variable as action controls,
+including the discussion field in its focused state. This reversible CSS change
+reuses the existing both-theme desktop/mobile browser scenario for visual and
+interaction verification; no new business behavior or test-first claim is made.
+That existing scenario passed **1/1 (24.5s)**. ESLint, Prettier and TypeScript/Vite
+also passed; actual Light/Dark form screenshots were inspected.
+
+## Search close-button alignment — 20 October 2026
+The owner's screenshot exposed the full-height close button cutting into the
+search field's rounded end. The button now sits beside the input with an 8px gap,
+preserving the shared 40px sizing. The existing control scenario clicks Close
+search and checks dismissal in both themes; the existing search journey retains
+keyboard navigation, Escape and mobile bounds. This is UI regression verification,
+not a new core-business TDD claim.
+The two existing focused scenarios passed **2/2 (29.3s)**. ESLint, Prettier and
+TypeScript/Vite passed; desktop/mobile search captures were visually inspected.
+
+## Welcome sessions and deletion activation — 20 October 2026
+Four component checks were written and executed before session implementation;
+all four failed because the app automatically chose an actor and offered no entry
+or logout flow (`welcome-session-red.txt`). They now pass, covering legacy actors,
+explicit selection/login, reload persistence, logout/preferences and invalid
+saved identities. The full frontend suite passes **24 tests**.
+
+A DELETE CORS preflight regression was also executed before the correction: it
+returned 400 instead of 200 (`welcome-delete-cors-red.txt`). Adding DELETE to the
+HTTP adapter's allowed methods makes it pass. No new domain behavior was added
+by UC-006; UC-005's prior deletion tests and business rules remain intact.
+The complete guarded PostgreSQL/unit/API suite passes **85 tests**, with 532/539
+Domain/Application statements covered (**98.70%**).
+
+The first targeted production-browser run passed **4/4 (26.6s)** for welcome,
+deep links, login/reload/logout, mobile, stale sessions, cross-tab logout and
+issue/action delete/restore. Visual review prompted explicit dark brand color,
+removal of inherited workspace padding and data-ready screenshot waits. Final
+full browser results are recorded in VALIDATION.md. Initial sandbox attempts at
+database access failed; these are retained separately and are not claimed as
+test passes. The successful runs use isolated schemas in `signal_test`.
+
+The development database received only the existing additive migration, with
+before/after counts checked and all existing deletion timestamps null. A live
+fresh-browser check used login/logout and read-only navigation, saw Delete on an
+issue and reported no JavaScript errors; it did not mutate business records.
+
+The complete browser run passed **21/23** and exposed an interaction race on
+saved-session reload. Loading now precedes validated workspace rendering, with
+an additional component regression (**24 frontend tests** total). Its other
+failure was the existing calendar assertion reading geometry before Radix
+placement; the unchanged bounds requirement now polls for final placement.
+The two failing cases and three new session journeys passed **5/5 (26.2s)** in
+the focused rerun. See `welcome-session-browser-full-initial.txt` and
+`welcome-session-browser-recheck.txt`; no later full-suite pass is claimed.
+
+## Welcome logo contrast — 20 October 2026
+The supplied light-mode crop showed the logo tile almost blending into the page.
+Its tile and waveform now use the contrasting ink/on-ink pair. The existing
+welcome journey checks actual wordmark, tile and SVG stroke colors in Light/Dark,
+and the existing mobile entry journey checks the responsive result. This is a
+presentation correction, not a new business-behavior TDD claim.
+The two existing focused journeys passed **2/2 (10.5s)**; lint, formatting and
+the production build passed. Actual updated desktop/mobile captures were inspected.
+
+## Phone viewport, controls and exposure — 20 October 2026
+Three focused mobile-browser regressions were executed before the correction;
+all three failed (`mobile-layout-initial.txt`). At 320px, an issue detail expanded
+its layout/content width to 418px. Exposure sectors extended outside their SVG,
+and a search input rendered at 11px rather than the expected mobile 16px.
+
+The corrections are presentation work: wrapped issue actions below the title,
+16px editable controls, square dynamic-height navigation/scrim, and proportional
+exposure radii with a stacked mobile legend. The new checks passed **3/3 (38.1s)**
+on the first corrected build. Visual inspection then found the scrim inheriting
+the global button corners; its explicit square edge is included in the final
+verification. No new domain behavior or business-behavior TDD claim is made.
+The final mobile run passed **3/3 (38.3s)**; five affected existing scenarios
+passed **5/5 (1.1m)**. Final build/lint/format checks pass. Physical iPhone Safari
+was not automated; input font sizes and viewport scale were checked in mobile
+Chromium emulation. Evidence and screenshots are recorded in VALIDATION.md.
+
+## Mobile pagination spacing — 20 October 2026
+The cramped phone footer is a presentation correction. It uses two rows, equal
+Previous/Next widths, 12px button labels and the existing shared 40px height.
+The existing responsive browser scenario checks 320/375px bounds and spacing in
+both themes, plus real Next/Previous navigation on Issues, Actions and Activity.
+No new business behavior or core TDD claim is made.
+The focused existing scenario passed **1/1 (29.2s)**, including real pagination
+on all three registers. Lint, formatting and build checks passed; screenshots
+were visually inspected. See `mobile-pagination-browser.txt`.

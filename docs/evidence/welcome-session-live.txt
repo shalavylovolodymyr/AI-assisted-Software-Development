@@ -1,0 +1,8 @@
+Live app: welcome → explicit login → issue register → issue detail with visible Delete.
+Configuration: { demo_mode: true, version: '1.0.0', deletion: true }
+Logout returned to welcome. API actor: null
+JavaScript errors: []
+No business records were created, edited or deleted by this live check.
+Existing API: {'status': 'ok', 'database': 'connected'}
+Updated API: {'status': 'ok', 'database': 'connected'}
+Existing frontend: {'demo_mode': True, 'version': '1.0.0', 'deletion': True}

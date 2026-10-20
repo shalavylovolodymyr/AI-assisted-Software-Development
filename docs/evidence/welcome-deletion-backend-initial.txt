@@ -1,0 +1,467 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.3, pytest-8.3.5, pluggy-1.7.0
+rootdir: /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/backend
+configfile: pyproject.toml
+plugins: cov-6.1.1, anyio-4.15.1
+collected 64 items
+
+backend/tests/unit/test_deletion.py ......                               [  9%]
+backend/tests/unit/test_operations.py .........                          [ 23%]
+backend/tests/unit/test_rules.py ......................................  [ 82%]
+backend/tests/unit/test_services.py ......                               [ 92%]
+backend/tests/unit/test_trends.py ...                                    [ 96%]
+backend/tests/api/test_recycle_contract.py EE                            [100%]
+
+==================================== ERRORS ====================================
+_ ERROR at setup of test_issue_delete_restore_retains_history_and_concurrency __
+
+self = <sqlalchemy.engine.base.Connection object at 0x10ba9bdd0>
+engine = Engine(postgresql+psycopg://signal:***@127.0.0.1:54329/signal_test)
+connection = None, _has_events = None, _allow_revalidate = True
+_allow_autobegin = True
+
+    def __init__(
+        self,
+        engine: Engine,
+        connection: Optional[PoolProxiedConnection] = None,
+        _has_events: Optional[bool] = None,
+        _allow_revalidate: bool = True,
+        _allow_autobegin: bool = True,
+    ):
+        """Construct a new Connection."""
+        self.engine = engine
+        self.dialect = dialect = engine.dialect
+    
+        if connection is None:
+            try:
+>               self._dbapi_connection = engine.raw_connection()
+
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:146: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:3298: in raw_connection
+    return self.pool.connect()
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:449: in connect
+    return _ConnectionFairy._checkout(self)
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:1264: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:713: in checkout
+    rec = pool._do_get()
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/impl.py:179: in _do_get
+    with util.safe_reraise():
+.venv/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/impl.py:177: in _do_get
+    return self._create_connection()
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:390: in _create_connection
+    return _ConnectionRecord(self)
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:675: in __init__
+    self.__connect()
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:901: in __connect
+    with util.safe_reraise():
+.venv/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:897: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/create.py:646: in connect
+    return dialect.connect(*cargs, **cparams)
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:625: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'psycopg.Connection'>
+conninfo = 'host=127.0.0.1 dbname=signal_test user=signal password=signal port=54329 hostaddr=127.0.0.1'
+autocommit = False, prepare_threshold = 5
+context = <psycopg.adapt.AdaptersMap object at 0x10b873a10>, row_factory = None
+cursor_factory = None
+kwargs = {'dbname': 'signal_test', 'host': '127.0.0.1', 'password': 'signal', 'port': 54329, ...}
+params = {'dbname': 'signal_test', 'host': '127.0.0.1', 'password': 'signal', 'port': 54329, ...}
+timeout = 130
+
+    @classmethod
+    def connect(
+        cls,
+        conninfo: str = "",
+        *,
+        autocommit: bool = False,
+        prepare_threshold: int | None = 5,
+        context: AdaptContext | None = None,
+        row_factory: RowFactory[Row] | None = None,
+        cursor_factory: type[Cursor[Row]] | None = None,
+        **kwargs: ConnParam,
+    ) -> Self:
+        """
+        Connect to a database server and return a new `Connection` instance.
+        """
+    
+        params = cls._get_connection_params(conninfo, **kwargs)
+        timeout = timeout_from_conninfo(params)
+        rv = None
+        attempts = conninfo_attempts(params)
+        for attempt in attempts:
+            try:
+                conninfo = make_conninfo("", **attempt)
+                gen = cls._connect_gen(conninfo, timeout=timeout)
+                rv = waiting.wait_conn(gen, interval=_WAIT_INTERVAL)
+            except e._NO_TRACEBACK as ex:
+                if len(attempts) > 1:
+                    logger.debug(
+                        "connection attempt failed: host: %r port: %r, hostaddr %r: %s",
+                        attempt.get("host"),
+                        attempt.get("port"),
+                        attempt.get("hostaddr"),
+                        str(ex),
+                    )
+                last_ex = ex
+            else:
+                break
+    
+        if not rv:
+            assert last_ex
+>           raise last_ex.with_traceback(None)
+E           psycopg.OperationalError: connection is bad: connection to server at "127.0.0.1", port 54329 failed: Operation not permitted
+E           	Is the server running on that host and accepting TCP/IP connections?
+
+.venv/lib/python3.12/site-packages/psycopg/connection.py:117: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+    @pytest.fixture
+    def database():
+        url = os.getenv("TEST_DATABASE_URL", "postgresql+psycopg://signal:signal@127.0.0.1:54329/signal_test")
+        parsed = make_url(url)
+        if parsed.get_backend_name() != "postgresql" or not parsed.database.endswith("_test"):
+            pytest.fail("Integration tests require a PostgreSQL database with a name ending in _test.")
+        admin = create_engine(url)
+        schema = "test_" + uuid4().hex
+>       with admin.begin() as connection:
+
+backend/tests/db_fixtures.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:3238: in begin
+    with self.connect() as conn:
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:3274: in connect
+    return self._connection_cls(self)
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:148: in __init__
+    Connection._handle_dbapi_exception_noconnection(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:2439: in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:146: in __init__
+    self._dbapi_connection = engine.raw_connection()
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:3298: in raw_connection
+    return self.pool.connect()
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:449: in connect
+    return _ConnectionFairy._checkout(self)
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:1264: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:713: in checkout
+    rec = pool._do_get()
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/impl.py:179: in _do_get
+    with util.safe_reraise():
+.venv/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/impl.py:177: in _do_get
+    return self._create_connection()
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:390: in _create_connection
+    return _ConnectionRecord(self)
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:675: in __init__
+    self.__connect()
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:901: in __connect
+    with util.safe_reraise():
+.venv/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:897: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/create.py:646: in connect
+    return dialect.connect(*cargs, **cparams)
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:625: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'psycopg.Connection'>
+conninfo = 'host=127.0.0.1 dbname=signal_test user=signal password=signal port=54329 hostaddr=127.0.0.1'
+autocommit = False, prepare_threshold = 5
+context = <psycopg.adapt.AdaptersMap object at 0x10b873a10>, row_factory = None
+cursor_factory = None
+kwargs = {'dbname': 'signal_test', 'host': '127.0.0.1', 'password': 'signal', 'port': 54329, ...}
+params = {'dbname': 'signal_test', 'host': '127.0.0.1', 'password': 'signal', 'port': 54329, ...}
+timeout = 130
+
+    @classmethod
+    def connect(
+        cls,
+        conninfo: str = "",
+        *,
+        autocommit: bool = False,
+        prepare_threshold: int | None = 5,
+        context: AdaptContext | None = None,
+        row_factory: RowFactory[Row] | None = None,
+        cursor_factory: type[Cursor[Row]] | None = None,
+        **kwargs: ConnParam,
+    ) -> Self:
+        """
+        Connect to a database server and return a new `Connection` instance.
+        """
+    
+        params = cls._get_connection_params(conninfo, **kwargs)
+        timeout = timeout_from_conninfo(params)
+        rv = None
+        attempts = conninfo_attempts(params)
+        for attempt in attempts:
+            try:
+                conninfo = make_conninfo("", **attempt)
+                gen = cls._connect_gen(conninfo, timeout=timeout)
+                rv = waiting.wait_conn(gen, interval=_WAIT_INTERVAL)
+            except e._NO_TRACEBACK as ex:
+                if len(attempts) > 1:
+                    logger.debug(
+                        "connection attempt failed: host: %r port: %r, hostaddr %r: %s",
+                        attempt.get("host"),
+                        attempt.get("port"),
+                        attempt.get("hostaddr"),
+                        str(ex),
+                    )
+                last_ex = ex
+            else:
+                break
+    
+        if not rv:
+            assert last_ex
+>           raise last_ex.with_traceback(None)
+E           sqlalchemy.exc.OperationalError: (psycopg.OperationalError) connection is bad: connection to server at "127.0.0.1", port 54329 failed: Operation not permitted
+E           	Is the server running on that host and accepting TCP/IP connections?
+E           (Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+.venv/lib/python3.12/site-packages/psycopg/connection.py:117: OperationalError
+_ ERROR at setup of test_action_delete_restore_keeps_parent_version_and_member_permissions _
+
+self = <sqlalchemy.engine.base.Connection object at 0x10ba990d0>
+engine = Engine(postgresql+psycopg://signal:***@127.0.0.1:54329/signal_test)
+connection = None, _has_events = None, _allow_revalidate = True
+_allow_autobegin = True
+
+    def __init__(
+        self,
+        engine: Engine,
+        connection: Optional[PoolProxiedConnection] = None,
+        _has_events: Optional[bool] = None,
+        _allow_revalidate: bool = True,
+        _allow_autobegin: bool = True,
+    ):
+        """Construct a new Connection."""
+        self.engine = engine
+        self.dialect = dialect = engine.dialect
+    
+        if connection is None:
+            try:
+>               self._dbapi_connection = engine.raw_connection()
+
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:146: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:3298: in raw_connection
+    return self.pool.connect()
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:449: in connect
+    return _ConnectionFairy._checkout(self)
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:1264: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:713: in checkout
+    rec = pool._do_get()
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/impl.py:179: in _do_get
+    with util.safe_reraise():
+.venv/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/impl.py:177: in _do_get
+    return self._create_connection()
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:390: in _create_connection
+    return _ConnectionRecord(self)
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:675: in __init__
+    self.__connect()
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:901: in __connect
+    with util.safe_reraise():
+.venv/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:897: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/create.py:646: in connect
+    return dialect.connect(*cargs, **cparams)
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:625: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'psycopg.Connection'>
+conninfo = 'host=127.0.0.1 dbname=signal_test user=signal password=signal port=54329 hostaddr=127.0.0.1'
+autocommit = False, prepare_threshold = 5
+context = <psycopg.adapt.AdaptersMap object at 0x10ba994f0>, row_factory = None
+cursor_factory = None
+kwargs = {'dbname': 'signal_test', 'host': '127.0.0.1', 'password': 'signal', 'port': 54329, ...}
+params = {'dbname': 'signal_test', 'host': '127.0.0.1', 'password': 'signal', 'port': 54329, ...}
+timeout = 130
+
+    @classmethod
+    def connect(
+        cls,
+        conninfo: str = "",
+        *,
+        autocommit: bool = False,
+        prepare_threshold: int | None = 5,
+        context: AdaptContext | None = None,
+        row_factory: RowFactory[Row] | None = None,
+        cursor_factory: type[Cursor[Row]] | None = None,
+        **kwargs: ConnParam,
+    ) -> Self:
+        """
+        Connect to a database server and return a new `Connection` instance.
+        """
+    
+        params = cls._get_connection_params(conninfo, **kwargs)
+        timeout = timeout_from_conninfo(params)
+        rv = None
+        attempts = conninfo_attempts(params)
+        for attempt in attempts:
+            try:
+                conninfo = make_conninfo("", **attempt)
+                gen = cls._connect_gen(conninfo, timeout=timeout)
+                rv = waiting.wait_conn(gen, interval=_WAIT_INTERVAL)
+            except e._NO_TRACEBACK as ex:
+                if len(attempts) > 1:
+                    logger.debug(
+                        "connection attempt failed: host: %r port: %r, hostaddr %r: %s",
+                        attempt.get("host"),
+                        attempt.get("port"),
+                        attempt.get("hostaddr"),
+                        str(ex),
+                    )
+                last_ex = ex
+            else:
+                break
+    
+        if not rv:
+            assert last_ex
+>           raise last_ex.with_traceback(None)
+E           psycopg.OperationalError: connection is bad: connection to server at "127.0.0.1", port 54329 failed: Operation not permitted
+E           	Is the server running on that host and accepting TCP/IP connections?
+
+.venv/lib/python3.12/site-packages/psycopg/connection.py:117: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+    @pytest.fixture
+    def database():
+        url = os.getenv("TEST_DATABASE_URL", "postgresql+psycopg://signal:signal@127.0.0.1:54329/signal_test")
+        parsed = make_url(url)
+        if parsed.get_backend_name() != "postgresql" or not parsed.database.endswith("_test"):
+            pytest.fail("Integration tests require a PostgreSQL database with a name ending in _test.")
+        admin = create_engine(url)
+        schema = "test_" + uuid4().hex
+>       with admin.begin() as connection:
+
+backend/tests/db_fixtures.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:3238: in begin
+    with self.connect() as conn:
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:3274: in connect
+    return self._connection_cls(self)
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:148: in __init__
+    Connection._handle_dbapi_exception_noconnection(
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:2439: in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:146: in __init__
+    self._dbapi_connection = engine.raw_connection()
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/base.py:3298: in raw_connection
+    return self.pool.connect()
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:449: in connect
+    return _ConnectionFairy._checkout(self)
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:1264: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:713: in checkout
+    rec = pool._do_get()
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/impl.py:179: in _do_get
+    with util.safe_reraise():
+.venv/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/impl.py:177: in _do_get
+    return self._create_connection()
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:390: in _create_connection
+    return _ConnectionRecord(self)
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:675: in __init__
+    self.__connect()
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:901: in __connect
+    with util.safe_reraise():
+.venv/lib/python3.12/site-packages/sqlalchemy/util/langhelpers.py:146: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv/lib/python3.12/site-packages/sqlalchemy/pool/base.py:897: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/create.py:646: in connect
+    return dialect.connect(*cargs, **cparams)
+.venv/lib/python3.12/site-packages/sqlalchemy/engine/default.py:625: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cls = <class 'psycopg.Connection'>
+conninfo = 'host=127.0.0.1 dbname=signal_test user=signal password=signal port=54329 hostaddr=127.0.0.1'
+autocommit = False, prepare_threshold = 5
+context = <psycopg.adapt.AdaptersMap object at 0x10ba994f0>, row_factory = None
+cursor_factory = None
+kwargs = {'dbname': 'signal_test', 'host': '127.0.0.1', 'password': 'signal', 'port': 54329, ...}
+params = {'dbname': 'signal_test', 'host': '127.0.0.1', 'password': 'signal', 'port': 54329, ...}
+timeout = 130
+
+    @classmethod
+    def connect(
+        cls,
+        conninfo: str = "",
+        *,
+        autocommit: bool = False,
+        prepare_threshold: int | None = 5,
+        context: AdaptContext | None = None,
+        row_factory: RowFactory[Row] | None = None,
+        cursor_factory: type[Cursor[Row]] | None = None,
+        **kwargs: ConnParam,
+    ) -> Self:
+        """
+        Connect to a database server and return a new `Connection` instance.
+        """
+    
+        params = cls._get_connection_params(conninfo, **kwargs)
+        timeout = timeout_from_conninfo(params)
+        rv = None
+        attempts = conninfo_attempts(params)
+        for attempt in attempts:
+            try:
+                conninfo = make_conninfo("", **attempt)
+                gen = cls._connect_gen(conninfo, timeout=timeout)
+                rv = waiting.wait_conn(gen, interval=_WAIT_INTERVAL)
+            except e._NO_TRACEBACK as ex:
+                if len(attempts) > 1:
+                    logger.debug(
+                        "connection attempt failed: host: %r port: %r, hostaddr %r: %s",
+                        attempt.get("host"),
+                        attempt.get("port"),
+                        attempt.get("hostaddr"),
+                        str(ex),
+                    )
+                last_ex = ex
+            else:
+                break
+    
+        if not rv:
+            assert last_ex
+>           raise last_ex.with_traceback(None)
+E           sqlalchemy.exc.OperationalError: (psycopg.OperationalError) connection is bad: connection to server at "127.0.0.1", port 54329 failed: Operation not permitted
+E           	Is the server running on that host and accepting TCP/IP connections?
+E           (Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+.venv/lib/python3.12/site-packages/psycopg/connection.py:117: OperationalError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/starlette/testclient.py:37
+  /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/.venv/lib/python3.12/site-packages/starlette/testclient.py:37: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = typing.Callable[[], typing.ContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+ERROR backend/tests/api/test_recycle_contract.py::test_issue_delete_restore_retains_history_and_concurrency
+ERROR backend/tests/api/test_recycle_contract.py::test_action_delete_restore_keeps_parent_version_and_member_permissions
+=================== 62 passed, 1 warning, 2 errors in 0.57s ====================

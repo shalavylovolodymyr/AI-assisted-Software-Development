@@ -13,8 +13,16 @@ def build_trends(issues, assessments, actions, events, days, now):
         (r for r in assessments if r.assessed_at <= now), key=lambda r: (r.assessed_at, str(r.id))
     )
     events = sorted((e for e in events if e.occurred_at <= now), key=lambda e: (e.occurred_at, str(e.id)))
-    statuses = [e for e in events if e.event_type in ("STATUS_CHANGED", "ISSUE_REOPENED")]
-    resolutions = [e for e in statuses if e.new_value.get("status") == IssueStatus.RESOLVED]
+    statuses = [
+        e
+        for e in events
+        if e.event_type in ("STATUS_CHANGED", "ISSUE_REOPENED", "ISSUE_DELETED", "ISSUE_RESTORED")
+    ]
+    resolutions = [
+        e
+        for e in statuses
+        if e.event_type == "STATUS_CHANGED" and e.new_value.get("status") == IssueStatus.RESOLVED
+    ]
     created = Counter(i.created_at.astimezone(UTC).date() for i in issues)
     resolved = Counter(e.occurred_at.astimezone(UTC).date() for e in resolutions)
     completed = Counter(
@@ -22,6 +30,7 @@ def build_trends(issues, assessments, actions, events, days, now):
     )
     changes = Counter(e.occurred_at.astimezone(UTC).date() for e in events)
     state, risks, timeline = {}, {}, []
+    removed = set()
     ip = sp = rp = 0
     for offset in range(days):
         day = start.date() + timedelta(days=offset)
@@ -34,13 +43,22 @@ def build_trends(issues, assessments, actions, events, days, now):
         while sp < len(statuses) and statuses[sp].occurred_at <= cutoff:
             event = statuses[sp]
             if event.issue_id in state:
-                state[event.issue_id] = event.new_value["status"]
+                if event.event_type == "ISSUE_DELETED":
+                    removed.add(event.issue_id)
+                elif event.event_type == "ISSUE_RESTORED":
+                    removed.discard(event.issue_id)
+                else:
+                    state[event.issue_id] = event.new_value["status"]
             sp += 1
         while rp < len(assessments) and assessments[rp].assessed_at <= cutoff:
             risk = assessments[rp]
             risks[risk.issue_id] = risk.score
             rp += 1
-        active = {identifier for identifier, status in state.items() if status != IssueStatus.RESOLVED}
+        active = {
+            identifier
+            for identifier, status in state.items()
+            if status != IssueStatus.RESOLVED and identifier not in removed
+        }
         scores = [score for identifier, score in risks.items() if identifier in active]
         timeline.append(
             {
@@ -59,7 +77,9 @@ def build_trends(issues, assessments, actions, events, days, now):
         for e in resolutions
         if e.occurred_at >= start and e.issue_id in issue_lookup
     ]
-    categories = Counter(i.category for i in issues if state.get(i.id) != IssueStatus.RESOLVED)
+    categories = Counter(
+        i.category for i in issues if state.get(i.id) != IssueStatus.RESOLVED and i.id not in removed
+    )
     return {
         "days": days,
         "generated_at": now,
@@ -74,7 +94,13 @@ def build_trends(issues, assessments, actions, events, days, now):
         },
         "categories": [{"category": category, "count": categories[category]} for category in Category],
         "action_statuses": [
-            {"status": status, "count": sum(a.status == status for a in actions)} for status in ActionStatus
+            {
+                "status": status,
+                "count": sum(
+                    a.status == status and not a.deleted_at and a.issue_id not in removed for a in actions
+                ),
+            }
+            for status in ActionStatus
         ],
         "total_events": len(events),
     }

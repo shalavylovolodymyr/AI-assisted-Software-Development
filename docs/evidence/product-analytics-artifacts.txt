@@ -1,0 +1,1 @@
+AI-SDLC artifacts and domain/application import boundaries verified.

@@ -6,13 +6,13 @@ observations only. No GitHub run, external deployment or human review is claimed
 ## Verified results
 | Check | Result |
 |---|---|
-| Backend unit + real PostgreSQL integration + API suite | 67 passed |
-| Domain/Application coverage | 97.70% combined; domain/analytics 100%, services 95%, queries 97% |
-| Frontend Vitest / Testing Library | 14 passed |
-| Chromium Playwright | Latest full run: 15 passed (2.3m) |
+| Backend unit + real PostgreSQL integration + API suite | 76 passed |
+| Domain/Application coverage | 98.58% combined; domain, analytics, operations and queries 100%, services 95% |
+| Frontend Vitest / Testing Library | 19 passed |
+| Chromium Playwright | 18 passed (preceding full suite, 3.2m); latest control-height checks 3/3 passed |
 | Ruff lint and format | Passed |
 | Frontend ESLint and TypeScript | Passed |
-| Frontend production build | Passed; vendor/chart bundles split |
+| Frontend production build | Passed; vendor/chart bundles split and ExcelJS loaded only on export |
 | npm dependency audit | Zero known vulnerabilities at installation/audit time |
 | Alembic upgrade and test downgrade/upgrade | Passed against local PostgreSQL |
 | Seed repeated twice | No duplicate or altered records |
@@ -23,7 +23,7 @@ observations only. No GitHub run, external deployment or human review is claimed
 
 Captured backend and production-build output lives in `docs/evidence/`.
 Browser reports/traces are generated in ignored `frontend/playwright-report` and
-`frontend/test-results`. Forty-seven retained screenshots live in `docs/screenshots`.
+`frontend/test-results`. Fifty-seven retained screenshots live in `docs/screenshots`.
 They come from the isolated E2E portfolio and include temporary test issues.
 The PPTX was rendered with Artifact Tool and was not opened in native PowerPoint.
 
@@ -370,3 +370,236 @@ build, ESLint and Prettier passed. Evidence:
 inspected; four dialog/search screenshots were refreshed and one mobile capture
 added (**47** retained). Earlier no-blur notes record the preceding preference.
 The 15-case full suite and component suite were not rerun for this CSS change.
+
+## Apple-inspired action-button corners — 20 October 2026
+Standard actions now use 16px corners; compact, icon, pagination and page-toolbar
+actions use 20px. Matrix cells retain their existing corner shape. Styling was
+checked in the running browser and through the frontend production build.
+
+## Operational analytics, Excel and shared rounded controls — 20 October 2026
+- Complete backend suite: **76 passed (31.49s)**, including real PostgreSQL/API
+  tests, with **98.58%** Domain/Application coverage. Operations and Queries have
+  100% coverage. The guarded test database uses isolated schemas; no development
+  data was reset. Evidence: `product-operations-backend.txt` and the red/green
+  calculation regressions recorded in TDD.md.
+- **19 frontend tests passed** across eight files. Six tests exercise workbook
+  round-trips, native dates/numbers, literal formula-looking text, empty results
+  and inline export errors. Final ESLint, Prettier and artifact/import checks
+  passed. Ruff lint/format passed for all 41 backend/script files. Evidence:
+  `product-analytics-unit.txt`, `product-analytics-lint.txt`,
+  `product-analytics-format.txt`, `product-analytics-artifacts.txt` and
+  `product-operations-ruff.txt`.
+- The final complete production-bundle browser run passed **18/18 (3.2m)**:
+  `product-analytics-browser-final.txt`. It covers the original four mutation
+  workflows, both themes, system appearance, role homes, responsive navigation,
+  filled 20px controls/search, 40px sidebar rows with 4px gaps, the 10px profile
+  gap, 6px matrix cells, 1px dividers, full-viewport dialog blur and no shadows.
+- Screenshot review then found two register captures taken before data arrived.
+  Adding data-ready waits exposed an old responsive rule hiding Export at 390px
+  (`product-analytics-mobile-export-initial.txt`). The compact export control now
+  explicitly stays visible. The final focused responsive/control check passed
+  **2/2 (30.9s)** after that CSS change, including loaded registers, enabled mobile
+  Export and a visible drawer account control. Evidence:
+  `product-analytics-rounded-captures.txt`. A second full 18-case run after this
+  final one-property mobile fix is not claimed.
+- Overview now shows planning/review gaps, action outlook, project health and
+  overdue work. Charts owns historical flows/trends and current age, risk movement
+  and owner-workload breakdowns. Browser assertions compare current KPI values
+  and each due-date drill-down with API results. Current snapshots are labeled
+  separately from the selected historical period.
+- Real XLSX downloads were parsed for Overview, selected-range Charts, matrix,
+  Projects, Issues, Actions, Activity, issue risk history and manager scope.
+  Assertions cover full filtered pagination, 25 matrix cells, typed numbers and
+  dates, selected periods, query filters and scoped records. Routine mutation
+  and identity success popups are removed; validation/server errors remain.
+- Initial full runs are retained honestly: **15/16** found a checkbox radius
+  conflict; **16/18** found the older Select rule retaining 10px corners. Both
+  source conflicts were corrected. An intervening run was deliberately stopped
+  for the owner's new visual references. A separate attempt ran no scenarios
+  because the sandbox blocked local PostgreSQL; the authorized retry passed.
+  See `product-analytics-browser-initial.txt`,
+  `product-analytics-browser-20px-initial.txt`,
+  `product-analytics-browser-interrupted.txt` and
+  `product-analytics-browser-sandbox.txt`.
+- TypeScript/Vite passed in the final browser command. ExcelJS is a separate,
+  lazy-loaded export chunk (940.20 kB minified, 269.87 kB gzip); Vite reports its
+  size warning. It is fetched when an export is requested. The final npm audit
+  found **zero known vulnerabilities**; initial advisory output and the patched
+  UUID dependency update are retained alongside the final audit JSON.
+- Actual Overview, deeper Charts, matrix, rounded Light/Dark controls, forms,
+  search and mobile drawer screenshots were inspected. The original 47 captures
+  are refreshed, with ten additions for analytics and the rounded controls
+  (**57 total**). The eight-slide deck remains the preceding presentation snapshot.
+- The owner explicitly chose **Keep API running** after automatic approval review
+  rejected stopping it. No development API process was stopped or restarted.
+  The live API already serves operational health. Final active-only overdue
+  flags and the corrected “91+ days” label are verified in the isolated API and
+  will load at the next normal restart. The existing frontend server supplies
+  the updated UI. Docker, GitHub, external deployment and human review limits
+  above remain unchanged.
+  A final read-only `/health` request returned `status: ok` and
+  `database: connected` while that API remained running.
+
+## Plain sidebar menu correction — 20 October 2026
+The owner clarified that filled, pill-shaped controls exclude the sidebar menu.
+Navigation/shortcut rows again have transparent resting backgrounds and 8px
+corners; the account row has its earlier transparent surface and 10px corners.
+Only hover/selection adds a row background. Action controls and search retain
+their filled 20px treatment. Sidebar geometry and behavior are unchanged.
+
+The two focused production-browser scenarios passed **2/2 (39.6s)** across
+Light/Dark, expanded/collapsed navigation and mobile. Assertions explicitly
+distinguish menu styling from action/search controls and retain 40px row/4px gap
+checks. ESLint, scoped Prettier and TypeScript/Vite passed. Evidence:
+`sidebar-menu-correction-browser.txt`, `sidebar-menu-correction-lint.txt`.
+Actual light/dark registers and the dark mobile drawer were inspected; 16
+targeted captures were refreshed. Other retained screenshots document preceding
+visual revisions. No backend code, API process or data changed; the preceding
+full backend/frontend suites were not repeated for this CSS correction.
+
+## Uniform 40px control height — 20 October 2026
+Action buttons, icon buttons, selectors, filters, tabs, calendar buttons and
+comment submission now share `--control-height: 40px`. Search and single-line
+form fields align at the same height. Icon actions, including mobile exports,
+are 40px square. Plain sidebar styling and 40px list rows remain intact; data-grid
+cells, status indicators and multiline fields retain their existing geometry.
+
+Three focused production-browser scenarios passed **3/3 (35.0s)**, checking the
+actual heights in Light/Dark desktop/mobile views, pagination, form selectors,
+calendar controls, discussion/workflow actions and matching filter styles.
+Keyboard calendar/dropdown behavior, mobile bounds, menu styling and matrix
+proportions also pass. ESLint, Prettier and TypeScript/Vite passed. Evidence:
+`uniform-control-height-browser.txt`, `uniform-control-height-lint.txt` and
+`uniform-control-height-format.txt`. Actual register/form captures were inspected
+and 17 targeted screenshots refreshed. Backend code, API process and data were
+unchanged; the full backend/frontend suites were not repeated for this CSS change.
+
+## Input corners match buttons — 20 October 2026
+Text inputs, multiline form fields and the discussion composer now share the
+buttons' 20px radius variable, including focused text areas. Text padding keeps
+content clear of the rounded edges. The 40px single-line heights and plain menu
+styling remain unchanged.
+
+The existing both-theme desktop/mobile control scenario passed **1/1 (24.5s)**
+without adding a new test for this small CSS change. ESLint, Prettier and the
+TypeScript/Vite build passed. Actual Light/Dark form captures were inspected and
+eight targeted screenshots refreshed. Evidence: `rounded-input-fields-browser.txt`,
+`rounded-input-fields-lint.txt` and `rounded-input-fields-format.txt`. No backend,
+data, API-process or business-behavior change was made; broader suites were not
+rerun for this field-rounding refinement.
+
+## Search close-button alignment — 20 October 2026
+The close action now sits beside the search field with an 8px gap. Both controls
+remain 40px high and the icon uses the regular neutral fill/hover styling,
+avoiding the full-height white circle inside the field shown in the owner's
+screenshot. The shared search header keeps the input flexible on mobile.
+
+Two existing production-browser scenarios passed **2/2 (29.3s)**. They cover
+actual close-button clicks in both themes, keyboard search/Enter/Escape, result
+navigation and mobile bounds. ESLint, Prettier and TypeScript/Vite passed.
+Desktop empty/result search and mobile result captures were inspected; targeted
+screenshots were refreshed. Evidence: `search-close-button-browser.txt`,
+`search-close-button-lint.txt`, `search-close-button-format.txt`. No backend,
+running API or development data changed. Broader suites were not rerun for this
+layout correction.
+
+## Welcome, login/logout and deletion activation — 20 October 2026
+- Full frontend suite: **24 passed** (`welcome-session-unit.txt`).
+- Full backend suite against isolated PostgreSQL test schemas: **85 passed**,
+  **98.70%** Domain/Application coverage (`welcome-deletion-backend.txt`).
+- ESLint, whole-frontend Prettier, Ruff checks/format and TypeScript/Vite pass;
+  the existing lazy ExcelJS chunk-size warning remains. See
+  `welcome-session-lint.txt`, `welcome-session-format.txt`,
+  `welcome-session-ruff.txt` and the build output in `welcome-session-browser-recheck.txt`.
+- Targeted browser entry/deletion checks passed **4/4 (26.6s)**. Initial evidence is retained in
+  `welcome-session-browser-initial.txt`. Four component failures and the failing
+  DELETE preflight are retained in `welcome-session-red.txt` and
+  `welcome-delete-cors-red.txt` before their implementations.
+- The live API's missing deletion capability was verified. Additive migration
+  `9b6e81f0d523` preserved all seven table counts; all existing issues/actions
+  retained null deletion timestamps (`welcome-deletion-local-migration.txt`).
+  The original API on 8000 was not stopped. Updated API 8002 and frontend 5178
+  both report healthy database connections; the frontend config reports
+  `deletion: true`. The frontend's ignored local env override routes to 8002.
+- A fresh browser on the actual app URL checked welcome → login → Issues →
+  visible Delete → logout, with **zero JavaScript errors** and no business-data
+  mutations (`welcome-session-live.txt`). Desktop Light/Dark and 320/390px
+  welcome captures and the live deletion screenshot are retained.
+- The initial sandboxed database checks could not connect; the subsequent
+  authorized test runs passed. Docker, publication, actual CI and human-review
+  limitations above remain unchanged.
+
+The complete browser run passed **21/23 (4.8m)**
+(`welcome-session-browser-full-initial.txt`). It exposed a saved-session loading
+race: on a mobile Settings reload, welcome's Appearance control briefly appeared
+before the user catalog loaded, then unmounted during selection. Saved sessions
+now show loading until validated. A fifth component regression covers that state.
+The other failure repeated the prior calendar check reading x=0 before Radix
+finished placement; the failure screenshot already showed its correct position.
+The assertion now waits for the same viewport bounds, without relaxing them.
+
+Both failing cases and all three new session journeys then passed **5/5 (26.2s)**
+(`welcome-session-browser-recheck.txt`), including persistent preferences, refresh
+behavior and calendar geometry in both themes at 1440/390/320px. The final
+frontend suite is **24/24**, and final lint/format/build checks pass. The complete
+23-case suite was not repeated after these focused corrections; the earlier
+21 passing scenarios include the real issue/action deletion and restoration flow.
+Actual final welcome and live deletion screenshots were visually inspected.
+
+## Welcome logo visibility — 20 October 2026
+The logo tile now uses charcoal/white in Light and light/dark in Dark, with the
+wordmark retaining its theme text color. Two existing production-browser journeys
+passed **2/2 (10.5s)**, checking actual Light/Dark wordmark, tile and SVG colors,
+login/logout and 390/320px mobile entry. Updated desktop/mobile screenshots were
+visually inspected. ESLint, scoped Prettier and TypeScript/Vite passed. Evidence:
+`welcome-logo-browser.txt`, `welcome-logo-lint.txt`, `welcome-logo-format.txt`.
+This CSS correction changed no backend or business data; broader suites were
+not repeated.
+
+## Mobile clipping, input focus and navigation — 20 October 2026
+The three phone screenshots were inspected. A fresh mobile-emulated live browser
+also reproduced the issue actions extending beyond 375px and exposure sectors
+outside the SVG. The page overflow expanded the layout viewport, also distorting
+the apparent navigation height. Before correction, three focused scenarios failed:
+320px issue content grew to 418px, the exposure sectors were clipped, and the
+register search input used 11px text (`mobile-layout-initial.txt`).
+
+Issue actions now occupy their own mobile row and wrap within the viewport.
+Editable fields use 16px before/after focus, the drawer follows `100dvh` with
+safe-area padding and square rows/scrim, and the exposure ring uses proportional
+radii above its mobile legend. The first corrected build passed **3/3 (38.1s)**
+(`mobile-layout-first-green.txt`). Visual inspection prompted an explicit square
+scrim, which had inherited the common button radius.
+
+Five existing scenarios passed **5/5 (1.1m)** for responsive navigation, desktop
+chart tooltips/contrast, the app header/discussion, shared Light/Dark controls and
+actual issue/action deletion/restoration (`mobile-layout-regression.txt`). They
+use isolated PostgreSQL test schemas. The final mobile rerun is recorded below.
+ESLint, Prettier and TypeScript/Vite pass; the existing lazy export chunk warning
+remains. No backend or development business records were changed.
+
+Mobile checks use Chromium touch/mobile emulation at 320/375/390/430px and both
+themes. They assert layout/content/visual viewport widths, scale 1, complete Delete
+visibility and confirmation, sector bounds, square navigation at 844/667/568px
+heights, reachable logout, and 16px search/form/assessment/discussion fields before
+and after focus. Physical iPhone Safari and its virtual keyboard were not driven;
+the sizing correction addresses the small-field focus zoom shown by the owner.
+
+Final mobile verification passed **3/3 (38.3s)**, including the square scrim
+(`mobile-layout-browser.txt`). The five affected existing scenarios also pass;
+the complete 26-scenario suite was not repeated for these layout changes.
+Actual Light/Dark issue-action, exposure, square-drawer and focused-input captures
+were inspected. Seven screenshots are retained under `mobile-issue-actions-*`,
+`mobile-exposure-*`, `mobile-square-drawer-*` and `mobile-input-focus.png`.
+Static evidence is in `mobile-layout-lint.txt` and `mobile-layout-format.txt`;
+the final production build is recorded with the browser output.
+
+## Roomier phone pagination — 20 October 2026
+The existing responsive browser scenario passed **1/1 (29.2s)**. It checks equal
+Previous/Next widths, 40px height, 12px labels, separate summary spacing and
+viewport bounds at 320/375px in both themes. Actual Next/Previous navigation
+passed on Issues, Actions and Activity. Four pagination screenshots were captured;
+Light/Dark samples were visually inspected. ESLint, Prettier and TypeScript/Vite
+passed (`mobile-pagination-browser.txt`, `mobile-pagination-lint.txt`,
+`mobile-pagination-format.txt`). This CSS-only refinement changed no backend or
+business data; broader suites were not repeated.

@@ -1,0 +1,1532 @@
+
+> signal-frontend@1.0.0 test
+> vitest run src/App.test.tsx
+
+(node:9973) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ RUN  v4.1.11 /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend
+
+ ❯ src/App.test.tsx (4 tests | 4 failed) 380ms
+     × welcomes visitors even when a legacy actor was automatically saved 125ms
+     × logs in as the chosen user and restores only that explicit session on reload 52ms
+     × logs out, clears the API actor and keeps appearance preferences 158ms
+     × does not substitute an administrator for an unknown saved session 45ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/App.test.tsx > Explicit demo sessions > welcomes visitors even when a legacy actor was automatically saved
+TestingLibraryElementError: Unable to find an accessible element with the role "heading" and name "Welcome to Signal"
+
+Here are the accessible roles:
+
+  link:
+
+  Name "Skip to content":
+  [36m<a[39m
+    [33mclass[39m=[32m"skip-link"[39m
+    [33mhref[39m=[32m"#main"[39m
+    [33mtabindex[39m=[32m"0"[39m
+  [36m/>[39m
+
+  Name "Overview":
+  [36m<a[39m
+    [33maria-current[39m=[32m"page"[39m
+    [33maria-label[39m=[32m"Overview"[39m
+    [33mclass[39m=[32m"active"[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/"[39m
+  [36m/>[39m
+
+  Name "Charts":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Charts"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/charts"[39m
+  [36m/>[39m
+
+  Name "Issues":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Issues"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/issues"[39m
+  [36m/>[39m
+
+  Name "Risk matrix":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Risk matrix"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/risk-matrix"[39m
+  [36m/>[39m
+
+  Name "Actions":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Actions"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/actions"[39m
+  [36m/>[39m
+
+  Name "Projects":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Projects"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/projects"[39m
+  [36m/>[39m
+
+  Name "Activity":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Activity"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/activity"[39m
+  [36m/>[39m
+
+  Name "Settings":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Settings"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/settings"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  complementary:
+
+  Name "":
+  [36m<aside[39m
+    [33mclass[39m=[32m"sidebar  "[39m
+    [33mid[39m=[32m"workspace-sidebar"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "Collapse sidebar":
+  [36m<button[39m
+    [33maria-controls[39m=[32m"workspace-sidebar"[39m
+    [33maria-expanded[39m=[32m"true"[39m
+    [33maria-label[39m=[32m"Collapse sidebar"[39m
+    [33mclass[39m=[32m"sidebar-item sidebar-toggle desktop-only"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+  [36m/>[39m
+
+  Name "Close navigation":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Close navigation"[39m
+    [33mclass[39m=[32m"sidebar-item mobile-only"[39m
+  [36m/>[39m
+
+  Name "New issue":
+  [36m<button[39m
+    [33maria-label[39m=[32m"New issue"[39m
+    [33mclass[39m=[32m"sidebar-item sidebar-new-issue"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+  [36m/>[39m
+
+  Name "Search workspace":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Search workspace"[39m
+    [33mclass[39m=[32m"sidebar-item sidebar-search"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+  [36m/>[39m
+
+  Name "Open navigation":
+  [36m<button[39m
+    [33maria-controls[39m=[32m"workspace-sidebar"[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-label[39m=[32m"Open navigation"[39m
+    [33mclass[39m=[32m"icon-button mobile-only"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  navigation:
+
+  Name "Workspace":
+  [36m<nav[39m
+    [33maria-label[39m=[32m"Workspace"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  combobox:
+
+  Name "Demo user":
+  [36m<button[39m
+    [33maria-autocomplete[39m=[32m"none"[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-label[39m=[32m"Demo user"[39m
+    [33mclass[39m=[32m"select-trigger user-selector account-control"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mdir[39m=[32m"ltr"[39m
+    [33mrole[39m=[32m"combobox"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  banner:
+
+  Name "":
+  [36m<header[39m
+    [33mclass[39m=[32m"topbar "[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  main:
+
+  Name "":
+  [36m<main[39m
+    [33mid[39m=[32m"main"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  heading:
+
+  Name "Emma Wilson's workspace":
+  [36m<h1 />[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<a[39m
+      [33mclass[39m=[32m"skip-link"[39m
+      [33mhref[39m=[32m"#main"[39m
+      [33mtabindex[39m=[32m"0"[39m
+    [36m>[39m
+      [0mSkip to content[0m
+    [36m</a>[39m
+    [36m<button[39m
+      [33maria-hidden[39m=[32m"true"[39m
+      [33maria-label[39m=[32m"Dismiss navigation"[39m
+      [33mclass[39m=[32m"drawer-scrim "[39m
+      [33mtabindex[39m=[32m"-1"[39m
+    [36m/>[39m
+    [36m<aside[39m
+      [33mclass[39m=[32m"sidebar  "[39m
+      [33mid[39m=[32m"workspace-sidebar"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"sidebar-shortcuts"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-controls[39m=[32m"workspace-sidebar"[39m
+          [33maria-expanded[39m=[32m"true"[39m
+          [33maria-label[39m=[32m"Collapse sidebar"[39m
+          [33mclass[39m=[32m"sidebar-item sidebar-toggle desktop-only"[39m
+          [33mdata-state[39m=[32m"closed"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-panel-left-close"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"18"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"18"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<rect[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mrx[39m=[32m"2"[39m
+              [33mwidth[39m=[32m"18"[39m
+              [33mx[39m=[32m"3"[39m
+              [33my[39m=[32m"3"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M9 3v18"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m16 15-3-3 3-3"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"nav-text"[39m
+          [36m>[39m
+            [0mCollapse sidebar[0m
+          [36m</span>[39m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Close navigation"[39m
+          [33mclass[39m=[32m"sidebar-item mobile-only"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-x"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"19"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"19"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M18 6 6 18"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m6 6 12 12"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"nav-text"[39m
+          [36m>[39m
+            [0mClose sidebar[0m
+          [36m</span>[39m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"New issue"[39m
+          [33mclass[39m=[32m"sidebar-item sidebar-new-issue"[39m
+          [33mdata-state[39m=[32m"closed"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-plus"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"18"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"1.7"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"18"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M5 12h14"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M12 5v14"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"nav-text"[39m
+          [36m>[39m
+            [0mNew issue[0m
+          [36m</span>[39m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Search workspace"[39m
+          [33mclass[39m=[32m"sidebar-item sidebar-search"[39m
+          [33mdata-state[39m=[32m"closed"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-search"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"18"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"1.7"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"18"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<circle[39m
+              [33mcx[39m=[32m"11"[39m
+              [33mcy[39m=[32m"11"[39m
+              [33mr[39m=[32m"8"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m21 21-4.3-4.3"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"nav-text"[39m
+          [36m>[39m
+            [0mSearch[0m
+          [36m</span>[39m
+        [36m</button>[39m
+      [36m</div>[39m
+      [36m<nav[39m
+        [33maria-label[39m=[32m"Workspace"[39m
+      [36m>[39m
+        [36m<a[39m
+          [33maria-current[39m=[32m"page"[39m
+          [33maria-label[39m=[32m"Overview"[39m
+          [33mclass[39m=[32m"active"[39m
+          [33mdata-discover[39m=[32m"true"[39m
+          [33mdata-state[39m=[32m"closed"[39m
+          [33mhref[39m=[32m"/"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-layout-dashboard"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"18"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"1.7"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"18"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<rect...
+ ❯ Object.getElementError ../node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ ../node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ ../node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ ../node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/App.test.tsx:47:19
+     45|     localStorage.setItem("signal-user", "admin");
+     46|     mount();
+     47|     expect(screen.getByRole("heading", { name: "Welcome to Signal" }))…
+       |                   ^
+     48|     expect(screen.getByRole("button", { name: "Log in", exact: true })…
+     49|     expect(screen.queryByRole("navigation", { name: "Workspace" })).no…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  src/App.test.tsx > Explicit demo sessions > logs in as the chosen user and restores only that explicit session on reload
+TestingLibraryElementError: Unable to find an accessible element with the role "combobox" and name "Choose user"
+
+Here are the accessible roles:
+
+  link:
+
+  Name "Skip to content":
+  [36m<a[39m
+    [33mclass[39m=[32m"skip-link"[39m
+    [33mhref[39m=[32m"#main"[39m
+    [33mtabindex[39m=[32m"0"[39m
+  [36m/>[39m
+
+  Name "Overview":
+  [36m<a[39m
+    [33maria-current[39m=[32m"page"[39m
+    [33maria-label[39m=[32m"Overview"[39m
+    [33mclass[39m=[32m"active"[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/"[39m
+  [36m/>[39m
+
+  Name "Charts":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Charts"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/charts"[39m
+  [36m/>[39m
+
+  Name "Issues":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Issues"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/issues"[39m
+  [36m/>[39m
+
+  Name "Risk matrix":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Risk matrix"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/risk-matrix"[39m
+  [36m/>[39m
+
+  Name "Actions":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Actions"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/actions"[39m
+  [36m/>[39m
+
+  Name "Projects":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Projects"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/projects"[39m
+  [36m/>[39m
+
+  Name "Activity":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Activity"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/activity"[39m
+  [36m/>[39m
+
+  Name "Settings":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Settings"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/settings"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  complementary:
+
+  Name "":
+  [36m<aside[39m
+    [33mclass[39m=[32m"sidebar  "[39m
+    [33mid[39m=[32m"workspace-sidebar"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "Collapse sidebar":
+  [36m<button[39m
+    [33maria-controls[39m=[32m"workspace-sidebar"[39m
+    [33maria-expanded[39m=[32m"true"[39m
+    [33maria-label[39m=[32m"Collapse sidebar"[39m
+    [33mclass[39m=[32m"sidebar-item sidebar-toggle desktop-only"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+  [36m/>[39m
+
+  Name "Close navigation":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Close navigation"[39m
+    [33mclass[39m=[32m"sidebar-item mobile-only"[39m
+  [36m/>[39m
+
+  Name "New issue":
+  [36m<button[39m
+    [33maria-label[39m=[32m"New issue"[39m
+    [33mclass[39m=[32m"sidebar-item sidebar-new-issue"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+  [36m/>[39m
+
+  Name "Search workspace":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Search workspace"[39m
+    [33mclass[39m=[32m"sidebar-item sidebar-search"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+  [36m/>[39m
+
+  Name "Open navigation":
+  [36m<button[39m
+    [33maria-controls[39m=[32m"workspace-sidebar"[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-label[39m=[32m"Open navigation"[39m
+    [33mclass[39m=[32m"icon-button mobile-only"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  navigation:
+
+  Name "Workspace":
+  [36m<nav[39m
+    [33maria-label[39m=[32m"Workspace"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  combobox:
+
+  Name "Demo user":
+  [36m<button[39m
+    [33maria-autocomplete[39m=[32m"none"[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-label[39m=[32m"Demo user"[39m
+    [33mclass[39m=[32m"select-trigger user-selector account-control"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mdir[39m=[32m"ltr"[39m
+    [33mrole[39m=[32m"combobox"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  banner:
+
+  Name "":
+  [36m<header[39m
+    [33mclass[39m=[32m"topbar "[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  main:
+
+  Name "":
+  [36m<main[39m
+    [33mid[39m=[32m"main"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  heading:
+
+  Name "Emma Wilson's workspace":
+  [36m<h1 />[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<a[39m
+      [33mclass[39m=[32m"skip-link"[39m
+      [33mhref[39m=[32m"#main"[39m
+      [33mtabindex[39m=[32m"0"[39m
+    [36m>[39m
+      [0mSkip to content[0m
+    [36m</a>[39m
+    [36m<button[39m
+      [33maria-hidden[39m=[32m"true"[39m
+      [33maria-label[39m=[32m"Dismiss navigation"[39m
+      [33mclass[39m=[32m"drawer-scrim "[39m
+      [33mtabindex[39m=[32m"-1"[39m
+    [36m/>[39m
+    [36m<aside[39m
+      [33mclass[39m=[32m"sidebar  "[39m
+      [33mid[39m=[32m"workspace-sidebar"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"sidebar-shortcuts"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-controls[39m=[32m"workspace-sidebar"[39m
+          [33maria-expanded[39m=[32m"true"[39m
+          [33maria-label[39m=[32m"Collapse sidebar"[39m
+          [33mclass[39m=[32m"sidebar-item sidebar-toggle desktop-only"[39m
+          [33mdata-state[39m=[32m"closed"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-panel-left-close"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"18"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"18"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<rect[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mrx[39m=[32m"2"[39m
+              [33mwidth[39m=[32m"18"[39m
+              [33mx[39m=[32m"3"[39m
+              [33my[39m=[32m"3"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M9 3v18"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m16 15-3-3 3-3"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"nav-text"[39m
+          [36m>[39m
+            [0mCollapse sidebar[0m
+          [36m</span>[39m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Close navigation"[39m
+          [33mclass[39m=[32m"sidebar-item mobile-only"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-x"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"19"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"19"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M18 6 6 18"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m6 6 12 12"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"nav-text"[39m
+          [36m>[39m
+            [0mClose sidebar[0m
+          [36m</span>[39m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"New issue"[39m
+          [33mclass[39m=[32m"sidebar-item sidebar-new-issue"[39m
+          [33mdata-state[39m=[32m"closed"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-plus"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"18"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"1.7"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"18"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M5 12h14"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M12 5v14"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"nav-text"[39m
+          [36m>[39m
+            [0mNew issue[0m
+          [36m</span>[39m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Search workspace"[39m
+          [33mclass[39m=[32m"sidebar-item sidebar-search"[39m
+          [33mdata-state[39m=[32m"closed"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-search"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"18"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"1.7"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"18"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<circle[39m
+              [33mcx[39m=[32m"11"[39m
+              [33mcy[39m=[32m"11"[39m
+              [33mr[39m=[32m"8"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m21 21-4.3-4.3"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"nav-text"[39m
+          [36m>[39m
+            [0mSearch[0m
+          [36m</span>[39m
+        [36m</button>[39m
+      [36m</div>[39m
+      [36m<nav[39m
+        [33maria-label[39m=[32m"Workspace"[39m
+      [36m>[39m
+        [36m<a[39m
+          [33maria-current[39m=[32m"page"[39m
+          [33maria-label[39m=[32m"Overview"[39m
+          [33mclass[39m=[32m"active"[39m
+          [33mdata-discover[39m=[32m"true"[39m
+          [33mdata-state[39m=[32m"closed"[39m
+          [33mhref[39m=[32m"/"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-layout-dashboard"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"18"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"1.7"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"18"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<rect...
+ ❯ Object.getElementError ../node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ ../node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ ../node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ ../node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/App.test.tsx:55:34
+     53|   it("logs in as the chosen user and restores only that explicit sessi…
+     54|     const view = mount();
+     55|     await userEvent.click(screen.getByRole("combobox", { name: "Choose…
+       |                                  ^
+     56|     await userEvent.click(screen.getByRole("option", { name: "Alex Che…
+     57|     expect(screen.queryByRole("navigation", { name: "Workspace" })).no…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  src/App.test.tsx > Explicit demo sessions > logs out, clears the API actor and keeps appearance preferences
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "Log out"
+
+Here are the accessible roles:
+
+  link:
+
+  Name "Skip to content":
+  [36m<a[39m
+    [33mclass[39m=[32m"skip-link"[39m
+    [33mhref[39m=[32m"#main"[39m
+    [33mtabindex[39m=[32m"0"[39m
+  [36m/>[39m
+
+  Name "Overview":
+  [36m<a[39m
+    [33maria-current[39m=[32m"page"[39m
+    [33maria-label[39m=[32m"Overview"[39m
+    [33mclass[39m=[32m"active"[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/"[39m
+  [36m/>[39m
+
+  Name "Charts":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Charts"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/charts"[39m
+  [36m/>[39m
+
+  Name "Issues":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Issues"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/issues"[39m
+  [36m/>[39m
+
+  Name "Risk matrix":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Risk matrix"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/risk-matrix"[39m
+  [36m/>[39m
+
+  Name "Actions":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Actions"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/actions"[39m
+  [36m/>[39m
+
+  Name "Projects":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Projects"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/projects"[39m
+  [36m/>[39m
+
+  Name "Activity":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Activity"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/activity"[39m
+  [36m/>[39m
+
+  Name "Settings":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Settings"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/settings"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  complementary:
+
+  Name "":
+  [36m<aside[39m
+    [33mclass[39m=[32m"sidebar  "[39m
+    [33mid[39m=[32m"workspace-sidebar"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "Collapse sidebar":
+  [36m<button[39m
+    [33maria-controls[39m=[32m"workspace-sidebar"[39m
+    [33maria-expanded[39m=[32m"true"[39m
+    [33maria-label[39m=[32m"Collapse sidebar"[39m
+    [33mclass[39m=[32m"sidebar-item sidebar-toggle desktop-only"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+  [36m/>[39m
+
+  Name "Close navigation":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Close navigation"[39m
+    [33mclass[39m=[32m"sidebar-item mobile-only"[39m
+  [36m/>[39m
+
+  Name "New issue":
+  [36m<button[39m
+    [33maria-label[39m=[32m"New issue"[39m
+    [33mclass[39m=[32m"sidebar-item sidebar-new-issue"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+  [36m/>[39m
+
+  Name "Search workspace":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Search workspace"[39m
+    [33mclass[39m=[32m"sidebar-item sidebar-search"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+  [36m/>[39m
+
+  Name "Open navigation":
+  [36m<button[39m
+    [33maria-controls[39m=[32m"workspace-sidebar"[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-label[39m=[32m"Open navigation"[39m
+    [33mclass[39m=[32m"icon-button mobile-only"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  navigation:
+
+  Name "Workspace":
+  [36m<nav[39m
+    [33maria-label[39m=[32m"Workspace"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  combobox:
+
+  Name "Demo user":
+  [36m<button[39m
+    [33maria-autocomplete[39m=[32m"none"[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-label[39m=[32m"Demo user"[39m
+    [33mclass[39m=[32m"select-trigger user-selector account-control"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mdir[39m=[32m"ltr"[39m
+    [33mrole[39m=[32m"combobox"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  banner:
+
+  Name "":
+  [36m<header[39m
+    [33mclass[39m=[32m"topbar "[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  main:
+
+  Name "":
+  [36m<main[39m
+    [33mid[39m=[32m"main"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  heading:
+
+  Name "Emma Wilson's workspace":
+  [36m<h1 />[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body[39m
+  [33mstyle[39m=[32m""[39m
+[36m>[39m
+  [36m<div>[39m
+    [36m<a[39m
+      [33mclass[39m=[32m"skip-link"[39m
+      [33mhref[39m=[32m"#main"[39m
+      [33mtabindex[39m=[32m"0"[39m
+    [36m>[39m
+      [0mSkip to content[0m
+    [36m</a>[39m
+    [36m<button[39m
+      [33maria-hidden[39m=[32m"true"[39m
+      [33maria-label[39m=[32m"Dismiss navigation"[39m
+      [33mclass[39m=[32m"drawer-scrim "[39m
+      [33mtabindex[39m=[32m"-1"[39m
+    [36m/>[39m
+    [36m<aside[39m
+      [33mclass[39m=[32m"sidebar  "[39m
+      [33mid[39m=[32m"workspace-sidebar"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"sidebar-shortcuts"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-controls[39m=[32m"workspace-sidebar"[39m
+          [33maria-expanded[39m=[32m"true"[39m
+          [33maria-label[39m=[32m"Collapse sidebar"[39m
+          [33mclass[39m=[32m"sidebar-item sidebar-toggle desktop-only"[39m
+          [33mdata-state[39m=[32m"closed"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-panel-left-close"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"18"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"18"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<rect[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mrx[39m=[32m"2"[39m
+              [33mwidth[39m=[32m"18"[39m
+              [33mx[39m=[32m"3"[39m
+              [33my[39m=[32m"3"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M9 3v18"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m16 15-3-3 3-3"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"nav-text"[39m
+          [36m>[39m
+            [0mCollapse sidebar[0m
+          [36m</span>[39m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Close navigation"[39m
+          [33mclass[39m=[32m"sidebar-item mobile-only"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-x"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"19"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"19"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M18 6 6 18"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m6 6 12 12"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"nav-text"[39m
+          [36m>[39m
+            [0mClose sidebar[0m
+          [36m</span>[39m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"New issue"[39m
+          [33mclass[39m=[32m"sidebar-item sidebar-new-issue"[39m
+          [33mdata-state[39m=[32m"closed"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-plus"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"18"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"1.7"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"18"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M5 12h14"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M12 5v14"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"nav-text"[39m
+          [36m>[39m
+            [0mNew issue[0m
+          [36m</span>[39m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Search workspace"[39m
+          [33mclass[39m=[32m"sidebar-item sidebar-search"[39m
+          [33mdata-state[39m=[32m"closed"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-search"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"18"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"1.7"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"18"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<circle[39m
+              [33mcx[39m=[32m"11"[39m
+              [33mcy[39m=[32m"11"[39m
+              [33mr[39m=[32m"8"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m21 21-4.3-4.3"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"nav-text"[39m
+          [36m>[39m
+            [0mSearch[0m
+          [36m</span>[39m
+        [36m</button>[39m
+      [36m</div>[39m
+      [36m<nav[39m
+        [33maria-label[39m=[32m"Workspace"[39m
+      [36m>[39m
+        [36m<a[39m
+          [33maria-current[39m=[32m"page"[39m
+          [33maria-label[39m=[32m"Overview"[39m
+          [33mclass[39m=[32m"active"[39m
+          [33mdata-discover[39m=[32m"true"[39m
+          [33mdata-state[39m=[32m"closed"[39m
+          [33mhref[39m=[32m"/"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-layout-dashboard"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"18"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"1.7"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"18"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+  ...
+ ❯ Object.getElementError ../node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ ../node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ ../node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ ../node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/App.test.tsx:75:34
+     73|     // Close the modal before using the sidebar, as a browser user wou…
+     74|     await userEvent.click(screen.getByRole("button", { name: "Close di…
+     75|     await userEvent.click(screen.getByRole("button", { name: "Log out"…
+       |                                  ^
+     76|     expect(screen.getByRole("heading", { name: "Welcome to Signal" }))…
+     77|     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  src/App.test.tsx > Explicit demo sessions > does not substitute an administrator for an unknown saved session
+TestingLibraryElementError: Unable to find an accessible element with the role "heading" and name "Welcome to Signal"
+
+Here are the accessible roles:
+
+  link:
+
+  Name "Skip to content":
+  [36m<a[39m
+    [33mclass[39m=[32m"skip-link"[39m
+    [33mhref[39m=[32m"#main"[39m
+    [33mtabindex[39m=[32m"0"[39m
+  [36m/>[39m
+
+  Name "Overview":
+  [36m<a[39m
+    [33maria-current[39m=[32m"page"[39m
+    [33maria-label[39m=[32m"Overview"[39m
+    [33mclass[39m=[32m"active"[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/"[39m
+  [36m/>[39m
+
+  Name "Charts":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Charts"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/charts"[39m
+  [36m/>[39m
+
+  Name "Issues":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Issues"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/issues"[39m
+  [36m/>[39m
+
+  Name "Risk matrix":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Risk matrix"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/risk-matrix"[39m
+  [36m/>[39m
+
+  Name "Actions":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Actions"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/actions"[39m
+  [36m/>[39m
+
+  Name "Projects":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Projects"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/projects"[39m
+  [36m/>[39m
+
+  Name "Activity":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Activity"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/activity"[39m
+  [36m/>[39m
+
+  Name "Settings":
+  [36m<a[39m
+    [33maria-label[39m=[32m"Settings"[39m
+    [33mclass[39m=[32m""[39m
+    [33mdata-discover[39m=[32m"true"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mhref[39m=[32m"/settings"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  complementary:
+
+  Name "":
+  [36m<aside[39m
+    [33mclass[39m=[32m"sidebar  "[39m
+    [33mid[39m=[32m"workspace-sidebar"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  button:
+
+  Name "Collapse sidebar":
+  [36m<button[39m
+    [33maria-controls[39m=[32m"workspace-sidebar"[39m
+    [33maria-expanded[39m=[32m"true"[39m
+    [33maria-label[39m=[32m"Collapse sidebar"[39m
+    [33mclass[39m=[32m"sidebar-item sidebar-toggle desktop-only"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+  [36m/>[39m
+
+  Name "Close navigation":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Close navigation"[39m
+    [33mclass[39m=[32m"sidebar-item mobile-only"[39m
+  [36m/>[39m
+
+  Name "New issue":
+  [36m<button[39m
+    [33maria-label[39m=[32m"New issue"[39m
+    [33mclass[39m=[32m"sidebar-item sidebar-new-issue"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+  [36m/>[39m
+
+  Name "Search workspace":
+  [36m<button[39m
+    [33maria-label[39m=[32m"Search workspace"[39m
+    [33mclass[39m=[32m"sidebar-item sidebar-search"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+  [36m/>[39m
+
+  Name "Open navigation":
+  [36m<button[39m
+    [33maria-controls[39m=[32m"workspace-sidebar"[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-label[39m=[32m"Open navigation"[39m
+    [33mclass[39m=[32m"icon-button mobile-only"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  navigation:
+
+  Name "Workspace":
+  [36m<nav[39m
+    [33maria-label[39m=[32m"Workspace"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  combobox:
+
+  Name "Demo user":
+  [36m<button[39m
+    [33maria-autocomplete[39m=[32m"none"[39m
+    [33maria-expanded[39m=[32m"false"[39m
+    [33maria-label[39m=[32m"Demo user"[39m
+    [33mclass[39m=[32m"select-trigger user-selector account-control"[39m
+    [33mdata-state[39m=[32m"closed"[39m
+    [33mdir[39m=[32m"ltr"[39m
+    [33mrole[39m=[32m"combobox"[39m
+    [33mtype[39m=[32m"button"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  banner:
+
+  Name "":
+  [36m<header[39m
+    [33mclass[39m=[32m"topbar "[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  main:
+
+  Name "":
+  [36m<main[39m
+    [33mid[39m=[32m"main"[39m
+  [36m/>[39m
+
+  --------------------------------------------------
+  heading:
+
+  Name "Emma Wilson's workspace":
+  [36m<h1 />[39m
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+[36m<body[39m
+  [33mstyle[39m=[32m""[39m
+[36m>[39m
+  [36m<div>[39m
+    [36m<a[39m
+      [33mclass[39m=[32m"skip-link"[39m
+      [33mhref[39m=[32m"#main"[39m
+      [33mtabindex[39m=[32m"0"[39m
+    [36m>[39m
+      [0mSkip to content[0m
+    [36m</a>[39m
+    [36m<button[39m
+      [33maria-hidden[39m=[32m"true"[39m
+      [33maria-label[39m=[32m"Dismiss navigation"[39m
+      [33mclass[39m=[32m"drawer-scrim "[39m
+      [33mtabindex[39m=[32m"-1"[39m
+    [36m/>[39m
+    [36m<aside[39m
+      [33mclass[39m=[32m"sidebar  "[39m
+      [33mid[39m=[32m"workspace-sidebar"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"sidebar-shortcuts"[39m
+      [36m>[39m
+        [36m<button[39m
+          [33maria-controls[39m=[32m"workspace-sidebar"[39m
+          [33maria-expanded[39m=[32m"true"[39m
+          [33maria-label[39m=[32m"Collapse sidebar"[39m
+          [33mclass[39m=[32m"sidebar-item sidebar-toggle desktop-only"[39m
+          [33mdata-state[39m=[32m"closed"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-panel-left-close"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"18"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"18"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<rect[39m
+              [33mheight[39m=[32m"18"[39m
+              [33mrx[39m=[32m"2"[39m
+              [33mwidth[39m=[32m"18"[39m
+              [33mx[39m=[32m"3"[39m
+              [33my[39m=[32m"3"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M9 3v18"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m16 15-3-3 3-3"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"nav-text"[39m
+          [36m>[39m
+            [0mCollapse sidebar[0m
+          [36m</span>[39m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Close navigation"[39m
+          [33mclass[39m=[32m"sidebar-item mobile-only"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-x"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"19"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"19"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M18 6 6 18"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m6 6 12 12"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"nav-text"[39m
+          [36m>[39m
+            [0mClose sidebar[0m
+          [36m</span>[39m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"New issue"[39m
+          [33mclass[39m=[32m"sidebar-item sidebar-new-issue"[39m
+          [33mdata-state[39m=[32m"closed"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-plus"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"18"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"1.7"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"18"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M5 12h14"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M12 5v14"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"nav-text"[39m
+          [36m>[39m
+            [0mNew issue[0m
+          [36m</span>[39m
+        [36m</button>[39m
+        [36m<button[39m
+          [33maria-label[39m=[32m"Search workspace"[39m
+          [33mclass[39m=[32m"sidebar-item sidebar-search"[39m
+          [33mdata-state[39m=[32m"closed"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-search"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"18"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"1.7"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"18"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<circle[39m
+              [33mcx[39m=[32m"11"[39m
+              [33mcy[39m=[32m"11"[39m
+              [33mr[39m=[32m"8"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m21 21-4.3-4.3"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"nav-text"[39m
+          [36m>[39m
+            [0mSearch[0m
+          [36m</span>[39m
+        [36m</button>[39m
+      [36m</div>[39m
+      [36m<nav[39m
+        [33maria-label[39m=[32m"Workspace"[39m
+      [36m>[39m
+        [36m<a[39m
+          [33maria-current[39m=[32m"page"[39m
+          [33maria-label[39m=[32m"Overview"[39m
+          [33mclass[39m=[32m"active"[39m
+          [33mdata-discover[39m=[32m"true"[39m
+          [33mdata-state[39m=[32m"closed"[39m
+          [33mhref[39m=[32m"/"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33mclass[39m=[32m"lucide lucide-layout-dashboard"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"18"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"1.7"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"18"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+  ...
+ ❯ Object.getElementError ../node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ ../node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ ../node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ ../node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/App.test.tsx:86:19
+     84|     localStorage.setItem("signal-session-user", "missing-user");
+     85|     mount();
+     86|     expect(screen.getByRole("heading", { name: "Welcome to Signal" }))…
+       |                   ^
+     87|     expect(screen.queryByRole("navigation", { name: "Workspace" })).no…
+     88|     expect(localStorage.getItem("signal-session-user")).toBeNull();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed (4)
+   Start at  11:36:55
+   Duration  1.70s (transform 229ms, setup 175ms, import 651ms, tests 380ms, environment 362ms)
+
+npm error Lifecycle script `test` failed with error:
+npm error code 1
+npm error path /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend
+npm error workspace signal-frontend@1.0.0
+npm error location /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend
+npm error command failed
+npm error command sh -c vitest run src/App.test.tsx

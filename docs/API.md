@@ -10,11 +10,22 @@ Reads: `/config`, `/users`, `/projects`, `/projects/{id}`, `/issues`, `/issues/{
 
 Writes: POST `/issues`; PATCH `/issues/{id}`; POST `/issues/{id}/transitions`,
 `/issues/{id}/risk-assessments`, `/issues/{id}/actions`, `/issues/{id}/comments`;
-PATCH `/actions/{id}`. There are no assessment/comment update or delete routes.
+PATCH `/actions/{id}`; DELETE `/issues/{id}` and `/actions/{id}`; POST
+`/issues/{id}/restore` and `/actions/{id}/restore`. Deletion/restoration accepts
+`expected_version`. There are no assessment/comment update or delete routes.
 
 Every write requires `X-Demo-User: <known fictional user UUID>`. Identity is not secure
 authentication. `DEMO_MODE=false` rejects writes. MEMBER action updates require ownership;
-MANAGER and ADMIN may update any action. All other local demo workflow actors are equal.
+MANAGER and ADMIN may update any action. Issue deletion/restoration permits
+ADMIN/MANAGER and the reporting/assigned MEMBER. Action deletion/restoration
+permits ADMIN/MANAGER and the owning MEMBER, only for unfinished actions on a
+current OPEN/IN_PROGRESS issue. Other local demo workflow actors are equal.
+
+The welcome screen requires explicit user selection and Log in. The frontend
+stores `signal-session-user` and uses it for `X-Demo-User`; logout removes it.
+This introduces no API authentication endpoints or server-side read restriction.
+`GET /config` advertises `deletion: true` on the updated API. Its CORS policy
+includes DELETE for the configured frontend origins.
 
 Creation fields: project_id, title, description, category, priority, assignee_id,
 optional due_date, likelihood, impact and rationale. Reporter and assessor come from
@@ -29,7 +40,10 @@ Issue lists accept `search`, `status`, `severity`, `project_id`, `assignee_id`, 
 `sort` (updated_at, created_at, title, risk_score, due_date, reference_code),
 `direction` (asc/desc), `page` (1+) and `page_size` (1–100, default 10).
 Response: items, total, page, page_size. Activity uses the same page envelope.
-Action filters: status and owner_id. Matrix/distribution exclude RESOLVED issues.
+Issue/action lists accept `deleted=true` for recoverable records; default reads
+exclude deleted work. Removed issues remain readable by ID with history intact,
+but reject workflow writes until restored. Action filters: status and owner_id.
+Matrix/distribution exclude RESOLVED and deleted issues.
 Date-only due dates use ISO 8601. UTC timestamps include their offset.
 
 HTTP: 200 reads/updates/transitions; 201 creation, assessment, action and comment;

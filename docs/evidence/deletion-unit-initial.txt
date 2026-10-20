@@ -1,0 +1,71 @@
+F...F.                                                                   [100%]
+=================================== FAILURES ===================================
+_______________ test_issue_removal_restore_and_immutable_history _______________
+
+context = (<test_services.MemoryUow object at 0x107677cb0>, User(id=UUID('ff287d0e-de8a-4986-9925-af3eda036137'), full_name='Emm...4986-9925-af3eda036137'), created_at=datetime.datetime(2026, 10, 20, 9, 19, 54, 897780, tzinfo=datetime.timezone.utc)))
+
+    def test_issue_removal_restore_and_immutable_history(context):
+        uow, user, _ = context
+        issue, action = plan(context)
+        before = deepcopy(uow.records)
+        removed = services.Deletion(uow).issue(issue.id, user.id, 2)
+        assert removed.deleted_at and removed.version == 3
+        assert Queries(uow).issues()["total"] == 0
+        assert Queries(uow).issues(deleted=True)["items"][0]["id"] == issue.id
+        assert Queries(uow).actions() == []
+        assert Queries(uow).summary()["total_issues"] == 0
+>       assert sum(r["count"] for r in Queries(uow).operations()["issue_aging"]) == 0
+E       KeyError: 'issue_aging'
+
+backend/tests/unit/test_deletion.py:36: KeyError
+___ test_deleted_actions_do_not_block_mitigation_or_return_to_closed_issues ____
+
+context = (<test_services.MemoryUow object at 0x107b30ad0>, User(id=UUID('6889f700-cb7b-48ba-abda-fe1f2c0e0cae'), full_name='Emm...48ba-abda-fe1f2c0e0cae'), created_at=datetime.datetime(2026, 10, 20, 9, 19, 54, 931235, tzinfo=datetime.timezone.utc)))
+
+    def test_deleted_actions_do_not_block_mitigation_or_return_to_closed_issues(context):
+        uow, user, _ = context
+        issue, action = plan(context)
+        services.Deletion(uow).action(action.id, user.id, 2)
+        services.TransitionIssue(uow).execute(issue.id, user.id, 3, IssueStatus.IN_PROGRESS)
+        with pytest.raises(RuleViolation, match="plan"):
+>           services.TransitionIssue(uow).execute(issue.id, user.id, 4, IssueStatus.MITIGATED)
+
+backend/tests/unit/test_deletion.py:106: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+backend/src/signal_app/application/services.py:220: in execute
+    validate_transition(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+source = <IssueStatus.IN_PROGRESS: 'IN_PROGRESS'>
+target = <IssueStatus.MITIGATED: 'MITIGATED'>, actions = []
+risk = RiskAssessment(id=UUID('245b1b0a-3262-42ac-9a73-1417b9a10de2'), issue_id=UUID('fd60de45-c159-4925-bbfe-4b4e2c34a578'),...48ba-abda-fe1f2c0e0cae'), assessed_at=datetime.datetime(2026, 10, 20, 9, 19, 54, 931489, tzinfo=datetime.timezone.utc))
+
+    def validate_transition(source, target, actions, risk) -> None:
+        if target not in TRANSITIONS[source]:
+            raise RuleViolation(f"Cannot transition from {source} to {target}.")
+        if target in (IssueStatus.MITIGATED, IssueStatus.RESOLVED):
+            if not actions:
+>               raise RuleViolation("Plan at least one mitigation action before mitigating this issue.")
+E               signal_app.domain.exceptions.RuleViolation: Plan at least one mitigation action before mitigating this issue.
+
+backend/src/signal_app/domain/rules.py:36: RuleViolation
+
+During handling of the above exception, another exception occurred:
+
+context = (<test_services.MemoryUow object at 0x107b30ad0>, User(id=UUID('6889f700-cb7b-48ba-abda-fe1f2c0e0cae'), full_name='Emm...48ba-abda-fe1f2c0e0cae'), created_at=datetime.datetime(2026, 10, 20, 9, 19, 54, 931235, tzinfo=datetime.timezone.utc)))
+
+    def test_deleted_actions_do_not_block_mitigation_or_return_to_closed_issues(context):
+        uow, user, _ = context
+        issue, action = plan(context)
+        services.Deletion(uow).action(action.id, user.id, 2)
+        services.TransitionIssue(uow).execute(issue.id, user.id, 3, IssueStatus.IN_PROGRESS)
+>       with pytest.raises(RuleViolation, match="plan"):
+E       AssertionError: Regex pattern did not match.
+E        Regex: 'plan'
+E        Input: 'Plan at least one mitigation action before mitigating this issue.'
+
+backend/tests/unit/test_deletion.py:105: AssertionError
+=========================== short test summary info ============================
+FAILED backend/tests/unit/test_deletion.py::test_issue_removal_restore_and_immutable_history
+FAILED backend/tests/unit/test_deletion.py::test_deleted_actions_do_not_block_mitigation_or_return_to_closed_issues
+2 failed, 4 passed in 0.10s

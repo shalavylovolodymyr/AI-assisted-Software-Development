@@ -16,6 +16,9 @@ delivery boundaries and autonomous local implementation authorization in
 7. Built the React workspace, forms, charts, matrix and lifecycle operations.
 8. Ran database/API tests and browser journeys, inspected screenshots, corrected failures.
 9. Added CI/Compose, documentation, a local editable presentation and verification records.
+10. Implemented owner-requested operational analytics, Excel exports and rounded
+    controls. Delegated helpers handled backend calculation tests, export utilities
+    and browser-scenario updates; the primary agent integrated and verified them.
 
 ## Decisions and human responsibility
 The master prompt selected FastAPI, PostgreSQL, React, clean layers and demo identity.

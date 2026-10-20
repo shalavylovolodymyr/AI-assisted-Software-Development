@@ -134,6 +134,7 @@ class IssueOut(BaseModel):
     updated_at: datetime
     resolved_at: datetime | None
     version: int
+    deleted_at: datetime | None = None
     risk: RiskOut | None
     project: ProjectOut
     assignee: UserOut
@@ -150,6 +151,7 @@ class ActionOut(BaseModel):
     due_date: date
     completed_at: datetime | None
     created_at: datetime
+    deleted_at: datetime | None = None
 
 
 class ActionDetail(ActionOut):
@@ -159,6 +161,7 @@ class ActionDetail(ActionOut):
     issue_status: IssueStatus
     issue_version: int
     overdue: bool
+    issue_deleted: bool = False
 
 
 class AuditOut(BaseModel):

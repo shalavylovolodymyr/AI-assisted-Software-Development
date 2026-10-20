@@ -2,7 +2,7 @@
 
 PHASE: 4
 STATUS: in-progress
-ACTIVE: UC-001 through UC-004 (authorized full local implementation)
+ACTIVE: UC-001 through UC-006 (authorized full local implementation and owner follow-ups)
 
 ## Completed phase outputs
 - 0 BOOTSTRAP: empty workspace inspected; three supplied references inspected.
@@ -29,7 +29,22 @@ ACTIVE: UC-001 through UC-004 (authorized full local implementation)
 - [x] Distinct hover surfaces, matching filter/workflow controls, solid header, top sidebar toggle, square matrix/dividers and persistent display/data settings
 - [x] Activity uses shared KPI cards; filled search fields, no shadows and transparent modal/search backdrops
 - [x] Soften full and compact matrix cells with subtle 6px corners
+- [x] Apply Apple-inspired 16px standard and 20px compact action-button corners
 - [x] Blur the full background behind forms and command search, without tint or shadows
+- [x] Rounded indicators/risk labels, neutral charcoal theme and removal of routine success popups
+- [x] Distinct operational Overview and deeper Charts with persisted portfolio-health analytics
+- [x] Excel exports for chart ranges, snapshots, filtered registers, history and role-specific work
+- [x] Sidebar toggle is a list row with uniform 40px height and 4px spacing
+- [x] Shared filled action controls and search fields with 20px corners across desktop/mobile themes; sidebar menu remains plain
+- [x] Shared 40px height for action buttons, icon buttons, filters, search and form controls
+- [x] Match text inputs, text areas and discussion fields to the buttons' shared 20px corners
+- [x] Align the search close button beside its input with a consistent 40px size and 8px gap
+- [x] Reversible issue/action deletion, restore views and labeled deletion controls (UC-005)
+- [x] Welcome page, explicit password-free user login and desktop/mobile logout (UC-006)
+- [x] Give the welcome logo a contrasting tile and symbol in Light and Dark modes
+- [x] Keep mobile Delete controls on-screen, use stable input sizing, square full-height navigation and an unclipped exposure chart
+- [x] Give mobile Previous/Next equal widths, readable labels and a separate record-count row
+- [x] Activate deletion with an additive local migration and parallel API, keeping the original API running
 - [x] Container/CI configuration, documentation and editable presentation
 - [x] Native local tests, coverage, lint, types and build
 - [x] Agent engineering review in REVIEW.md
@@ -40,9 +55,10 @@ ACTIVE: UC-001 through UC-004 (authorized full local implementation)
 ## Environment
 Python 3.12 and Node are available. Docker and PostgreSQL executables were absent
 at initial inspection. Workspace-local PostgreSQL was installed and used for real database tests
-without changing system services. Native validation passed: 67 backend tests,
-14 frontend tests and 97.70% Domain/Application coverage. The latest browser
-results are recorded in VALIDATION.md. Docker runtime verification
+without changing system services. Native validation passed: 76 backend tests,
+19 frontend tests, 18 browser scenarios and 98.58% Domain/Application coverage.
+Latest validation: 85 backend tests and 24 frontend tests pass; the complete
+browser rerun is recorded in VALIDATION.md. Docker runtime verification
 requires Docker to be available; do not claim it ran if unavailable.
 
 ## Final phase

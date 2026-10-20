@@ -8,6 +8,8 @@ Software Development capstone, Autumn 2026. The application uses persistent
 PostgreSQL data and enforces its workflow on the server.
 
 ## Key Features
+- Welcome page with password-free user selection, persistent demo login and desktop/mobile logout.
+- Labeled Delete controls for issues and unfinished actions, with Deleted views for restoration and preserved audit history.
 - Database-derived overview, issue-flow/risk/project charts, interactive 5 × 5 risk matrix and project summaries.
 - Searchable, sortable, paginated issue register with status, severity and project filters.
 - Create/edit issues, assign accountable owners, and track due dates.
@@ -15,12 +17,16 @@ PostgreSQL data and enforces its workflow on the server.
 - Mitigation planning, owner/manager action updates, completion and cancellation.
 - Evidence-based resolution, reopening, atomic transactions and stale-write protection.
 - Light, dark and system appearance, a shared desktop/mobile page toolbar, a collapsible sidebar with an icon rail, self-hosted Inter, custom controls and hidden scrollbars.
-- Persistent Settings for density, motion, default chart range and background refresh; solid shared header/sidebar surfaces and a square risk matrix.
+- Operational Overview with planning gaps, review coverage, due-date queues and project health; separate historical Charts with age, owner workload and risk movement breakdowns.
+- Excel downloads for selected chart ranges, portfolio statistics, all filtered registers/history, project and matrix data, issue risk history and scoped team/personal work.
+- Persistent Settings for density, motion, default chart range and background refresh; solid shared header/sidebar surfaces and a subtly rounded risk matrix.
 - Role-focused home views: portfolio overview for admins, project priorities for managers, personal work for members.
 - A dedicated Charts view for every role, risk trends directly on issue pages, live command search (⌘/Ctrl K), and a minimal app shell without a footer.
 - Additive fictional seed: 6 people, 4 projects, 529 issues, 2,800+ assessments, 1,500+ actions and 8,700+ history entries spanning about 14 months. New cases have irregular timing and varied reviews/actions; existing demo edits are preserved.
 - Automatic 30-second refresh, a default 365-day history, selectable 30/90/180/365-day ranges, and charts for risk, issue flow, open workload, mitigation pace and category exposure.
 - Smooth sidebar transitions, animated chart entry, reduced-motion support, shared KPI cards, filled search fields, surfaces without shadows and full background blur behind dialogs.
+- Action controls, input fields, text areas and search fields share 20px corners; counters/risk labels use pills. Sidebar menu rows stay plain, with a 4px gap and backgrounds on hover/selection. Routine success popups are removed.
+- Action buttons, filters, selectors, icon buttons and search/form controls share a 40px height on desktop and mobile.
 - Soft risk badges, a count-focused matrix without entrance animation, and a shared-style discussion composer.
 
 ## Technology Stack
@@ -89,10 +95,18 @@ In a third terminal:
 make web
 ```
 
-Open [SIGNAL](http://127.0.0.1:5178) and select **Emma Wilson** for the demo.
+Open [SIGNAL](http://127.0.0.1:5178), choose **Emma Wilson** and click **Log in**.
+No password is needed. Use **Log out** at the bottom of the sidebar to return
+to welcome. Open an issue for **Delete**, or use **Deleted issues/actions** in
+the matching register to restore removed work.
 Defaults work without an `.env` file. Export `DATABASE_URL`, `DEMO_MODE` or
 `CORS_ORIGINS` in the shell to override them. `.env.example` documents defaults;
 native commands do not automatically load `.env`.
+The frontend accepts `API_PROXY` from the shell or a Vite mode env file such as
+`frontend/.env.development.local`; the default is `http://127.0.0.1:8000`.
+The current local session uses a parallel updated API on 8002 to preserve the
+original running API. Remove that ignored local override after normally
+restarting the primary API with the current code.
 
 With Docker Engine/Desktop and Compose v2 installed, the alternative is:
 

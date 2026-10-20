@@ -25,7 +25,7 @@ def create_app(uow_factory=None, *, demo_mode=DEMO_MODE):
     app.add_middleware(
         CORSMiddleware,
         allow_origins=CORS_ORIGINS,
-        allow_methods=["GET", "POST", "PATCH"],
+        allow_methods=["GET", "POST", "PATCH", "DELETE"],
         allow_headers=["Content-Type", "X-Demo-User"],
     )
     app.include_router(router)

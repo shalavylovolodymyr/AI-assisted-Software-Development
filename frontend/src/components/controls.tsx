@@ -261,7 +261,7 @@ export function DatePicker({
           className="calendar-popover"
           sideOffset={7}
           align="start"
-          collisionPadding={12}
+          collisionPadding={8}
           aria-label={`Choose ${label.toLowerCase()}`}
           onOpenAutoFocus={(event) => {
             event.preventDefault();

@@ -1,0 +1,47 @@
+
+> signal-frontend@1.0.0 test:e2e
+> npm run build && playwright test --grep Shared action controls|Year charts, sidebar
+
+
+> signal-frontend@1.0.0 build
+> tsc -b && vite build
+
+vite v6.4.4 building for production...
+(node:3388) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+transforming...
+✓ 2354 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                      0.99 kB │ gzip:   0.54 kB
+dist/assets/inter-latin-400-normal-BOOGhInR.woff2   23.69 kB
+dist/assets/inter-latin-600-normal-D273HNI0.woff2   24.30 kB
+dist/assets/inter-latin-700-normal-Sckx8rpT.woff2   24.35 kB
+dist/assets/inter-latin-500-normal-D2bGa7uu.woff2   24.37 kB
+dist/assets/inter-latin-400-normal-gitzw0hO.woff    31.20 kB
+dist/assets/inter-latin-500-normal-deR1Tlfd.woff    31.77 kB
+dist/assets/inter-latin-600-normal-B5cFAncS.woff    31.78 kB
+dist/assets/inter-latin-700-normal-B8MtJ_2k.woff    31.83 kB
+dist/assets/index-DZNIeRfQ.css                      90.28 kB │ gzip:  17.28 kB
+dist/assets/vendor-Czx7o814.js                      91.05 kB │ gzip:  29.77 kB
+dist/assets/charts-ouXgDrJN.js                     433.17 kB │ gzip: 115.31 kB
+dist/assets/index-DViVQd3_.js                      486.80 kB │ gzip: 145.09 kB
+dist/assets/exceljs.min-CsiCGYez.js                940.20 kB │ gzip: 269.87 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 4.97s
+[WebServer] (node:3496) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3496) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+
+Running 2 tests using 1 worker
+
+(node:3498) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 e2e/workflow.spec.ts:702:1 › Year charts, sidebar visibility and hover contrast stay consistent (18.6s)
+  ✓  2 e2e/workflow.spec.ts:1894:1 › Shared action controls and search stay filled and softly rounded on desktop and mobile (10.8s)
+
+  2 passed (39.6s)

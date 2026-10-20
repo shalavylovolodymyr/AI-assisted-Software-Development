@@ -1,4 +1,6 @@
-from datetime import UTC, datetime, timedelta
+from copy import deepcopy
+from datetime import UTC, datetime, timedelta, timezone
+from unittest.mock import patch
 from uuid import uuid4
 
 from test_services import MemoryUow
@@ -19,22 +21,46 @@ def portfolio():
 
 def issue(records, user, project, age=10, status=IssueStatus.IN_PROGRESS):
     created = NOW - timedelta(days=age)
-    item = Issue(uuid4(), f"SIG-{len(records)}", project.id, "Review access", "Context",
-                 Category.SECURITY, Priority.HIGH, status, user.id, user.id, None, created, created)
+    item = Issue(
+        uuid4(),
+        f"SIG-{len(records)}",
+        project.id,
+        "Review access",
+        "Context",
+        Category.SECURITY,
+        Priority.HIGH,
+        status,
+        user.id,
+        user.id,
+        None,
+        created,
+        created,
+    )
     records.append(item)
     return item
 
 
 def assess(records, item, user, pair, age=1):
     score, severity = risk_score(*pair)
-    records.append(RiskAssessment(uuid4(), item.id, *pair, score, severity, "Review", user.id,
-                                  NOW - timedelta(days=age)))
+    records.append(
+        RiskAssessment(uuid4(), item.id, *pair, score, severity, "Review", user.id, NOW - timedelta(days=age))
+    )
 
 
 def action(records, item, user, due_offset=0, status=ActionStatus.TODO, completed=None):
-    records.append(MitigationAction(uuid4(), item.id, "Review", "Context", user.id, status,
-                                    NOW.date() + timedelta(days=due_offset), completed,
-                                    item.created_at))
+    records.append(
+        MitigationAction(
+            uuid4(),
+            item.id,
+            "Review",
+            "Context",
+            user.id,
+            status,
+            NOW.date() + timedelta(days=due_offset),
+            completed,
+            item.created_at,
+        )
+    )
 
 
 def run(records):
@@ -65,6 +91,7 @@ def test_aging_review_and_project_owner_totals_exclude_resolved_and_future_recor
     issue(records, user, project, -1)
     data = run(records)
     assert counts(data["aging"]) == [1, 2, 2, 1]
+    assert data["aging"][-1]["label"] == "91+ days"
     assert counts(data["review_freshness"]) == [3, 3, 0]
     assert data["metrics"]["unplanned_issues"] == 6
     assert data["metrics"]["stale_reviews"] == 3
@@ -73,7 +100,7 @@ def test_aging_review_and_project_owner_totals_exclude_resolved_and_future_recor
     assert data["owners"][0]["critical"] == 6
 
 
-def test_action_outlook_uses_today_and_seven_day_boundaries_and_ignores_terminal_actions():
+def test_action_outlook_and_overdue_work_only_include_active_issues_and_pending_actions():
     user, project, records = portfolio()
     item = issue(records, user, project)
     for offset in [-1, 0, 1, 7, 8]:
@@ -101,7 +128,8 @@ def test_risk_movement_uses_first_and_latest_valid_assessments_without_future_va
     assess(records, baseline, user, (3, 3))
     issue(records, user, project)
     data = run(records)
-    assert counts(data["risk_movement"]) == [1, 1, 1, 2]
+    assert counts(data["risk_movement"]) == [1, 1, 1, 1, 1]
+    assert [row["label"] for row in data["risk_movement"]][-2:] == ["Baseline only", "Not assessed"]
     assert counts(data["review_freshness"]) == [4, 0, 1]
 
 
@@ -119,3 +147,76 @@ def test_risk_reviews_after_completion_and_on_time_rate_have_real_denominators()
     assert data["metrics"]["awaiting_review"] == 1
     assert data["metrics"]["on_time_completion"] == 50
     assert data["metrics"]["unplanned_issues"] == 1
+
+
+def test_reviews_use_exact_thirty_day_cutoff_and_completion_requires_a_later_assessment():
+    user, project, records = portfolio()
+    fresh = issue(records, user, project, age=40)
+    assess(records, fresh, user, (2, 2), age=30)
+    stale = issue(records, user, project, age=40)
+    assess(records, stale, user, (2, 2), age=30 + 1 / 86400)
+    same_instant = issue(records, user, project)
+    assess(records, same_instant, user, (2, 2), age=1)
+    action(records, same_instant, user, status=ActionStatus.DONE, completed=NOW - timedelta(days=1))
+    data = run(records)
+    assert counts(data["review_freshness"]) == [2, 1, 0]
+    assert data["metrics"]["awaiting_review"] == 1
+
+
+def test_completion_rate_includes_resolved_work_but_excludes_future_records():
+    user, project, records = portfolio()
+    active = issue(records, user, project)
+    action(records, active, user, status=ActionStatus.DONE, completed=NOW)
+    action(records, active, user, -1, ActionStatus.DONE, completed=NOW + timedelta(days=1))
+    action(records, active, user, status=ActionStatus.TODO)
+    records[-1].created_at = NOW + timedelta(seconds=1)
+    resolved = issue(records, user, project, status=IssueStatus.RESOLVED)
+    action(records, resolved, user, -2, ActionStatus.DONE, completed=NOW - timedelta(days=1))
+    future_issue = issue(records, user, project, age=-1)
+    action(records, future_issue, user, -1, ActionStatus.DONE, completed=NOW)
+    records[-1].created_at = NOW - timedelta(days=1)
+    data = run(records)
+    assert data["metrics"]["on_time_completion"] == 50
+    assert counts(data["action_outlook"]) == [0, 0, 0, 0]
+    assert data["overdue_actions"] == []
+
+
+def test_operations_use_utc_calendar_dates_and_preserve_persisted_records():
+    user, project, records = portfolio()
+    item = issue(records, user, project, age=7)
+    item.created_at = datetime(2026, 10, 13, 0, 30, tzinfo=timezone(timedelta(hours=2)))
+    action(
+        records,
+        item,
+        user,
+        -1,
+        ActionStatus.DONE,
+        completed=datetime(2026, 10, 20, 0, 30, tzinfo=timezone(timedelta(hours=2))),
+    )
+    factory = MemoryUow()
+    factory.records = {(type(record), record.id): record for record in records}
+    original = deepcopy(factory.records)
+    data = Queries(factory).operations(now=NOW.astimezone(timezone(timedelta(hours=-7))))
+    assert counts(data["aging"]) == [0, 1, 0, 0]
+    assert data["metrics"]["on_time_completion"] == 100
+    assert data["generated_at"].tzinfo is UTC
+    assert factory.records == original
+
+
+@patch("signal_app.application.queries.datetime")
+def test_overdue_flags_summary_and_operations_share_active_only_semantics(clock):
+    clock.now.return_value = NOW
+    user, project, records = portfolio()
+    active = issue(records, user, project)
+    resolved = issue(records, user, project, status=IssueStatus.RESOLVED)
+    for item in [active, resolved]:
+        assess(records, item, user, (2, 2))
+        action(records, item, user, due_offset=-1)
+    factory = MemoryUow()
+    factory.records = {(type(record), record.id): record for record in records}
+    queries = Queries(factory)
+    flags = {a["issue_id"]: a["overdue"] for a in queries.actions()}
+    assert flags == {active.id: True, resolved.id: False}
+    summary = queries.summary()
+    operations = queries.operations(now=NOW)
+    assert summary["overdue_actions"] == operations["action_outlook"][0]["count"] == 1

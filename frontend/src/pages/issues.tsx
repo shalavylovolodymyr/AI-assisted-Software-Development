@@ -47,6 +47,14 @@ import { ActionForm, EditForm, RiskForm } from "../components/forms";
 import { Checkbox, Hint, Select } from "../components/controls";
 import { ActivityFeed, PageHeader } from "./portfolio";
 import { IssueRiskChart } from "../components/issue-risk-chart";
+import {
+  ExcelExport,
+  actionSheets,
+  activitySheets,
+  issueSheets,
+} from "../components/excel-export";
+import { allPages } from "../components/export-fetch";
+import { DeletedView, Removal } from "../components/removal";
 
 export function IssueTable({
   issues,
@@ -139,13 +147,14 @@ export function IssueTable({
 }
 
 export function Issues({ onCreate }: { onCreate: () => void }) {
-  const { projects, users, demo } = useWorkspace();
+  const { projects, users, demo, deletion } = useWorkspace();
   const [params, setParams] = useSearchParams();
   const search = params.get("search") || "",
     status = params.get("status") || "",
     severity = params.get("severity") || "",
     project = params.get("project_id") || "";
   const page = Number(params.get("page") || 1);
+  const deleted = params.get("deleted") === "true";
   const query = useData<Page<Issue>>(`/issues?${params.toString()}`, 30000);
   function update(key: string, value: string) {
     const next = new URLSearchParams(params);
@@ -156,8 +165,29 @@ export function Issues({ onCreate }: { onCreate: () => void }) {
   }
   return (
     <>
-      <PageHeader title="Issues">
-        {demo && (
+      <PageHeader title={deleted ? "Deleted issues" : "Issues"}>
+        {demo && deletion && (
+          <DeletedView
+            kind="issues"
+            deleted={deleted}
+            onClick={() => update("deleted", deleted ? "" : "true")}
+          />
+        )}
+        <ExcelExport
+          title="Signal issues"
+          disabled={query.isPending}
+          getSheets={async () => [
+            ...issueSheets(await allPages<Issue>("/issues", params)),
+            {
+              name: "Filters",
+              columns: ["Filter", "Value"],
+              rows: Array.from(params.entries()).filter(
+                ([key]) => !["page", "page_size"].includes(key),
+              ),
+            },
+          ]}
+        />
+        {demo && !deleted && (
           <button className="button primary" onClick={onCreate}>
             <Plus size={16} />
             Create issue
@@ -367,8 +397,14 @@ function ActionChange({
     </Modal>
   );
 }
-export function ActionList({ actions }: { actions: Action[] }) {
-  const { user, demo } = useWorkspace();
+export function ActionList({
+  actions,
+  deleted = false,
+}: {
+  actions: Action[];
+  deleted?: boolean;
+}) {
+  const { user, demo, deletion } = useWorkspace();
   const [changing, setChanging] = useState<{
     action: Action;
     target: ActionStatus;
@@ -390,6 +426,8 @@ export function ActionList({ actions }: { actions: Action[] }) {
               {actions.map((a) => {
                 const editable =
                   demo &&
+                  !a.issue_deleted &&
+                  !deleted &&
                   (a.owner_id === user?.id || user?.role !== "MEMBER") &&
                   !["DONE", "CANCELLED"].includes(a.status) &&
                   ["OPEN", "IN_PROGRESS"].includes(a.issue_status);
@@ -422,27 +460,54 @@ export function ActionList({ actions }: { actions: Action[] }) {
                       </span>
                     </td>
                     <td>
-                      {editable ? (
-                        <Select
-                          className="action-status"
-                          label={`Update ${a.title}`}
-                          value={a.status}
-                          onValueChange={(value) =>
-                            setChanging({
-                              action: a,
-                              target: value as ActionStatus,
-                            })
-                          }
-                          options={[
-                            "TODO",
-                            "IN_PROGRESS",
-                            "DONE",
-                            "CANCELLED",
-                          ].map((value) => ({ value, label: label(value) }))}
-                        />
-                      ) : (
-                        <Badge value={a.status} />
-                      )}
+                      <div className="action-row-controls">
+                        {deleted ? (
+                          demo &&
+                          deletion &&
+                          !a.issue_deleted &&
+                          ["OPEN", "IN_PROGRESS"].includes(a.issue_status) &&
+                          (a.owner_id === user?.id ||
+                            user?.role !== "MEMBER") ? (
+                            <Removal
+                              kind="action"
+                              id={a.id}
+                              version={a.issue_version}
+                              title={a.title}
+                              restore
+                            />
+                          ) : (
+                            <Badge value={a.status} />
+                          )
+                        ) : editable ? (
+                          <Select
+                            className="action-status"
+                            label={`Update ${a.title}`}
+                            value={a.status}
+                            onValueChange={(value) =>
+                              setChanging({
+                                action: a,
+                                target: value as ActionStatus,
+                              })
+                            }
+                            options={[
+                              "TODO",
+                              "IN_PROGRESS",
+                              "DONE",
+                              "CANCELLED",
+                            ].map((value) => ({ value, label: label(value) }))}
+                          />
+                        ) : (
+                          <Badge value={a.status} />
+                        )}
+                        {editable && deletion && (
+                          <Removal
+                            kind="action"
+                            id={a.id}
+                            version={a.issue_version}
+                            title={a.title}
+                          />
+                        )}
+                      </div>
                     </td>
                   </tr>
                 );
@@ -462,16 +527,35 @@ export function ActionList({ actions }: { actions: Action[] }) {
   );
 }
 export function Actions() {
-  const { users } = useWorkspace();
+  const { users, demo, deletion } = useWorkspace();
   const [params, setParams] = useSearchParams();
   const status = params.get("status") || "",
     owner = params.get("owner_id") || "",
     overdue = params.get("overdue") === "true";
+  const due = params.get("due") || "";
+  const deleted = params.get("deleted") === "true";
   const query = useData<Action[]>(
-    `/actions?${new URLSearchParams({ ...(status ? { status } : {}), ...(owner ? { owner_id: owner } : {}) })}`,
+    `/actions?${new URLSearchParams({ ...(status ? { status } : {}), ...(owner ? { owner_id: owner } : {}), ...(deleted ? { deleted: "true" } : {}) })}`,
     30000,
   );
-  const items = query.data?.filter((a) => !overdue || a.overdue);
+  const today = new Date().toISOString().slice(0, 10);
+  const nextWeek = new Date(Date.parse(`${today}T00:00:00Z`) + 7 * 86400000)
+    .toISOString()
+    .slice(0, 10);
+  const items = query.data?.filter((action) => {
+    if (overdue && !action.overdue) return false;
+    if (!due) return true;
+    if (
+      ["DONE", "CANCELLED"].includes(action.status) ||
+      action.issue_status === "RESOLVED"
+    )
+      return false;
+    return due === "today"
+      ? action.due_date === today
+      : due === "week"
+        ? action.due_date > today && action.due_date <= nextWeek
+        : action.due_date > nextWeek;
+  });
   const page = Number(params.get("page") || 1);
   const pageSize = 20;
   function update(name: string, value: string) {
@@ -483,7 +567,36 @@ export function Actions() {
   }
   return (
     <>
-      <PageHeader title="Actions" />
+      <PageHeader title={deleted ? "Deleted actions" : "Actions"}>
+        {demo && deletion && (
+          <DeletedView
+            kind="actions"
+            deleted={deleted}
+            onClick={() => {
+              const next = new URLSearchParams(params);
+              if (deleted) next.delete("deleted");
+              else next.set("deleted", "true");
+              for (const key of ["page", "due", "overdue", "status"])
+                next.delete(key);
+              setParams(next);
+            }}
+          />
+        )}
+        <ExcelExport
+          title="Signal actions"
+          disabled={!items}
+          getSheets={() => [
+            ...actionSheets(items!),
+            {
+              name: "Filters",
+              columns: ["Filter", "Value"],
+              rows: Array.from(params.entries()).filter(
+                ([key]) => key !== "page",
+              ),
+            },
+          ]}
+        />
+      </PageHeader>
       <section className="panel">
         <div className="issues-toolbar">
           <div>
@@ -494,9 +607,34 @@ export function Actions() {
             <Checkbox
               label="Overdue only"
               checked={overdue}
-              onCheckedChange={(checked) =>
-                update("overdue", checked ? "true" : "")
-              }
+              onCheckedChange={(checked) => {
+                const next = new URLSearchParams(params);
+                next.delete("page");
+                if (checked) {
+                  next.set("overdue", "true");
+                  next.delete("due");
+                } else next.delete("overdue");
+                setParams(next);
+              }}
+            />
+            <Select
+              label="Action due date"
+              value={due}
+              onValueChange={(value) => {
+                const next = new URLSearchParams(params);
+                next.delete("page");
+                if (value) {
+                  next.set("due", value);
+                  next.delete("overdue");
+                } else next.delete("due");
+                setParams(next);
+              }}
+              options={[
+                { value: "", label: "Any due date" },
+                { value: "today", label: "Due today" },
+                { value: "week", label: "Next 7 days" },
+                { value: "later", label: "Later" },
+              ]}
             />
             <Select
               label="Filter action status"
@@ -525,6 +663,7 @@ export function Actions() {
             <>
               <ActionList
                 actions={items.slice((page - 1) * pageSize, page * pageSize)}
+                deleted={deleted}
               />
               <div className="pagination">
                 <span>
@@ -580,7 +719,15 @@ export function IssueDetailPage() {
   );
 }
 function IssueWorkspace({ issue }: { issue: Detail }) {
-  const { demo } = useWorkspace();
+  const { demo, user, deletion } = useWorkspace();
+  const navigate = useNavigate();
+  const canEdit = demo && !issue.deleted_at;
+  const canRemove =
+    demo &&
+    deletion &&
+    !!user &&
+    (user.role !== "MEMBER" ||
+      [issue.reporter_id, issue.assignee_id].includes(user.id));
   const [modal, setModal] = useState<"edit" | "risk" | "action" | null>(null);
   const [target, setTarget] = useState<IssueStatus | null>(null);
   const [comment, setComment] = useState("");
@@ -615,18 +762,72 @@ function IssueWorkspace({ issue }: { issue: Detail }) {
             <span>{date(issue.created_at)}</span>
           </div>
         </div>
-        {demo && (
-          <Hint label="Edit issue">
-            <button
-              className="icon-button outlined"
-              aria-label="Edit issue"
-              onClick={() => setModal("edit")}
-            >
-              <Pencil size={17} />
-            </button>
-          </Hint>
-        )}
+        <div className="detail-actions">
+          <ExcelExport
+            title={`Signal ${issue.reference_code}`}
+            getSheets={() => [
+              ...issueSheets([issue]),
+              ...actionSheets(issue.actions),
+              ...activitySheets(issue.activity),
+              {
+                name: "Risk history",
+                columns: [
+                  "Assessed at",
+                  "Likelihood",
+                  "Impact",
+                  "Score",
+                  "Risk level",
+                  "Rationale",
+                  "Assessor",
+                ],
+                rows: issue.assessments.map((risk) => [
+                  new Date(risk.assessed_at),
+                  risk.likelihood,
+                  risk.impact,
+                  risk.score,
+                  label(risk.severity),
+                  risk.rationale,
+                  risk.assessor?.full_name || risk.assessed_by,
+                ]),
+              },
+            ]}
+          />
+          {canEdit && (
+            <Hint label="Edit issue">
+              <button
+                className="icon-button outlined"
+                aria-label="Edit issue"
+                onClick={() => setModal("edit")}
+              >
+                <Pencil size={17} />
+              </button>
+            </Hint>
+          )}
+          {canRemove && !issue.deleted_at && (
+            <Removal
+              kind="issue"
+              id={issue.id}
+              version={issue.version}
+              title={issue.title}
+              onDone={() => navigate("/issues")}
+            />
+          )}
+        </div>
       </div>
+      {issue.deleted_at && (
+        <div className="deleted-notice">
+          <span>Deleted issue · {date(issue.deleted_at)}</span>
+          {canRemove && (
+            <Removal
+              kind="issue"
+              id={issue.id}
+              version={issue.version}
+              title={issue.title}
+              restore
+            />
+          )}
+        </div>
+      )}
       <div className="detail-layout">
         <div className="detail-main">
           <section className="panel risk-detail">
@@ -634,7 +835,7 @@ function IssueWorkspace({ issue }: { issue: Detail }) {
               <div>
                 <h2>Risk</h2>
               </div>
-              {demo && issue.status !== "RESOLVED" && (
+              {canEdit && issue.status !== "RESOLVED" && (
                 <Hint label="Assess risk">
                   <button
                     className="icon-button outlined"
@@ -703,7 +904,7 @@ function IssueWorkspace({ issue }: { issue: Detail }) {
                   {done} of {required} required actions complete
                 </p>
               </div>
-              {demo && ["OPEN", "IN_PROGRESS"].includes(issue.status) && (
+              {canEdit && ["OPEN", "IN_PROGRESS"].includes(issue.status) && (
                 <Hint label="Add action">
                   <button
                     className="icon-button outlined"
@@ -794,7 +995,7 @@ function IssueWorkspace({ issue }: { issue: Detail }) {
                   </div>
                 </article>
               ))}
-              {demo && (
+              {canEdit && (
                 <form
                   className="comment-form"
                   onSubmit={(e) => {
@@ -843,7 +1044,7 @@ function IssueWorkspace({ issue }: { issue: Detail }) {
                     ? "Ready to start"
                     : "Work in progress"}
             </h2>
-            {demo &&
+            {canEdit &&
               targets[issue.status].map((t) => (
                 <button
                   key={t.status}
@@ -882,7 +1083,7 @@ function IssueWorkspace({ issue }: { issue: Detail }) {
                 <dt>Owner</dt>
                 <dd>
                   <Person user={issue.assignee} />
-                  {demo && (
+                  {canEdit && (
                     <Hint label="Change owner">
                       <button
                         className="icon-button"
@@ -927,7 +1128,7 @@ function IssueWorkspace({ issue }: { issue: Detail }) {
         </aside>
       </div>
       <Modal
-        open={modal === "edit"}
+        open={canEdit && modal === "edit"}
         onClose={() => setModal(null)}
         title="Edit issue"
         description=""
@@ -936,7 +1137,7 @@ function IssueWorkspace({ issue }: { issue: Detail }) {
         <EditForm issue={issue} onClose={() => setModal(null)} />
       </Modal>
       <Modal
-        open={modal === "risk"}
+        open={canEdit && modal === "risk"}
         onClose={() => setModal(null)}
         title="Reassess risk"
         description=""
@@ -944,7 +1145,7 @@ function IssueWorkspace({ issue }: { issue: Detail }) {
         <RiskForm issue={issue} onClose={() => setModal(null)} />
       </Modal>
       <Modal
-        open={modal === "action"}
+        open={canEdit && modal === "action"}
         onClose={() => setModal(null)}
         title="Plan a mitigation action"
         description=""

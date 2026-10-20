@@ -27,7 +27,7 @@ class Queries(Service):
                 "projects": [asdict(p) for p in sorted(uow.repo.list(Project), key=lambda p: p.name)],
             }
 
-    def _portfolio(self, repo):
+    def _portfolio(self, repo, *, deleted=False):
         users = {u.id: asdict(u) for u in repo.list(User)}
         projects = {p.id: asdict(p) for p in repo.list(Project)}
         risks = {}
@@ -42,6 +42,7 @@ class Queries(Service):
                 reporter=users[i.reporter_id],
             )
             for i in repo.list(Issue)
+            if deleted is None or bool(i.deleted_at) == deleted
         ]
 
     def issues(
@@ -53,13 +54,14 @@ class Queries(Service):
         project_id=None,
         assignee_id=None,
         active_only=False,
+        deleted=False,
         sort="updated_at",
         direction="desc",
         page=1,
         page_size=10,
     ):
         with self.uow() as uow:
-            items = self._portfolio(uow.repo)
+            items = self._portfolio(uow.repo, deleted=deleted)
         items = [
             i
             for i in items
@@ -90,7 +92,7 @@ class Queries(Service):
         with self.uow() as uow:
             repo = uow.repo
             required(repo, Issue, identifier)
-            item = next(i for i in self._portfolio(repo) if i["id"] == identifier)
+            item = next(i for i in self._portfolio(repo, deleted=None) if i["id"] == identifier)
             users = {u.id: asdict(u) for u in repo.list(User)}
             item["assessments"] = [
                 dict(asdict(r), assessor=users[r.assessed_by])
@@ -106,7 +108,7 @@ class Queries(Service):
             item["activity"] = self._activity(repo, identifier)
             return item
 
-    def _actions(self, repo, issue_id=None):
+    def _actions(self, repo, issue_id=None, *, deleted=False):
         users = {u.id: asdict(u) for u in repo.list(User)}
         issues = {i.id: i for i in repo.list(Issue)}
         actions = repo.list(MitigationAction, **({"issue_id": issue_id} if issue_id else {}))
@@ -119,14 +121,17 @@ class Queries(Service):
                 issue_title=issues[a.issue_id].title,
                 issue_status=issues[a.issue_id].status,
                 issue_version=issues[a.issue_id].version,
-                overdue=is_overdue(a.due_date, a.status, today),
+                issue_deleted=bool(issues[a.issue_id].deleted_at),
+                overdue=issues[a.issue_id].status != IssueStatus.RESOLVED
+                and is_overdue(a.due_date, a.status, today),
             )
             for a in sorted(actions, key=lambda a: (a.due_date, a.created_at))
+            if bool(a.deleted_at) == deleted and (issue_id or not issues[a.issue_id].deleted_at)
         ]
 
-    def actions(self, status=None, owner_id=None):
+    def actions(self, status=None, owner_id=None, *, deleted=False):
         with self.uow() as uow:
-            items = self._actions(uow.repo)
+            items = self._actions(uow.repo, deleted=deleted)
         return [
             a
             for a in items
@@ -259,6 +264,11 @@ class Queries(Service):
     def operations(self, now=None):
         with self.uow() as uow:
             repo = uow.repo
-            return build_operations(repo.list(Issue), repo.list(RiskAssessment),
-                                    repo.list(MitigationAction), repo.list(User), repo.list(Project),
-                                    now or datetime.now(UTC))
+            return build_operations(
+                repo.list(Issue),
+                repo.list(RiskAssessment),
+                repo.list(MitigationAction),
+                repo.list(User),
+                repo.list(Project),
+                now or datetime.now(UTC),
+            )

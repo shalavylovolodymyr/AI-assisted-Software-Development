@@ -1,0 +1,48 @@
+.F......F                                                                [100%]
+=================================== FAILURES ===================================
+_ test_aging_review_and_project_owner_totals_exclude_resolved_and_future_records _
+
+    def test_aging_review_and_project_owner_totals_exclude_resolved_and_future_records():
+        user, project, records = portfolio()
+        for age in [7, 8, 30, 31, 90, 91]:
+            item = issue(records, user, project, age)
+            assess(records, item, user, (5, 4), age=30 if age <= 30 else 31)
+        issue(records, user, project, 100, IssueStatus.RESOLVED)
+        issue(records, user, project, -1)
+        data = run(records)
+        assert counts(data["aging"]) == [1, 2, 2, 1]
+>       assert data["aging"][-1]["label"] == "91+ days"
+E       AssertionError: assert '90+ days' == '91+ days'
+E         
+E         - 91+ days
+E         ?  ^
+E         + 90+ days
+E         ?  ^
+
+backend/tests/unit/test_operations.py:93: AssertionError
+____ test_overdue_flags_summary_and_operations_share_active_only_semantics _____
+
+    def test_overdue_flags_summary_and_operations_share_active_only_semantics():
+        user, project, records = portfolio()
+        active = issue(records, user, project)
+        resolved = issue(records, user, project, status=IssueStatus.RESOLVED)
+        for item in [active, resolved]:
+            assess(records, item, user, (2, 2))
+            action(records, item, user, due_offset=-1)
+        factory = MemoryUow()
+        factory.records = {(type(record), record.id): record for record in records}
+        queries = Queries(factory)
+        flags = {a["issue_id"]: a["overdue"] for a in queries.actions()}
+>       assert flags == {active.id: True, resolved.id: False}
+E       AssertionError: assert {UUID('9e0cf3...492c2'): True} == {UUID('9e0cf3...492c2'): True}
+E         
+E         Omitting 1 identical items, use -vv to show
+E         Differing items:
+E         {UUID('9e0cf31d-3390-45da-ab05-f4d938145ef7'): True} != {UUID('9e0cf31d-3390-45da-ab05-f4d938145ef7'): False}
+E         Use -v to get more diff
+
+backend/tests/unit/test_operations.py:216: AssertionError
+=========================== short test summary info ============================
+FAILED backend/tests/unit/test_operations.py::test_aging_review_and_project_owner_totals_exclude_resolved_and_future_records
+FAILED backend/tests/unit/test_operations.py::test_overdue_flags_summary_and_operations_share_active_only_semantics
+2 failed, 7 passed in 0.05s

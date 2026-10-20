@@ -1,0 +1,19 @@
+
+> signal-workspace@1.0.0 test:frontend
+> npm run test --workspace frontend
+
+
+> signal-frontend@1.0.0 test
+> vitest run
+
+(node:96624) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+ RUN  v4.1.11 /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend
+
+
+ Test Files  8 passed (8)
+      Tests  19 passed (19)
+   Start at  09:53:39
+   Duration  1.86s (transform 947ms, setup 1.89s, import 3.66s, tests 1.03s, environment 4.20s)
+

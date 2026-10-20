@@ -1,0 +1,37 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.3, pytest-8.3.5, pluggy-1.7.0
+rootdir: /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/backend
+configfile: pyproject.toml
+plugins: cov-6.1.1, anyio-4.15.1
+collected 3 items / 2 deselected / 1 selected
+
+backend/tests/api/test_recycle_contract.py F                             [100%]
+
+=================================== FAILURES ===================================
+___________ test_delete_preflight_is_allowed_for_the_local_frontend ____________
+
+client = <starlette.testclient.TestClient object at 0x109fee5d0>
+
+    def test_delete_preflight_is_allowed_for_the_local_frontend(client):
+        response = client.options(
+            "/api/v1/issues/00000000-0000-0000-0000-000000000001",
+            headers={
+                "Origin": "http://127.0.0.1:5178",
+                "Access-Control-Request-Method": "DELETE",
+                "Access-Control-Request-Headers": "content-type,x-demo-user",
+            },
+        )
+>       assert response.status_code == 200
+E       assert 400 == 200
+E        +  where 400 = <Response [400 Bad Request]>.status_code
+
+backend/tests/api/test_recycle_contract.py:19: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/starlette/testclient.py:37
+  /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/.venv/lib/python3.12/site-packages/starlette/testclient.py:37: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = typing.Callable[[], typing.ContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED backend/tests/api/test_recycle_contract.py::test_delete_preflight_is_allowed_for_the_local_frontend
+================== 1 failed, 2 deselected, 1 warning in 0.16s ==================

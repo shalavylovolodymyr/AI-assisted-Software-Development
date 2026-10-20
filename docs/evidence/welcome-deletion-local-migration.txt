@@ -1,0 +1,4 @@
+Before: {'users': 6, 'projects': 4, 'issues': 531, 'mitigation_actions': 1542, 'risk_assessments': 2848, 'comments': 1307, 'audit_events': 8804}
+After: {'users': 6, 'projects': 4, 'issues': 531, 'mitigation_actions': 1542, 'risk_assessments': 2848, 'comments': 1307, 'audit_events': 8804}
+Migration: 9b6e81f0d523
+Record counts unchanged. All existing records remain current; no deletion performed.

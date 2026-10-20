@@ -55,6 +55,7 @@ class IssueModel(Base):
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     resolved_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     version: Mapped[int]
+    deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
 
 class RiskModel(Base):
@@ -95,6 +96,7 @@ class ActionModel(Base):
     due_date: Mapped[date] = mapped_column(Date, index=True)
     completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
 
 class CommentModel(Base):

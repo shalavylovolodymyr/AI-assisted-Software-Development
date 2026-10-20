@@ -1,0 +1,83 @@
+FFFFFF                                                                   [100%]
+=================================== FAILURES ===================================
+_______________ test_issue_removal_restore_and_immutable_history _______________
+
+context = (<test_services.MemoryUow object at 0x10551b170>, User(id=UUID('2123caf0-7856-4eae-bf0e-cebcfd0e7d72'), full_name='Emm...-4eae-bf0e-cebcfd0e7d72'), created_at=datetime.datetime(2026, 10, 20, 9, 19, 0, 394560, tzinfo=datetime.timezone.utc)))
+
+    def test_issue_removal_restore_and_immutable_history(context):
+        uow, user, _ = context
+        issue, action = plan(context)
+        before = deepcopy(uow.records)
+>       removed = services.Deletion(uow).issue(issue.id, user.id, 2)
+E       AttributeError: module 'signal_app.application.services' has no attribute 'Deletion'
+
+backend/tests/unit/test_deletion.py:30: AttributeError
+________________ test_action_removal_restore_and_current_queues ________________
+
+context = (<test_services.MemoryUow object at 0x1055b47d0>, User(id=UUID('68372d35-e15f-4acb-92ac-893ea0590483'), full_name='Emm...-4acb-92ac-893ea0590483'), created_at=datetime.datetime(2026, 10, 20, 9, 19, 0, 413122, tzinfo=datetime.timezone.utc)))
+
+    def test_action_removal_restore_and_current_queues(context):
+        uow, user, _ = context
+        issue, action = plan(context)
+>       removed = services.Deletion(uow).action(action.id, user.id, 2)
+E       AttributeError: module 'signal_app.application.services' has no attribute 'Deletion'
+
+backend/tests/unit/test_deletion.py:50: AttributeError
+_____ test_deleted_issue_blocks_mutations_and_stale_or_duplicate_deletion ______
+
+context = (<test_services.MemoryUow object at 0x1055b5cd0>, User(id=UUID('be983657-1705-4bd9-bfa4-655581918e79'), full_name='Emm...-4bd9-bfa4-655581918e79'), created_at=datetime.datetime(2026, 10, 20, 9, 19, 0, 416800, tzinfo=datetime.timezone.utc)))
+
+    def test_deleted_issue_blocks_mutations_and_stale_or_duplicate_deletion(context):
+        uow, user, _ = context
+        issue, _ = plan(context)
+>       services.Deletion(uow).issue(issue.id, user.id, 2)
+E       AttributeError: module 'signal_app.application.services' has no attribute 'Deletion'
+
+backend/tests/unit/test_deletion.py:66: AttributeError
+____________ test_deletion_permission_terminal_actions_and_rollback ____________
+
+context = (<test_services.MemoryUow object at 0x1055b7980>, User(id=UUID('0df4f9ff-f37a-4d82-ac14-6151288ad51e'), full_name='Emm...-4d82-ac14-6151288ad51e'), created_at=datetime.datetime(2026, 10, 20, 9, 19, 0, 420456, tzinfo=datetime.timezone.utc)))
+
+    def test_deletion_permission_terminal_actions_and_rollback(context):
+        uow, user, _ = context
+        issue, action = plan(context)
+        other = User(uuid4(), "Other member", "other@example.test", Role.MEMBER, "#888888", datetime.now(UTC))
+        uow.records[(User, other.id)] = other
+        before = deepcopy(uow.records)
+        with pytest.raises(Forbidden):
+>           services.Deletion(uow).issue(issue.id, other.id, 2)
+E           AttributeError: module 'signal_app.application.services' has no attribute 'Deletion'
+
+backend/tests/unit/test_deletion.py:86: AttributeError
+___ test_deleted_actions_do_not_block_mitigation_or_return_to_closed_issues ____
+
+context = (<test_services.MemoryUow object at 0x105591e80>, User(id=UUID('f13e9c10-738c-45b7-8000-d88656d14752'), full_name='Emm...-45b7-8000-d88656d14752'), created_at=datetime.datetime(2026, 10, 20, 9, 19, 0, 423830, tzinfo=datetime.timezone.utc)))
+
+    def test_deleted_actions_do_not_block_mitigation_or_return_to_closed_issues(context):
+        uow, user, _ = context
+        issue, action = plan(context)
+>       services.Deletion(uow).action(action.id, user.id, 2)
+E       AttributeError: module 'signal_app.application.services' has no attribute 'Deletion'
+
+backend/tests/unit/test_deletion.py:103: AttributeError
+_____________ test_trend_deletion_is_effective_from_recorded_event _____________
+
+context = (<test_services.MemoryUow object at 0x1055b79b0>, User(id=UUID('03535098-53f4-4ab4-a87a-58324c540e87'), full_name='Emm...-4ab4-a87a-58324c540e87'), created_at=datetime.datetime(2026, 10, 20, 9, 19, 0, 427830, tzinfo=datetime.timezone.utc)))
+
+    def test_trend_deletion_is_effective_from_recorded_event(context):
+        uow, user, _ = context
+        issue = create(context)
+        now = datetime.now(UTC)
+        uow.records[(Issue, issue.id)].created_at = now - timedelta(days=2)
+>       services.Deletion(uow).issue(issue.id, user.id, 1)
+E       AttributeError: module 'signal_app.application.services' has no attribute 'Deletion'
+
+backend/tests/unit/test_deletion.py:117: AttributeError
+=========================== short test summary info ============================
+FAILED backend/tests/unit/test_deletion.py::test_issue_removal_restore_and_immutable_history
+FAILED backend/tests/unit/test_deletion.py::test_action_removal_restore_and_current_queues
+FAILED backend/tests/unit/test_deletion.py::test_deleted_issue_blocks_mutations_and_stale_or_duplicate_deletion
+FAILED backend/tests/unit/test_deletion.py::test_deletion_permission_terminal_actions_and_rollback
+FAILED backend/tests/unit/test_deletion.py::test_deleted_actions_do_not_block_mitigation_or_return_to_closed_issues
+FAILED backend/tests/unit/test_deletion.py::test_trend_deletion_is_effective_from_recorded_event
+6 failed in 0.06s

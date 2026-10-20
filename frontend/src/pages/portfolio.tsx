@@ -20,9 +20,27 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
-import { useData } from "../api";
+import { api, useData } from "../api";
 import { useWorkspace } from "../Workspace";
-import type { Audit, Cell, Page, ProjectStats, Summary } from "../types";
+import type {
+  Analytics,
+  Audit,
+  Cell,
+  Operations,
+  Page,
+  ProjectStats,
+  Summary,
+} from "../types";
+import {
+  ExcelExport,
+  activitySheets,
+  analyticsSheets,
+  issueSheets,
+  operationsSheets,
+  projectSheets,
+  summarySheets,
+} from "../components/excel-export";
+import { allPages } from "../components/export-fetch";
 import {
   Avatar,
   Badge,
@@ -44,6 +62,10 @@ import {
   HistoryVolume,
   ProjectChart,
 } from "../components/analytics";
+import {
+  OperationalOverview,
+  OperationsCharts,
+} from "../components/operations";
 
 const colors = {
   LOW: chartColors.gray,
@@ -106,6 +128,14 @@ export function Overview({ onCreate }: { onCreate: () => void }) {
   return (
     <>
       <PageHeader title="Overview">
+        <ExcelExport
+          title="Signal overview"
+          disabled={!d}
+          getSheets={async () => [
+            ...summarySheets(d!),
+            ...operationsSheets(await api<Operations>("/analytics/operations")),
+          ]}
+        />
         {demo && (
           <button className="button primary" onClick={onCreate}>
             <Plus size={16} />
@@ -160,7 +190,7 @@ export function Overview({ onCreate }: { onCreate: () => void }) {
                 </Link>
               ))}
             </div>
-            <DashboardTrends />
+            <OperationalOverview />
             <div className="dashboard-charts">
               <section className="panel distribution-panel">
                 <PanelHeader title="Risk exposure" />
@@ -172,8 +202,8 @@ export function Overview({ onCreate }: { onCreate: () => void }) {
                           data={d.distribution}
                           dataKey="count"
                           nameKey="severity"
-                          innerRadius={70}
-                          outerRadius={89}
+                          innerRadius="64%"
+                          outerRadius="82%"
                           stroke="var(--surface)"
                           strokeWidth={5}
                           paddingAngle={2}
@@ -335,6 +365,7 @@ export function ChartsPage() {
     <>
       <PageHeader title="Charts" />
       <DashboardTrends />
+      <OperationsCharts />
       <ProjectChart projects={projects} />
     </>
   );
@@ -423,7 +454,16 @@ export function RiskMatrixPage() {
   );
   return (
     <>
-      <PageHeader title="Risk matrix" />
+      <PageHeader title="Risk matrix">
+        <ExcelExport
+          title="Signal risk matrix"
+          disabled={!query.data}
+          getSheets={() => [
+            ...summarySheets(query.data!),
+            ...issueSheets(query.data!.matrix.flatMap((cell) => cell.issues)),
+          ]}
+        />
+      </PageHeader>
       <State loading={query.isPending} error={query.error}>
         {query.data && (
           <>
@@ -507,6 +547,10 @@ const eventLabel: Record<string, string> = {
   ASSIGNMENT_CHANGED: "changed ownership",
   ISSUE_UPDATED: "updated an issue",
   COMMENT_ADDED: "added a comment",
+  ISSUE_DELETED: "deleted an issue",
+  ISSUE_RESTORED: "restored an issue",
+  ACTION_DELETED: "deleted an action",
+  ACTION_RESTORED: "restored an action",
 };
 export function ActivityFeed({
   events,
@@ -591,7 +635,29 @@ export function ActivityPage() {
   }
   return (
     <>
-      <PageHeader title="Activity" />
+      <PageHeader title="Activity">
+        <ExcelExport
+          title="Signal activity"
+          disabled={query.isPending}
+          getSheets={async () => {
+            const [events, trends] = await Promise.all([
+              allPages<Audit>("/activity", params),
+              api<Analytics>("/analytics/trends?days=365"),
+            ]);
+            return [
+              ...analyticsSheets(trends),
+              ...activitySheets(events),
+              {
+                name: "Filters",
+                columns: ["Filter", "Value"],
+                rows: Array.from(params.entries()).filter(
+                  ([key]) => key !== "page",
+                ),
+              },
+            ];
+          }}
+        />
+      </PageHeader>
       <HistoryVolume />
       <section className="panel activity-full">
         <div className="issues-toolbar">
@@ -676,7 +742,16 @@ export function Projects() {
   const query = useData<ProjectStats[]>("/projects", 30000);
   return (
     <>
-      <PageHeader title="Projects" />
+      <PageHeader title="Projects">
+        <ExcelExport
+          title="Signal projects"
+          disabled={!query.data}
+          getSheets={async () => [
+            ...projectSheets(query.data!),
+            ...operationsSheets(await api<Operations>("/analytics/operations")),
+          ]}
+        />
+      </PageHeader>
       <State
         loading={query.isPending}
         error={query.error}

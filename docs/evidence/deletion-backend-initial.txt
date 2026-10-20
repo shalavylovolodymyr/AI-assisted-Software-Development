@@ -1,0 +1,59 @@
+........F............................................................... [ 85%]
+............                                                             [100%]
+=================================== FAILURES ===================================
+____ test_action_delete_restore_keeps_parent_version_and_member_permissions ____
+
+client = <starlette.testclient.TestClient object at 0x121f0d520>
+users = [{'avatar_color': '#A78BFA', 'created_at': '2026-10-20T11:23:41.072383+02:00', 'email': '1@example.test', 'full_name':...A78BFA', 'created_at': '2026-10-20T11:23:41.072383+02:00', 'email': '0@example.test', 'full_name': 'Emma Wilson', ...}]
+project = {'active_issues': 0, 'code': 'DOP', 'created_at': '2026-10-20T11:23:41.072383+02:00', 'critical_risks': 0, ...}
+
+    def test_action_delete_restore_keeps_parent_version_and_member_permissions(client, users, project):
+        issue = create_issue(client, users, project)
+        url = "/api/v1/issues/" + issue["id"]
+        action = client.post(
+            url + "/actions",
+            json={
+                "title": "Unneeded action",
+                "description": "Recorded detail",
+                "owner_id": users[0]["id"],
+                "due_date": "2026-10-01",
+                "expected_version": 1,
+            },
+        ).json()
+        action_url = "/api/v1/actions/" + action["id"]
+        client.headers["X-Demo-User"] = users[1]["id"]
+>       assert client.request("DELETE", action_url, json={"expected_version": 2}).status_code == 403
+E       AssertionError: assert 200 == 403
+E        +  where 200 = <Response [200 OK]>.status_code
+E        +    where <Response [200 OK]> = request('DELETE', '/api/v1/actions/13013af6-914a-4236-a9d3-d1d7ff642c8b', json={'expected_version': 2})
+E        +      where request = <starlette.testclient.TestClient object at 0x121f0d520>.request
+
+backend/tests/api/test_recycle_contract.py:55: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/starlette/testclient.py:37
+  /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/.venv/lib/python3.12/site-packages/starlette/testclient.py:37: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = typing.Callable[[], typing.ContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================================ tests coverage ================================
+_______________ coverage: platform darwin, python 3.12.3-final-0 _______________
+
+Name                                               Stmts   Miss  Cover   Missing
+--------------------------------------------------------------------------------
+backend/src/signal_app/application/__init__.py         0      0   100%
+backend/src/signal_app/application/analytics.py       43      0   100%
+backend/src/signal_app/application/operations.py      53      0   100%
+backend/src/signal_app/application/ports.py            8      0   100%
+backend/src/signal_app/application/queries.py        100      0   100%
+backend/src/signal_app/application/services.py       186      7    96%   29, 114, 146, 179, 181, 208, 246
+backend/src/signal_app/domain/__init__.py              0      0   100%
+backend/src/signal_app/domain/entities.py             78      0   100%
+backend/src/signal_app/domain/enums.py                32      0   100%
+backend/src/signal_app/domain/exceptions.py           13      0   100%
+backend/src/signal_app/domain/rules.py                26      0   100%
+--------------------------------------------------------------------------------
+TOTAL                                                539      7    99%
+Required test coverage of 90% reached. Total coverage: 98.70%
+=========================== short test summary info ============================
+FAILED backend/tests/api/test_recycle_contract.py::test_action_delete_restore_keeps_parent_version_and_member_permissions
+1 failed, 83 passed, 1 warning in 28.35s

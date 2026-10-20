@@ -14,10 +14,11 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { useData } from "../api";
-import type { Analytics, ProjectStats, TrendDay } from "../types";
+import { api, useData } from "../api";
+import type { Analytics, Operations, ProjectStats, TrendDay } from "../types";
 import { Hint, Select } from "./controls";
 import { usePreferences } from "./preferences";
+import { ExcelExport, analyticsSheets, operationsSheets } from "./excel-export";
 import { label, State } from "./ui";
 import {
   chartColors,
@@ -87,6 +88,16 @@ export function DashboardTrends() {
           )}
         </div>
         <div className="analytics-tools">
+          <ExcelExport
+            title="Signal charts"
+            disabled={!data || query.isFetching}
+            getSheets={async () => [
+              ...analyticsSheets(data!),
+              ...operationsSheets(
+                await api<Operations>("/analytics/operations"),
+              ),
+            ]}
+          />
           <Select
             label="Analytics time range"
             value={days}

@@ -1,0 +1,40 @@
+
+ERROR: Coverage failure: total of 37 is less than fail-under=90
+
+==================================== ERRORS ====================================
+_________________ ERROR collecting tests/unit/test_deletion.py _________________
+import file mismatch:
+imported module 'test_deletion' has this __file__ attribute:
+  /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/backend/tests/api/test_deletion.py
+which is not the same as the test file we want to collect:
+  /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/backend/tests/unit/test_deletion.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/starlette/testclient.py:37
+  /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/.venv/lib/python3.12/site-packages/starlette/testclient.py:37: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = typing.Callable[[], typing.ContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================================ tests coverage ================================
+_______________ coverage: platform darwin, python 3.12.3-final-0 _______________
+
+Name                                               Stmts   Miss  Cover   Missing
+--------------------------------------------------------------------------------
+backend/src/signal_app/application/__init__.py         0      0   100%
+backend/src/signal_app/application/analytics.py       43     39     9%   10-83
+backend/src/signal_app/application/operations.py      53     48     9%   23-112
+backend/src/signal_app/application/ports.py            8      0   100%
+backend/src/signal_app/application/queries.py        100     79    21%   24-25, 31-36, 63-84, 92-109, 112-116, 133-135, 142-145, 156-171, 179-181, 191-244, 265-267
+backend/src/signal_app/application/services.py       186    152    18%   21-24, 28-30, 34-39, 43, 49, 55-57, 61-83, 88, 107-135, 140-167, 170-198, 203-211, 216-232, 237-255, 260-267, 274-281, 284-297, 301-321
+backend/src/signal_app/domain/__init__.py              0      0   100%
+backend/src/signal_app/domain/entities.py             78      0   100%
+backend/src/signal_app/domain/enums.py                32      0   100%
+backend/src/signal_app/domain/exceptions.py           13      0   100%
+backend/src/signal_app/domain/rules.py                26     19    27%   8-20, 32-44, 50
+--------------------------------------------------------------------------------
+TOTAL                                                539    337    37%
+FAIL Required test coverage of 90% not reached. Total coverage: 37.48%
+=========================== short test summary info ============================
+ERROR backend/tests/unit/test_deletion.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 warning, 1 error in 1.28s
