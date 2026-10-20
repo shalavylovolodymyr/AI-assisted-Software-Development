@@ -1,0 +1,126 @@
+FFFFF                                                                    [100%]
+=================================== FAILURES ===================================
+______ test_empty_operations_have_zero_counts_and_no_invented_percentages ______
+
+    def test_empty_operations_have_zero_counts_and_no_invented_percentages():
+>       data = run([])
+
+backend/tests/unit/test_operations.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+records = []
+
+    def run(records):
+        factory = MemoryUow()
+        factory.records = {(type(record), record.id): record for record in records}
+>       return Queries(factory).operations(now=NOW)
+E       AttributeError: 'Queries' object has no attribute 'operations'
+
+backend/tests/unit/test_operations.py:43: AttributeError
+_ test_aging_review_and_project_owner_totals_exclude_resolved_and_future_records _
+
+    def test_aging_review_and_project_owner_totals_exclude_resolved_and_future_records():
+        user, project, records = portfolio()
+        for age in [7, 8, 30, 31, 90, 91]:
+            item = issue(records, user, project, age)
+            assess(records, item, user, (5, 4), age=30 if age <= 30 else 31)
+        issue(records, user, project, 100, IssueStatus.RESOLVED)
+        issue(records, user, project, -1)
+>       data = run(records)
+
+backend/tests/unit/test_operations.py:66: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+records = [User(id=UUID('a40acd88-8049-4e49-9505-f69402da1c9d'), full_name='Emma', email='emma@example.test', role=<Role.ADMIN: ...8-8049-4e49-9505-f69402da1c9d'), assessed_at=datetime.datetime(2026, 9, 20, 12, 0, tzinfo=datetime.timezone.utc)), ...]
+
+    def run(records):
+        factory = MemoryUow()
+        factory.records = {(type(record), record.id): record for record in records}
+>       return Queries(factory).operations(now=NOW)
+E       AttributeError: 'Queries' object has no attribute 'operations'
+
+backend/tests/unit/test_operations.py:43: AttributeError
+_ test_action_outlook_uses_today_and_seven_day_boundaries_and_ignores_terminal_actions _
+
+    def test_action_outlook_uses_today_and_seven_day_boundaries_and_ignores_terminal_actions():
+        user, project, records = portfolio()
+        item = issue(records, user, project)
+        for offset in [-1, 0, 1, 7, 8]:
+            action(records, item, user, offset)
+        action(records, item, user, -1, ActionStatus.CANCELLED)
+        action(records, item, user, -1, ActionStatus.DONE, NOW - timedelta(days=2))
+        resolved = issue(records, user, project, status=IssueStatus.RESOLVED)
+        action(records, resolved, user, -1)
+>       data = run(records)
+
+backend/tests/unit/test_operations.py:85: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+records = [User(id=UUID('417985e9-2563-4695-b881-39b703180a52'), full_name='Emma', email='emma@example.test', role=<Role.ADMIN: ...026, 10, 21), completed_at=None, created_at=datetime.datetime(2026, 10, 10, 12, 0, tzinfo=datetime.timezone.utc)), ...]
+
+    def run(records):
+        factory = MemoryUow()
+        factory.records = {(type(record), record.id): record for record in records}
+>       return Queries(factory).operations(now=NOW)
+E       AttributeError: 'Queries' object has no attribute 'operations'
+
+backend/tests/unit/test_operations.py:43: AttributeError
+_ test_risk_movement_uses_first_and_latest_valid_assessments_without_future_values _
+
+    def test_risk_movement_uses_first_and_latest_valid_assessments_without_future_values():
+        user, project, records = portfolio()
+        for before, after in [((5, 4), (2, 2)), ((1, 1), (5, 5)), ((2, 2), (2, 2))]:
+            item = issue(records, user, project)
+            assess(records, item, user, before, age=5)
+            assess(records, item, user, after, age=1)
+            assess(records, item, user, (1, 1), age=-1)
+        baseline = issue(records, user, project)
+        assess(records, baseline, user, (3, 3))
+        issue(records, user, project)
+>       data = run(records)
+
+backend/tests/unit/test_operations.py:103: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+records = [User(id=UUID('2f4e2775-ff88-4408-81e6-3cadeb9e2f51'), full_name='Emma', email='emma@example.test', role=<Role.ADMIN: ...-ff88-4408-81e6-3cadeb9e2f51'), assessed_at=datetime.datetime(2026, 10, 21, 12, 0, tzinfo=datetime.timezone.utc)), ...]
+
+    def run(records):
+        factory = MemoryUow()
+        factory.records = {(type(record), record.id): record for record in records}
+>       return Queries(factory).operations(now=NOW)
+E       AttributeError: 'Queries' object has no attribute 'operations'
+
+backend/tests/unit/test_operations.py:43: AttributeError
+__ test_risk_reviews_after_completion_and_on_time_rate_have_real_denominators __
+
+    def test_risk_reviews_after_completion_and_on_time_rate_have_real_denominators():
+        user, project, records = portfolio()
+        pending = issue(records, user, project)
+        assess(records, pending, user, (4, 4), age=2)
+        action(records, pending, user, 0, ActionStatus.DONE, NOW - timedelta(days=1))
+        reviewed = issue(records, user, project)
+        action(records, reviewed, user, -3, ActionStatus.DONE, NOW - timedelta(days=2))
+        assess(records, reviewed, user, (2, 2), age=1)
+        cancelled = issue(records, user, project)
+        action(records, cancelled, user, -1, ActionStatus.CANCELLED)
+>       data = run(records)
+
+backend/tests/unit/test_operations.py:118: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+records = [User(id=UUID('f4ce5d9b-e4a9-4af7-8b35-cbd528fd24e0'), full_name='Emma', email='emma@example.test', role=<Role.ADMIN: ...c), updated_at=datetime.datetime(2026, 10, 10, 12, 0, tzinfo=datetime.timezone.utc), resolved_at=None, version=1), ...]
+
+    def run(records):
+        factory = MemoryUow()
+        factory.records = {(type(record), record.id): record for record in records}
+>       return Queries(factory).operations(now=NOW)
+E       AttributeError: 'Queries' object has no attribute 'operations'
+
+backend/tests/unit/test_operations.py:43: AttributeError
+=========================== short test summary info ============================
+FAILED backend/tests/unit/test_operations.py::test_empty_operations_have_zero_counts_and_no_invented_percentages
+FAILED backend/tests/unit/test_operations.py::test_aging_review_and_project_owner_totals_exclude_resolved_and_future_records
+FAILED backend/tests/unit/test_operations.py::test_action_outlook_uses_today_and_seven_day_boundaries_and_ignores_terminal_actions
+FAILED backend/tests/unit/test_operations.py::test_risk_movement_uses_first_and_latest_valid_assessments_without_future_values
+FAILED backend/tests/unit/test_operations.py::test_risk_reviews_after_completion_and_on_time_rate_have_real_denominators
+5 failed in 0.07s

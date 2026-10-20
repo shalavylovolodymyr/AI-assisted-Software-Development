@@ -1,0 +1,37 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+______ test_expansion_populates_every_cell_and_preserves_existing_records ______
+
+database = (Engine(postgresql+psycopg://signal:***@127.0.0.1:54329/signal_test), <function database.<locals>.<lambda> at 0x106a77ce0>)
+
+    def test_expansion_populates_every_cell_and_preserves_existing_records(database):
+        from signal_app.seed import seed_history
+    
+        factory = database[1]
+        seed(factory)
+        with factory() as uow:
+            original = uow.repo.get(Issue, identifier("issue/0"))
+            original.title = "Owner's edited issue"
+            uow.repo.save(original)
+            before = uow.repo.list(RiskAssessment, issue_id=original.id)
+        assert seed_history(factory) is True
+        assert seed_history(factory) is False
+        with factory() as uow:
+            assert uow.repo.get(Issue, original.id).title == "Owner's edited issue"
+            assert uow.repo.list(RiskAssessment, issue_id=original.id) == before
+            assert len(uow.repo.list(AuditEvent)) >= 2500
+            oldest = min(issue.created_at for issue in uow.repo.list(Issue))
+>           assert (HISTORY_ANCHOR - oldest).days >= 365
+E           AssertionError: assert 252 >= 365
+E            +  where 252 = (datetime.datetime(2026, 10, 19, 18, 0, tzinfo=datetime.timezone.utc) - datetime.datetime(2026, 2, 9, 19, 0, tzinfo=zoneinfo.ZoneInfo(key='Europe/Zurich'))).days
+
+backend/tests/integration/test_demo_history.py:26: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/starlette/testclient.py:37
+  /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/.venv/lib/python3.12/site-packages/starlette/testclient.py:37: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = typing.Callable[[], typing.ContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED backend/tests/integration/test_demo_history.py::test_expansion_populates_every_cell_and_preserves_existing_records
+1 failed, 1 warning in 2.10s

@@ -1,0 +1,25 @@
+
+> signal-frontend@1.0.0 build
+> tsc -b && vite build
+
+vite v6.4.4 building for production...
+(node:84333) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+transforming...
+✓ 2346 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                      0.99 kB │ gzip:   0.54 kB
+dist/assets/inter-latin-400-normal-BOOGhInR.woff2   23.69 kB
+dist/assets/inter-latin-600-normal-D273HNI0.woff2   24.30 kB
+dist/assets/inter-latin-700-normal-Sckx8rpT.woff2   24.35 kB
+dist/assets/inter-latin-500-normal-D2bGa7uu.woff2   24.37 kB
+dist/assets/inter-latin-400-normal-gitzw0hO.woff    31.20 kB
+dist/assets/inter-latin-500-normal-deR1Tlfd.woff    31.77 kB
+dist/assets/inter-latin-600-normal-B5cFAncS.woff    31.78 kB
+dist/assets/inter-latin-700-normal-B8MtJ_2k.woff    31.83 kB
+dist/assets/index-y67t4v_E.css                      85.44 kB │ gzip:  16.69 kB
+dist/assets/vendor-Czx7o814.js                      91.05 kB │ gzip:  29.77 kB
+dist/assets/charts-BAKmb2Ph.js                     433.16 kB │ gzip: 115.31 kB
+dist/assets/index-C7vkqYOq.js                      468.84 kB │ gzip: 139.96 kB
+✓ built in 2.25s

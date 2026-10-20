@@ -1,0 +1,26 @@
+.................................................................        [100%]
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/starlette/testclient.py:37
+  /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/.venv/lib/python3.12/site-packages/starlette/testclient.py:37: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = typing.Callable[[], typing.ContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================================ tests coverage ================================
+_______________ coverage: platform darwin, python 3.12.3-final-0 _______________
+
+Name                                              Stmts   Miss  Cover   Missing
+-------------------------------------------------------------------------------
+backend/src/signal_app/application/__init__.py        0      0   100%
+backend/src/signal_app/application/analytics.py      38      0   100%
+backend/src/signal_app/application/ports.py           8      0   100%
+backend/src/signal_app/application/queries.py        95      3    97%   125-127
+backend/src/signal_app/application/services.py      147      7    95%   29, 112, 144, 175, 177, 204, 242
+backend/src/signal_app/domain/__init__.py             0      0   100%
+backend/src/signal_app/domain/entities.py            76      0   100%
+backend/src/signal_app/domain/enums.py               32      0   100%
+backend/src/signal_app/domain/exceptions.py          13      0   100%
+backend/src/signal_app/domain/rules.py               26      0   100%
+-------------------------------------------------------------------------------
+TOTAL                                               435     10    98%
+Required test coverage of 90% reached. Total coverage: 97.70%
+65 passed, 1 warning in 10.30s

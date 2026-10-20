@@ -1,0 +1,20 @@
+
+> signal-frontend@1.0.0 test:e2e
+> playwright test
+
+[WebServer] (node:52572) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:52572) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+
+Running 6 tests using 1 worker
+
+(node:52576) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 e2e/workflow.spec.ts:73:1 › E2E-001: create, persist, edit and find an issue (2.1s)
+  ✓  2 e2e/workflow.spec.ts:101:1 › E2E-002: reassess and update the actual risk matrix (1.9s)
+  ✓  3 e2e/workflow.spec.ts:116:1 › E2E-003: complete mitigation, reassess, resolve and reopen (3.2s)
+  ✓  4 e2e/workflow.spec.ts:140:1 › E2E-004: block closure with incomplete work and stale assessment (2.7s)
+  ✓  5 e2e/workflow.spec.ts:165:1 › Responsive navigation, matrix keyboard operation and page integrity (2.4s)
+  ✓  6 e2e/workflow.spec.ts:227:1 › Custom controls support keyboard use and keep white mode (2.2s)
+
+  6 passed (17.0s)

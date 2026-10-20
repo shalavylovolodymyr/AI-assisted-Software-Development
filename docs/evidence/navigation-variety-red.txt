@@ -1,0 +1,28 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_________ test_varied_history_has_irregular_timing_and_valid_evidence __________
+
+database = (Engine(postgresql+psycopg://signal:***@127.0.0.1:54329/signal_test), <function database.<locals>.<lambda> at 0x10e92bd80>)
+
+    def test_varied_history_has_irregular_timing_and_valid_evidence(database):
+        from signal_app.seed import seed_history
+    
+        factory = database[1]
+        seed(factory)
+        seed_history(factory)
+        with factory() as uow:
+            issues = [i for i in uow.repo.list(Issue) if i.reference_code.startswith("SIG-2")]
+>           assert len(issues) >= 200
+E           assert 0 >= 200
+E            +  where 0 = len([])
+
+backend/tests/integration/test_demo_history.py:49: AssertionError
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/starlette/testclient.py:37
+  /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/.venv/lib/python3.12/site-packages/starlette/testclient.py:37: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = typing.Callable[[], typing.ContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED backend/tests/integration/test_demo_history.py::test_varied_history_has_irregular_timing_and_valid_evidence
+1 failed, 1 deselected, 1 warning in 2.07s

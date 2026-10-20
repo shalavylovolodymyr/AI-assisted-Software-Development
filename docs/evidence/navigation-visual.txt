@@ -1,0 +1,63 @@
+
+> signal-frontend@1.0.0 test:e2e
+> playwright test --grep Charts stay visible
+
+[WebServer] (node:62961) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:62961) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+
+Running 1 test using 1 worker
+
+(node:62963) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 e2e/workflow.spec.ts:741:1 › Charts stay visible in navigation, command search finds issues, and the shell stays quiet (11.3s)
+
+
+  1) e2e/workflow.spec.ts:741:1 › Charts stay visible in navigation, command search finds issues, and the shell stays quiet 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByRole('dialog', { name: 'Search workspace', exact: true }).getByRole('option')
+    Expected: 1
+    Received: 0
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" getByRole('dialog', { name: 'Search workspace', exact: true }).getByRole('option') with timeout 5000ms
+      - waiting for getByRole('dialog', { name: 'Search workspace', exact: true }).getByRole('option')
+        14 × locator resolved to 0 elements
+           - unexpected value "0"
+
+
+      845 |   await expect(dialog).toBeVisible();
+      846 |   await search.fill("SIG-2001");
+    > 847 |   await expect(dialog.getByRole("option")).toHaveCount(1);
+          |                                            ^
+      848 |   expect(
+      849 |     await page.evaluate(
+      850 |       () => document.documentElement.scrollWidth <= window.innerWidth,
+        at /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend/e2e/workflow.spec.ts:847:44
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/workflow-Charts-stay-visib-d4732-s-and-the-shell-stays-quiet/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/workflow-Charts-stay-visib-d4732-s-and-the-shell-stays-quiet/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workflow-Charts-stay-visib-d4732-s-and-the-shell-stays-quiet/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workflow-Charts-stay-visib-d4732-s-and-the-shell-stays-quiet/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e/workflow.spec.ts:741:1 › Charts stay visible in navigation, command search finds issues, and the shell stays quiet 
+npm error Lifecycle script `test:e2e` failed with error:
+npm error code 1
+npm error path /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend
+npm error workspace signal-frontend@1.0.0
+npm error location /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend
+npm error command failed
+npm error command sh -c playwright test --grep 'Charts stay visible'

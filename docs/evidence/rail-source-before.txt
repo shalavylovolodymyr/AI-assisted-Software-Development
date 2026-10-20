@@ -1,0 +1,5 @@
+0a1c5fcbc6a64787249ed330c42fbdf94e41956e  frontend/src/styles.css
+be90bf8123ea68df7418312a9f8c07ac5af3f1ca  frontend/src/App.tsx
+43cb5bef485dfcbca0da303c9bc2d3458d750d14  frontend/src/pages/portfolio.tsx
+c71f6538fa9950d8815bf1f67ea48b045ae61186  frontend/src/components/controls.tsx
+dc5846523fae1eaff524bf7f6b325458f66a882b  frontend/e2e/workflow.spec.ts

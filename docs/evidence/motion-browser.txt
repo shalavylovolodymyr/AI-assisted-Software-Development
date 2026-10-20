@@ -1,0 +1,76 @@
+
+> signal-frontend@1.0.0 test:e2e
+> playwright test
+
+[WebServer] (node:65479) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:65479) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+
+Running 11 tests using 1 worker
+
+(node:65481) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] [BABEL] Note: The code generator has deoptimised the styling of /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/.local/vite-e2e/deps/react-dom_client.js?v=8a89f2f8 as it exceeds the max of 500KB.
+  ✓   1 e2e/workflow.spec.ts:75:1 › E2E-001: create, persist, edit and find an issue (7.9s)
+  ✓   2 e2e/workflow.spec.ts:103:1 › E2E-002: reassess and update the actual risk matrix (6.7s)
+  ✘   3 e2e/workflow.spec.ts:118:1 › E2E-003: complete mitigation, reassess, resolve and reopen (6.8s)
+(node:65522) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   4 e2e/workflow.spec.ts:142:1 › E2E-004: block closure with incomplete work and stale assessment (11.7s)
+  ✓   5 e2e/workflow.spec.ts:167:1 › Responsive navigation, matrix keyboard operation and page integrity (9.1s)
+  ✓   6 e2e/workflow.spec.ts:232:1 › Custom controls support keyboard use and explicit light mode (2.4s)
+  ✓   7 e2e/workflow.spec.ts:365:1 › Rich matrix, recorded trends, searchable history and refined UI (16.0s)
+  ✓   8 e2e/workflow.spec.ts:479:1 › Appearance follows the system, persists, and role homes stay focused (9.5s)
+  ✓   9 e2e/workflow.spec.ts:610:1 › Year charts, sidebar visibility and hover contrast stay consistent (11.9s)
+  ✓  10 e2e/workflow.spec.ts:741:1 › Charts stay visible in navigation, command search finds issues, and the shell stays quiet (7.9s)
+  ✓  11 e2e/workflow.spec.ts:873:1 › Sidebar motion, clear modal backdrops and chart cards follow appearance preferences (3.8s)
+
+
+  1) e2e/workflow.spec.ts:118:1 › E2E-003: complete mitigation, reassess, resolve and reopen ───────
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('heading', { name: 'E2E resolution 1792457638657', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('heading', { name: 'E2E resolution 1792457638657', exact: true }) with timeout 5000ms
+      - waiting for getByRole('heading', { name: 'E2E resolution 1792457638657', exact: true })
+
+
+      34 |   await expect(
+      35 |     page.getByRole("heading", { name: title, exact: true }),
+    > 36 |   ).toBeVisible();
+         |     ^
+      37 |   return title;
+      38 | }
+      39 |
+        at createIssue (/Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend/e2e/workflow.spec.ts:36:5)
+        at /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend/e2e/workflow.spec.ts:121:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/workflow-E2E-003-complete--fcc36-reassess-resolve-and-reopen/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/workflow-E2E-003-complete--fcc36-reassess-resolve-and-reopen/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workflow-E2E-003-complete--fcc36-reassess-resolve-and-reopen/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workflow-E2E-003-complete--fcc36-reassess-resolve-and-reopen/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e/workflow.spec.ts:118:1 › E2E-003: complete mitigation, reassess, resolve and reopen ────────
+  10 passed (1.7m)
+npm error Lifecycle script `test:e2e` failed with error:
+npm error code 1
+npm error path /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend
+npm error workspace signal-frontend@1.0.0
+npm error location /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend
+npm error command failed
+npm error command sh -c playwright test

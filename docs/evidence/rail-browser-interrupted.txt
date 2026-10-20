@@ -1,0 +1,87 @@
+
+> signal-frontend@1.0.0 test:e2e
+> npm run build && playwright test
+
+
+> signal-frontend@1.0.0 build
+> tsc -b && vite build
+
+vite v6.4.4 building for production...
+(node:71568) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+transforming...
+✓ 2344 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                      0.99 kB │ gzip:   0.54 kB
+dist/assets/inter-latin-400-normal-BOOGhInR.woff2   23.69 kB
+dist/assets/inter-latin-600-normal-D273HNI0.woff2   24.30 kB
+dist/assets/inter-latin-700-normal-Sckx8rpT.woff2   24.35 kB
+dist/assets/inter-latin-500-normal-D2bGa7uu.woff2   24.37 kB
+dist/assets/inter-latin-400-normal-gitzw0hO.woff    31.20 kB
+dist/assets/inter-latin-500-normal-deR1Tlfd.woff    31.77 kB
+dist/assets/inter-latin-600-normal-B5cFAncS.woff    31.78 kB
+dist/assets/inter-latin-700-normal-B8MtJ_2k.woff    31.83 kB
+dist/assets/index-BHvGcQAT.css                      77.71 kB │ gzip:  15.37 kB
+dist/assets/vendor-JEFJi6Hk.js                      91.04 kB │ gzip:  29.77 kB
+dist/assets/charts-CQw_NlBR.js                     433.16 kB │ gzip: 115.31 kB
+dist/assets/index-Biexz9M-.js                      463.69 kB │ gzip: 138.73 kB
+✓ built in 2.09s
+[WebServer] (node:71615) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:71615) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+
+Running 11 tests using 1 worker
+
+(node:71617) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 e2e/workflow.spec.ts:75:1 › E2E-001: create, persist, edit and find an issue (6.2s)
+  ✓   2 e2e/workflow.spec.ts:103:1 › E2E-002: reassess and update the actual risk matrix (6.4s)
+  ✓   3 e2e/workflow.spec.ts:118:1 › E2E-003: complete mitigation, reassess, resolve and reopen (13.5s)
+  ✓   4 e2e/workflow.spec.ts:142:1 › E2E-004: block closure with incomplete work and stale assessment (11.2s)
+  ✘   5 e2e/workflow.spec.ts:167:1 › Responsive navigation, matrix keyboard operation and page integrity (291ms)
+
+
+  1) e2e/workflow.spec.ts:167:1 › Responsive navigation, matrix keyboard operation and page integrity 
+
+    Test was interrupted.
+
+    Error: locator.click: Test ended.
+    Call log:
+      - waiting for getByRole('link', { name: 'Risk matrix', exact: true })
+
+
+      174 |   await expect(page.getByRole("heading", { name: "Overview" })).toBeVisible();
+      175 |   await page.getByRole("button", { name: "Open navigation" }).click();
+    > 176 |   await page.getByRole("link", { name: "Risk matrix", exact: true }).click();
+          |                                                                      ^
+      177 |   const cell = page.getByRole("button", { name: /Likelihood 5, impact 5:/ });
+      178 |   await cell.focus();
+      179 |   await page.keyboard.press("Enter");
+        at /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend/e2e/workflow.spec.ts:176:70
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/workflow-Responsive-naviga-c1080-peration-and-page-integrity/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/workflow-Responsive-naviga-c1080-peration-and-page-integrity/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workflow-Responsive-naviga-c1080-peration-and-page-integrity/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workflow-Responsive-naviga-c1080-peration-and-page-integrity/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 interrupted
+    e2e/workflow.spec.ts:167:1 › Responsive navigation, matrix keyboard operation and page integrity 
+  6 did not run
+  4 passed (43.6s)
+npm error Lifecycle script `test:e2e` failed with error:
+npm error code 130
+npm error path /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend
+npm error workspace signal-frontend@1.0.0
+npm error location /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend
+npm error command failed
+npm error command sh -c npm run build && playwright test

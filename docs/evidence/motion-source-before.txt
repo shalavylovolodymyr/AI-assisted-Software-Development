@@ -1,0 +1,4 @@
+1859672e9e8bfa27dcfc7d4d0d1ddbada9ab3de9  frontend/src/styles.css
+017e9a37d31bb46b235d6bbeecb58bdc9ebb8d45  frontend/src/components/analytics.tsx
+0a215645baa22fef0e86e5d519573b508c7927ff  frontend/e2e/workflow.spec.ts
+7f2c1d1b0ae1395593cdd9429c23af8d701f59fd  frontend/vite.config.ts

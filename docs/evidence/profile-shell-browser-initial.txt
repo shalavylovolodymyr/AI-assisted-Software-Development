@@ -1,0 +1,255 @@
+
+> signal-frontend@1.0.0 test:e2e
+> npm run build && playwright test
+
+
+> signal-frontend@1.0.0 build
+> tsc -b && vite build
+
+vite v6.4.4 building for production...
+(node:82387) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+transforming...
+✓ 2345 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                      0.99 kB │ gzip:   0.54 kB
+dist/assets/inter-latin-400-normal-BOOGhInR.woff2   23.69 kB
+dist/assets/inter-latin-600-normal-D273HNI0.woff2   24.30 kB
+dist/assets/inter-latin-700-normal-Sckx8rpT.woff2   24.35 kB
+dist/assets/inter-latin-500-normal-D2bGa7uu.woff2   24.37 kB
+dist/assets/inter-latin-400-normal-gitzw0hO.woff    31.20 kB
+dist/assets/inter-latin-500-normal-deR1Tlfd.woff    31.77 kB
+dist/assets/inter-latin-600-normal-B5cFAncS.woff    31.78 kB
+dist/assets/inter-latin-700-normal-B8MtJ_2k.woff    31.83 kB
+dist/assets/index-BxxSAuW7.css                      83.67 kB │ gzip:  16.35 kB
+dist/assets/vendor-Czx7o814.js                      91.05 kB │ gzip:  29.77 kB
+dist/assets/charts-BAKmb2Ph.js                     433.16 kB │ gzip: 115.31 kB
+dist/assets/index-C8f_T19k.js                      466.00 kB │ gzip: 139.32 kB
+✓ built in 2.18s
+[WebServer] (node:82458) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:82458) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+
+Running 12 tests using 1 worker
+
+(node:82460) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 e2e/workflow.spec.ts:93:1 › E2E-001: create, persist, edit and find an issue (6.8s)
+  ✓   2 e2e/workflow.spec.ts:121:1 › E2E-002: reassess and update the actual risk matrix (6.5s)
+  ✘   3 e2e/workflow.spec.ts:136:1 › E2E-003: complete mitigation, reassess, resolve and reopen (10.9s)
+(node:82486) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   4 e2e/workflow.spec.ts:160:1 › E2E-004: block closure with incomplete work and stale assessment (12.3s)
+(node:82506) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   5 e2e/workflow.spec.ts:185:1 › Responsive navigation, matrix keyboard operation and page integrity (7.6s)
+  ✘   6 e2e/workflow.spec.ts:250:1 › Custom controls support keyboard use and explicit light mode (45.2s)
+(node:82612) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   7 e2e/workflow.spec.ts:381:1 › Rich matrix, recorded trends, searchable history and refined UI (19.0s)
+(node:82640) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   8 e2e/workflow.spec.ts:495:1 › Appearance follows the system, persists, and role homes stay focused (5.6s)
+(node:82650) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 e2e/workflow.spec.ts:626:1 › Year charts, sidebar visibility and hover contrast stay consistent (21.0s)
+  ✓  10 e2e/workflow.spec.ts:842:1 › Charts stay visible in navigation, command search finds issues, and the shell stays quiet (9.0s)
+  ✓  11 e2e/workflow.spec.ts:970:1 › Sidebar motion, clear modal backdrops and chart cards follow appearance preferences (2.8s)
+  ✓  12 e2e/workflow.spec.ts:1065:1 › App header, quiet risks, simple matrix and discussion stay consistent (14.6s)
+
+
+  1) e2e/workflow.spec.ts:136:1 › E2E-003: complete mitigation, reassess, resolve and reopen ───────
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator: getByRole('combobox', { name: 'Update Restrict excess access', exact: true })
+    Expected: focused
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeFocused" getByRole('combobox', { name: 'Update Restrict excess access', exact: true }) with timeout 5000ms
+      - waiting for getByRole('combobox', { name: 'Update Restrict excess access', exact: true })
+
+
+      21 |     await trigger.click();
+      22 |     await page.getByRole("option", { name: option, exact: true }).click();
+    > 23 |     await expect(trigger).toBeFocused();
+         |                           ^
+      24 |   }
+      25 |   if (mobileIdentity)
+      26 |     await page
+        at choose (/Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend/e2e/workflow.spec.ts:23:27)
+        at /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend/e2e/workflow.spec.ts:142:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/workflow-E2E-003-complete--fcc36-reassess-resolve-and-reopen/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/workflow-E2E-003-complete--fcc36-reassess-resolve-and-reopen/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workflow-E2E-003-complete--fcc36-reassess-resolve-and-reopen/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workflow-E2E-003-complete--fcc36-reassess-resolve-and-reopen/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) e2e/workflow.spec.ts:160:1 › E2E-004: block closure with incomplete work and stale assessment ─
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator: getByRole('combobox', { name: 'Update Restrict excess access', exact: true })
+    Expected: focused
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeFocused" getByRole('combobox', { name: 'Update Restrict excess access', exact: true }) with timeout 5000ms
+      - waiting for getByRole('combobox', { name: 'Update Restrict excess access', exact: true })
+
+
+      21 |     await trigger.click();
+      22 |     await page.getByRole("option", { name: option, exact: true }).click();
+    > 23 |     await expect(trigger).toBeFocused();
+         |                           ^
+      24 |   }
+      25 |   if (mobileIdentity)
+      26 |     await page
+        at choose (/Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend/e2e/workflow.spec.ts:23:27)
+        at /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend/e2e/workflow.spec.ts:172:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/workflow-E2E-004-block-clo-b0e3e-e-work-and-stale-assessment/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/workflow-E2E-004-block-clo-b0e3e-e-work-and-stale-assessment/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workflow-E2E-004-block-clo-b0e3e-e-work-and-stale-assessment/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workflow-E2E-004-block-clo-b0e3e-e-work-and-stale-assessment/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) e2e/workflow.spec.ts:250:1 › Custom controls support keyboard use and explicit light mode ─────
+
+    Test timeout of 45000ms exceeded.
+
+    Error: locator.click: Test timeout of 45000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Create issue', exact: true })
+
+
+      360 |     ),
+      361 |   ).toBe(true);
+    > 362 |   await page.getByRole("button", { name: "Create issue", exact: true }).click();
+          |                                                                         ^
+      363 |   const mobileDialog = page.getByRole("dialog");
+      364 |   await mobileDialog
+      365 |     .getByRole("button", { name: "Due date", exact: true })
+        at /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend/e2e/workflow.spec.ts:362:73
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/workflow-Custom-controls-s-7b7ba-use-and-explicit-light-mode/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/workflow-Custom-controls-s-7b7ba-use-and-explicit-light-mode/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workflow-Custom-controls-s-7b7ba-use-and-explicit-light-mode/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workflow-Custom-controls-s-7b7ba-use-and-explicit-light-mode/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) e2e/workflow.spec.ts:381:1 › Rich matrix, recorded trends, searchable history and refined UI ──
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 10
+    Received: 0
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      486 |       header.evaluate((el) => Math.round(el.getBoundingClientRect().top)),
+      487 |     )
+    > 488 |     .toBe(10);
+          |      ^
+      489 |   await page.screenshot({
+      490 |     path: "test-results/mobile-overview.png",
+      491 |     fullPage: true,
+        at /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend/e2e/workflow.spec.ts:488:6
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/workflow-Rich-matrix-recor-4d175-able-history-and-refined-UI/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/workflow-Rich-matrix-recor-4d175-able-history-and-refined-UI/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workflow-Rich-matrix-recor-4d175-able-history-and-refined-UI/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workflow-Rich-matrix-recor-4d175-able-history-and-refined-UI/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) e2e/workflow.spec.ts:495:1 › Appearance follows the system, persists, and role homes stay focused 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('html')
+    Expected: "light"
+    Received: "dark"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" locator('html') with timeout 5000ms
+      - waiting for locator('html')
+        14 × locator resolved to <html lang="en" data-theme="dark">…</html>
+           - unexpected value "dark"
+
+
+      505 |   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+      506 |   await page.emulateMedia({ colorScheme: "light" });
+    > 507 |   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+          |                                      ^
+      508 |   await choose(page, "Appearance", "Dark");
+      509 |   await expect(page.locator(".panel").first()).toHaveCSS(
+      510 |     "background-color",
+        at /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend/e2e/workflow.spec.ts:507:38
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/workflow-Appearance-follow-64f11-and-role-homes-stay-focused/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/workflow-Appearance-follow-64f11-and-role-homes-stay-focused/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workflow-Appearance-follow-64f11-and-role-homes-stay-focused/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workflow-Appearance-follow-64f11-and-role-homes-stay-focused/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5 failed
+    e2e/workflow.spec.ts:136:1 › E2E-003: complete mitigation, reassess, resolve and reopen ────────
+    e2e/workflow.spec.ts:160:1 › E2E-004: block closure with incomplete work and stale assessment ──
+    e2e/workflow.spec.ts:250:1 › Custom controls support keyboard use and explicit light mode ──────
+    e2e/workflow.spec.ts:381:1 › Rich matrix, recorded trends, searchable history and refined UI ───
+    e2e/workflow.spec.ts:495:1 › Appearance follows the system, persists, and role homes stay focused 
+  7 passed (2.9m)
+npm error Lifecycle script `test:e2e` failed with error:
+npm error code 1
+npm error path /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend
+npm error workspace signal-frontend@1.0.0
+npm error location /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend
+npm error command failed
+npm error command sh -c npm run build && playwright test

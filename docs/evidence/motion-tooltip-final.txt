@@ -1,0 +1,170 @@
+
+> signal-frontend@1.0.0 test:e2e
+> npm run build && playwright test --grep Year charts, sidebar --repeat-each 2
+
+
+> signal-frontend@1.0.0 build
+> tsc -b && vite build
+
+vite v6.4.4 building for production...
+(node:70422) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+transforming...
+✓ 2344 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                      0.99 kB │ gzip:   0.54 kB
+dist/assets/inter-latin-400-normal-BOOGhInR.woff2   23.69 kB
+dist/assets/inter-latin-600-normal-D273HNI0.woff2   24.30 kB
+dist/assets/inter-latin-700-normal-Sckx8rpT.woff2   24.35 kB
+dist/assets/inter-latin-500-normal-D2bGa7uu.woff2   24.37 kB
+dist/assets/inter-latin-400-normal-gitzw0hO.woff    31.20 kB
+dist/assets/inter-latin-500-normal-deR1Tlfd.woff    31.77 kB
+dist/assets/inter-latin-600-normal-B5cFAncS.woff    31.78 kB
+dist/assets/inter-latin-700-normal-B8MtJ_2k.woff    31.83 kB
+dist/assets/index-bAm5XrB4.css                      75.89 kB │ gzip:  15.02 kB
+dist/assets/vendor-JEFJi6Hk.js                      91.04 kB │ gzip:  29.77 kB
+dist/assets/charts-CQw_NlBR.js                     433.16 kB │ gzip: 115.31 kB
+dist/assets/index-D9oFenh5.js                      463.19 kB │ gzip: 138.63 kB
+✓ built in 2.13s
+[WebServer] (node:70471) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:70471) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+
+Running 2 tests using 1 worker
+
+(node:70473) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 e2e/workflow.spec.ts:608:1 › Year charts, sidebar visibility and hover contrast stay consistent (45.5s)
+(node:70508) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 e2e/workflow.spec.ts:608:1 › Year charts, sidebar visibility and hover contrast stay consistent (45.4s)
+
+
+  1) e2e/workflow.spec.ts:608:1 › Year charts, sidebar visibility and hover contrast stay consistent 
+
+    Test timeout of 45000ms exceeded.
+
+    Error: locator.hover: Test timeout of 45000ms exceeded.
+    Browser logs:
+
+    <launching> /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/.local/browsers/chromium_headless_shell-1248/chrome-headless-shell-mac-arm64/chrome-headless-shell --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,AvoidCorsURLLoaderRestartOnRedirect,Translate,AutoDeElevate,OptimizationHints,NetworkTimeServiceQuerying,AimEnabled,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --user-data-dir=/var/folders/76/rg3rkwy10p3bzw4j2bzltjm40000gn/T/playwright_chromiumdev_profile-SrPmCM --remote-debugging-pipe --no-startup-window
+    <launched> pid=70474
+    [pid=70474][err] [1020/031308.446287:ERROR:ui/display/mac/cv_display_link_mac.mm:188] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+    [pid=70474][err] [1020/031308.587798:ERROR:ui/display/mac/cv_display_link_mac.mm:188] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+    [pid=70474][err] [1020/031311.186186:ERROR:ui/display/mac/cv_display_link_mac.mm:188] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+    [pid=70474] <gracefully close start>
+    Call log:
+      - waiting for locator('.distribution-panel .recharts-sector').first()
+        - locator resolved to <path cy="110" cx="133.5" name="LOW" role="img" tabindex="-1" stroke-width="5" stroke="var(--surface)" class="recharts-sector" fill="var(--chart-gray)" d="M 222.5,110↵    A 89,89,0,↵    0,0,↵    82.13213251541035,37.32027662349259↵  L 93.09830647279466,52.836172625218886↵            A 70,70,0,↵            0,1,↵            203.5,110 Z"></path>
+      - attempting hover action
+        2 × waiting for element to be visible and stable
+          - element is visible and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <svg cx="50%" cy="50%" width="267" height="220" viewBox="0 0 267 220" class="recharts-surface">…</svg> intercepts pointer events
+        - retrying hover action
+        - waiting 20ms
+        - waiting for element to be visible and stable
+        - element is visible and stable
+        - scrolling into view if needed
+        - done scrolling
+        - <svg cx="50%" cy="50%" width="267" height="220" viewBox="0 0 267 220" class="recharts-surface">…</svg> intercepts pointer events
+      2 × retrying hover action
+          - waiting 100ms
+          - waiting for element to be visible and stable
+          - element is visible and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <header class="topbar">…</header> intercepts pointer events
+      19 × retrying hover action
+           - waiting 500ms
+           - waiting for element to be visible and stable
+           - element is visible and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <svg cx="50%" cy="50%" width="267" height="220" viewBox="0 0 267 220" class="recharts-surface">…</svg> intercepts pointer events
+         - retrying hover action
+           - waiting 500ms
+           - waiting for element to be visible and stable
+           - element is visible and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <svg cx="50%" cy="50%" width="267" height="220" viewBox="0 0 267 220" class="recharts-surface">…</svg> intercepts pointer events
+         - retrying hover action
+           - waiting 500ms
+           - waiting for element to be visible and stable
+           - element is visible and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <header class="topbar">…</header> intercepts pointer events
+         - retrying hover action
+           - waiting 500ms
+           - waiting for element to be visible and stable
+           - element is visible and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <header class="topbar">…</header> intercepts pointer events
+      - retrying hover action
+        - waiting 500ms
+        - waiting for element to be visible and stable
+        - element is visible and stable
+        - scrolling into view if needed
+        - done scrolling
+        - <svg cx="50%" cy="50%" width="267" height="220" viewBox="0 0 267 220" class="recharts-surface">…</svg> intercepts pointer events
+      - retrying hover action
+        - waiting 500ms
+        - waiting for element to be visible and stable
+
+
+      685 |     throw new Error("Risk exposure slice has no visible interior");
+      686 |   });
+    > 687 |   await slice.hover({ position: point });
+          |               ^
+      688 |   await expect(
+      689 |     page.locator(".distribution-panel .recharts-tooltip-item"),
+      690 |   ).toBeVisible();
+        at /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend/e2e/workflow.spec.ts:687:15
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/workflow-Year-charts-sideb-a912c-er-contrast-stay-consistent/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/workflow-Year-charts-sideb-a912c-er-contrast-stay-consistent/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workflow-Year-charts-sideb-a912c-er-contrast-stay-consistent/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workflow-Year-charts-sideb-a912c-er-contrast-stay-consistent/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) e2e/workflow.spec.ts:608:1 › Year charts, sidebar visibility and hover contrast stay consistent 
+
+    Test timeout of 45000ms exceeded.
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/workflow-Year-charts-sideb-a912c-er-contrast-stay-consistent-repeat1/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/workflow-Year-charts-sideb-a912c-er-contrast-stay-consistent-repeat1/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workflow-Year-charts-sideb-a912c-er-contrast-stay-consistent-repeat1/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workflow-Year-charts-sideb-a912c-er-contrast-stay-consistent-repeat1/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    e2e/workflow.spec.ts:608:1 › Year charts, sidebar visibility and hover contrast stay consistent 
+    e2e/workflow.spec.ts:608:1 › Year charts, sidebar visibility and hover contrast stay consistent 
+npm error Lifecycle script `test:e2e` failed with error:
+npm error code 1
+npm error path /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend
+npm error workspace signal-frontend@1.0.0
+npm error location /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend
+npm error command failed
+npm error command sh -c npm run build && playwright test --grep 'Year charts, sidebar' --repeat-each 2

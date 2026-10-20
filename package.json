@@ -1,0 +1,23 @@
+{
+  "name": "signal-workspace",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "frontend"
+  ],
+  "overrides": {
+    "exceljs": { "uuid": "11.1.1" }
+  },
+  "scripts": {
+    "db:start": "node scripts/local-db.mjs",
+    "dev": "npm run dev --workspace frontend",
+    "build": "npm run build --workspace frontend",
+    "test:frontend": "npm run test --workspace frontend",
+    "format": "prettier --write frontend/src frontend/e2e frontend/vite.config.ts frontend/playwright.config.ts frontend/eslint.config.js scripts/local-db.mjs",
+    "format:check": "prettier --check frontend/src frontend/e2e frontend/vite.config.ts frontend/playwright.config.ts frontend/eslint.config.js scripts/local-db.mjs"
+  },
+  "devDependencies": {
+    "embedded-postgres": "16.4.0-beta.14",
+    "prettier": "3.6.2"
+  }
+}

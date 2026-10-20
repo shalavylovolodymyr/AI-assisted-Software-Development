@@ -1,0 +1,6 @@
+
+> signal-workspace@1.0.0 format:check
+> prettier --check frontend/src frontend/e2e frontend/vite.config.ts frontend/playwright.config.ts frontend/eslint.config.js scripts/local-db.mjs
+
+Checking formatting...
+All matched files use Prettier code style!

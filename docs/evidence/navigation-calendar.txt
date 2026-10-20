@@ -1,0 +1,15 @@
+
+> signal-frontend@1.0.0 test:e2e
+> playwright test --grep Custom controls
+
+[WebServer] (node:62347) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:62347) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+
+Running 1 test using 1 worker
+
+(node:62349) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 e2e/workflow.spec.ts:232:1 › Custom controls support keyboard use and explicit light mode (3.0s)
+
+  1 passed (10.6s)

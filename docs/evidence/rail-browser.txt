@@ -1,0 +1,99 @@
+
+> signal-frontend@1.0.0 test:e2e
+> npm run build && playwright test
+
+
+> signal-frontend@1.0.0 build
+> tsc -b && vite build
+
+vite v6.4.4 building for production...
+(node:72053) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+transforming...
+✓ 2344 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                      0.99 kB │ gzip:   0.54 kB
+dist/assets/inter-latin-400-normal-BOOGhInR.woff2   23.69 kB
+dist/assets/inter-latin-600-normal-D273HNI0.woff2   24.30 kB
+dist/assets/inter-latin-700-normal-Sckx8rpT.woff2   24.35 kB
+dist/assets/inter-latin-500-normal-D2bGa7uu.woff2   24.37 kB
+dist/assets/inter-latin-400-normal-gitzw0hO.woff    31.20 kB
+dist/assets/inter-latin-500-normal-deR1Tlfd.woff    31.77 kB
+dist/assets/inter-latin-600-normal-B5cFAncS.woff    31.78 kB
+dist/assets/inter-latin-700-normal-B8MtJ_2k.woff    31.83 kB
+dist/assets/index-KsXKNxqb.css                      77.73 kB │ gzip:  15.37 kB
+dist/assets/vendor-JEFJi6Hk.js                      91.04 kB │ gzip:  29.77 kB
+dist/assets/charts-CQw_NlBR.js                     433.16 kB │ gzip: 115.31 kB
+dist/assets/index-BCHgQzxD.js                      463.76 kB │ gzip: 138.76 kB
+✓ built in 3.83s
+[WebServer] (node:72102) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:72102) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+
+Running 11 tests using 1 worker
+
+(node:72106) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 e2e/workflow.spec.ts:75:1 › E2E-001: create, persist, edit and find an issue (6.8s)
+  ✓   2 e2e/workflow.spec.ts:103:1 › E2E-002: reassess and update the actual risk matrix (6.4s)
+  ✓   3 e2e/workflow.spec.ts:118:1 › E2E-003: complete mitigation, reassess, resolve and reopen (13.6s)
+  ✓   4 e2e/workflow.spec.ts:142:1 › E2E-004: block closure with incomplete work and stale assessment (11.0s)
+  ✓   5 e2e/workflow.spec.ts:167:1 › Responsive navigation, matrix keyboard operation and page integrity (8.0s)
+  ✓   6 e2e/workflow.spec.ts:232:1 › Custom controls support keyboard use and explicit light mode (1.7s)
+  ✘   7 e2e/workflow.spec.ts:363:1 › Rich matrix, recorded trends, searchable history and refined UI (5.2s)
+(node:72154) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 e2e/workflow.spec.ts:477:1 › Appearance follows the system, persists, and role homes stay focused (8.8s)
+  ✓   9 e2e/workflow.spec.ts:608:1 › Year charts, sidebar visibility and hover contrast stay consistent (15.1s)
+  ✓  10 e2e/workflow.spec.ts:816:1 › Charts stay visible in navigation, command search finds issues, and the shell stays quiet (7.8s)
+  ✓  11 e2e/workflow.spec.ts:948:1 › Sidebar motion, clear modal backdrops and chart cards follow appearance preferences (2.8s)
+
+
+  1) e2e/workflow.spec.ts:363:1 › Rich matrix, recorded trends, searchable history and refined UI ──
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('heading', { name: 'Issue flow', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('heading', { name: 'Issue flow', exact: true }) with timeout 5000ms
+      - waiting for getByRole('heading', { name: 'Issue flow', exact: true })
+
+
+      367 |   await expect(
+      368 |     page.getByRole("heading", { name: "Issue flow", exact: true }),
+    > 369 |   ).toBeVisible();
+          |     ^
+      370 |   await expect(
+      371 |     page.getByRole("heading", { name: "Risk trend", exact: true }),
+      372 |   ).toBeVisible();
+        at /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend/e2e/workflow.spec.ts:369:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/workflow-Rich-matrix-recor-4d175-able-history-and-refined-UI/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/workflow-Rich-matrix-recor-4d175-able-history-and-refined-UI/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workflow-Rich-matrix-recor-4d175-able-history-and-refined-UI/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workflow-Rich-matrix-recor-4d175-able-history-and-refined-UI/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e/workflow.spec.ts:363:1 › Rich matrix, recorded trends, searchable history and refined UI ───
+  10 passed (1.6m)
+npm error Lifecycle script `test:e2e` failed with error:
+npm error code 1
+npm error path /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend
+npm error workspace signal-frontend@1.0.0
+npm error location /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend
+npm error command failed
+npm error command sh -c npm run build && playwright test

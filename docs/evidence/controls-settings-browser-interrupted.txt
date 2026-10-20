@@ -1,0 +1,86 @@
+
+> signal-frontend@1.0.0 test:e2e
+> npm run build && playwright test
+
+
+> signal-frontend@1.0.0 build
+> tsc -b && vite build
+
+vite v6.4.4 building for production...
+(node:84511) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+transforming...
+✓ 2346 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                      0.99 kB │ gzip:   0.54 kB
+dist/assets/inter-latin-400-normal-BOOGhInR.woff2   23.69 kB
+dist/assets/inter-latin-600-normal-D273HNI0.woff2   24.30 kB
+dist/assets/inter-latin-700-normal-Sckx8rpT.woff2   24.35 kB
+dist/assets/inter-latin-500-normal-D2bGa7uu.woff2   24.37 kB
+dist/assets/inter-latin-400-normal-gitzw0hO.woff    31.20 kB
+dist/assets/inter-latin-500-normal-deR1Tlfd.woff    31.77 kB
+dist/assets/inter-latin-600-normal-B5cFAncS.woff    31.78 kB
+dist/assets/inter-latin-700-normal-B8MtJ_2k.woff    31.83 kB
+dist/assets/index-BAAUayk5.css                      84.23 kB │ gzip:  16.51 kB
+dist/assets/vendor-Czx7o814.js                      91.05 kB │ gzip:  29.77 kB
+dist/assets/charts-BAKmb2Ph.js                     433.16 kB │ gzip: 115.31 kB
+dist/assets/index-CLvGhZnz.js                      468.84 kB │ gzip: 139.96 kB
+✓ built in 2.20s
+[WebServer] (node:84592) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:84592) [DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+
+Running 14 tests using 1 worker
+
+(node:84594) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 e2e/workflow.spec.ts:112:1 › E2E-001: create, persist, edit and find an issue (6.3s)
+  ✘   2 e2e/workflow.spec.ts:140:1 › E2E-002: reassess and update the actual risk matrix (254ms)
+
+
+  1) e2e/workflow.spec.ts:140:1 › E2E-002: reassess and update the actual risk matrix ──────────────
+
+    Test was interrupted.
+
+    Error: locator.innerText: Test ended.
+    Call log:
+      - waiting for getByRole('combobox', { name: 'Demo user', exact: true })
+
+
+      27 |       .click();
+      28 |   const trigger = scope.getByRole("combobox", { name: label, exact: true });
+    > 29 |   if ((await trigger.innerText()).trim() !== option) {
+         |                      ^
+      30 |     await trigger.click();
+      31 |     await page.getByRole("option", { name: option, exact: true }).click();
+      32 |     if (label === "Appearance" || label === "Demo user")
+        at choose (/Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend/e2e/workflow.spec.ts:29:22)
+        at createIssue (/Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend/e2e/workflow.spec.ts:54:9)
+        at /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend/e2e/workflow.spec.ts:143:17
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/workflow-E2E-002-reassess-and-update-the-actual-risk-matrix/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/workflow-E2E-002-reassess-and-update-the-actual-risk-matrix/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workflow-E2E-002-reassess-and-update-the-actual-risk-matrix/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workflow-E2E-002-reassess-and-update-the-actual-risk-matrix/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 interrupted
+    e2e/workflow.spec.ts:140:1 › E2E-002: reassess and update the actual risk matrix ───────────────
+  12 did not run
+  1 passed (13.1s)
+npm error Lifecycle script `test:e2e` failed with error:
+npm error code 130
+npm error path /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend
+npm error workspace signal-frontend@1.0.0
+npm error location /Users/volodymyrshalavylo/Documents/FHNW/AI-assisted Software Development/frontend
+npm error command failed
+npm error command sh -c npm run build && playwright test
